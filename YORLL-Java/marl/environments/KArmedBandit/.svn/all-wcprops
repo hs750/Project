@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/kudenkorl/!svn/ver/3020/YORLL-Java/marl/environments/KArmedBandit
+END
+KArmedMarkovianBanditEnvironment.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/kudenkorl/!svn/ver/3020/YORLL-Java/marl/environments/KArmedBandit/KArmedMarkovianBanditEnvironment.java
+END
+RewardMarkovianProcesses.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/kudenkorl/!svn/ver/3020/YORLL-Java/marl/environments/KArmedBandit/RewardMarkovianProcesses.java
+END
+RewardProbabilityDistributions.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/kudenkorl/!svn/ver/3020/YORLL-Java/marl/environments/KArmedBandit/RewardProbabilityDistributions.java
+END
+KArmedBanditEnvironment.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/kudenkorl/!svn/ver/3020/YORLL-Java/marl/environments/KArmedBandit/KArmedBanditEnvironment.java
+END
+KArmedMarkovianBanditState.java
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/kudenkorl/!svn/ver/3020/YORLL-Java/marl/environments/KArmedBandit/KArmedMarkovianBanditState.java
+END

@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/kudenkorl/!svn/ver/3177/YORLL-Java/marl/environments/TafficLights
+END
+Lane.java
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/kudenkorl/!svn/ver/3133/YORLL-Java/marl/environments/TafficLights/Lane.java
+END
+Behaviour.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/kudenkorl/!svn/ver/3133/YORLL-Java/marl/environments/TafficLights/Behaviour.java
+END
+Car.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/kudenkorl/!svn/ver/3133/YORLL-Java/marl/environments/TafficLights/Car.java
+END
+Road.java
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/kudenkorl/!svn/ver/3133/YORLL-Java/marl/environments/TafficLights/Road.java
+END
+Junction.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/kudenkorl/!svn/ver/3133/YORLL-Java/marl/environments/TafficLights/Junction.java
+END
+TrafficLightsState.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/kudenkorl/!svn/ver/3177/YORLL-Java/marl/environments/TafficLights/TrafficLightsState.java
+END
+TrafficLightsEnvironment.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/kudenkorl/!svn/ver/3133/YORLL-Java/marl/environments/TafficLights/TrafficLightsEnvironment.java
+END

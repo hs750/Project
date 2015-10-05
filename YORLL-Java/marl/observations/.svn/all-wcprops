@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/kudenkorl/!svn/ver/3237/YORLL-Java/marl/observations
+END
+Observable.java
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/kudenkorl/!svn/ver/2787/YORLL-Java/marl/observations/Observable.java
+END
+PullObserver.java
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/kudenkorl/!svn/ver/2787/YORLL-Java/marl/observations/PullObserver.java
+END
+PushObserver.java
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/kudenkorl/!svn/ver/2787/YORLL-Java/marl/observations/PushObserver.java
+END
+Observation.java
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/kudenkorl/!svn/ver/2787/YORLL-Java/marl/observations/Observation.java
+END

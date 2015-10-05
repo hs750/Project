@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/kudenkorl/!svn/ver/3255/YORLL-Java/marl/agents/learning/qlearning
+END
+DiscreteQLearning.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/kudenkorl/!svn/ver/3255/YORLL-Java/marl/agents/learning/qlearning/DiscreteQLearning.java
+END
+BoltzmannQLearning.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/kudenkorl/!svn/ver/3255/YORLL-Java/marl/agents/learning/qlearning/BoltzmannQLearning.java
+END
+EGreedyQLearning.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/kudenkorl/!svn/ver/3255/YORLL-Java/marl/agents/learning/qlearning/EGreedyQLearning.java
+END
+DiscreteQTable.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/kudenkorl/!svn/ver/3237/YORLL-Java/marl/agents/learning/qlearning/DiscreteQTable.java
+END

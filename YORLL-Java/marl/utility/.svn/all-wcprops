@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/kudenkorl/!svn/ver/3239/YORLL-Java/marl/utility
+END
+FileReader.java
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/kudenkorl/!svn/ver/2784/YORLL-Java/marl/utility/FileReader.java
+END
+NullPrintStream.java
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/kudenkorl/!svn/ver/3027/YORLL-Java/marl/utility/NullPrintStream.java
+END
+Rand.java
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/kudenkorl/!svn/ver/2830/YORLL-Java/marl/utility/Rand.java
+END
+Config.java
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/kudenkorl/!svn/ver/3177/YORLL-Java/marl/utility/Config.java
+END
+Compass.java
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/kudenkorl/!svn/ver/3237/YORLL-Java/marl/utility/Compass.java
+END
+CompileResults.java
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/kudenkorl/!svn/ver/3198/YORLL-Java/marl/utility/CompileResults.java
+END
+Stopwatch.java
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/kudenkorl/!svn/ver/2788/YORLL-Java/marl/utility/Stopwatch.java
+END

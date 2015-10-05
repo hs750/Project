@@ -1,0 +1,27 @@
+K 10
+svn:ignore
+V 519
+*.txt
+bin
+res
+res-mc(10x10, 10 tilings).txt
+res-mc(50x50, 05 tilings).txt
+res-mc(50x50, 10 tilings).txt
+res-mc(adapt).txt
+res-mc(adapt-change).txt
+res-mc(adapt-difference).txt
+res-pw(10x10, 1 tiling).txt
+res-pw(25x25, 1 tiling).txt
+res-pw(4x4, 1 tiling).txt
+res-pw(4x4, 16 tiling).txt
+res-pw(4x4, 2 tiling).txt
+res-pw(4x4, 32 tiling).txt
+res-pw(4x4, 4 tiling).txt
+res-pw(4x4, 8 tiling).txt
+res-pw(50x50, 1 tiling).txt
+res-pw(50x50, 10 tiling).txt
+res-pw(adapt).txt
+res-pw(adapt-change).txt
+res-pw(adapt-difference).txt
+
+END

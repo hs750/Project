@@ -1,0 +1,163 @@
+/**
+ * 
+ */
+package experiments;
+
+import java.io.IOException;
+import java.io.PrintStream;
+
+import marl.agents.Agent;
+import marl.environments.Environment;
+import marl.utility.Config;
+import marl.utility.NullPrintStream;
+
+
+/**
+ * @author pds
+ * @since  2013-03-08
+ *
+ */
+public class EpisodicSimulator<E extends Environment<?, A>, A extends Agent<E>> implements Runnable
+{
+    /**
+     * The simulator configuration.
+     */
+    protected Config cfg_;
+    
+    /**
+     * An output stream to inform the user where in the simulation they are.
+     */
+    protected PrintStream out_;
+    
+    
+    /**
+     * The maximum number of updates in any single runs. If this is set then
+     * the maximum number of episodes is ignored.
+     */
+    protected int maxUpdates_;
+    /**
+     * The maximum number of episodes in any single run.
+     */
+    protected int maxEpisodes_;
+    /**
+     * The maximum number of steps in any single episode.
+     */
+    protected int maxSteps_;
+    /**
+     * The number of agents to expect in this simulation, if not set 1 is
+     * assumed.
+     */
+    protected int nAgents_;
+    
+    
+    /**
+     * The environment of this simulation.
+     */
+    protected E   env_;
+    /**
+     * The agents of this simulation.
+     */
+    protected A[] agents_;
+
+    /**
+     * 
+     */
+    @SuppressWarnings("unchecked")
+    public EpisodicSimulator(Config cfg)
+        throws IOException
+    {
+        // Read the configuration for this simulation
+        cfg_ = cfg;
+        
+        // Initialise the output stream
+        out_ = new NullPrintStream();
+        
+        
+        // Obtain from the configuration how to simulate
+        maxEpisodes_ = cfg_.getInt("max_episodes");
+        maxSteps_    = cfg_.getInt("max_steps");
+        maxUpdates_  = cfg_.getInt("max_updates");
+        nAgents_     = cfg_.getInt("num_agents");
+        
+        
+        
+        // Initialise the environment and agents
+        env_    = null;
+        agents_ = (A[])new Agent<?>[nAgents_];
+    }
+
+
+    /* (non-Javadoc)
+     * @see java.lang.Runnable#run()
+     */
+    @Override
+    public void run() {
+        // begin the simulation
+        out_.println("-- Start of Simulation --");
+        out_.println("Initialising Simulation");
+        long start = System.currentTimeMillis();
+        // initialise the environment and agent(s)
+        env_.initialise();
+        for( int i=0; i<nAgents_; i++ )
+            agents_[i].initialise();
+        // Add the agent into the environment
+        for( int i=0; i<nAgents_; i++ )
+            env_.add(agents_[i]);
+
+        // Output where we are up to
+        out_.println("Beginning Simulation");
+
+        for( int episodeNo=0, updates=0; (maxUpdates_!=-1 && updates<maxUpdates_) || (maxUpdates_==-1 && episodeNo<maxEpisodes_); episodeNo++ ) {
+            // Reset the environment
+            env_.reset(episodeNo);
+            int step;
+            for( step=0; step<maxSteps_ && (maxUpdates_==-1 || updates<maxUpdates_) &&  !env_.inTerminalState(); step++, updates++ ) {
+                env_.incrementTime();
+            }
+            
+            
+        }
+
+        out_.println();
+        long end = System.currentTimeMillis();
+        out_.println("Simulation ran for " + (end-start) + "ms");
+        out_.println("-- End of Simulation--");
+    }
+    
+    
+    
+    
+    
+    
+    /**
+     * Sets the environment to the specified environment.
+     * @param env The environment for this simulation
+     */
+    public void setEnvironment(E env) {
+        env_ = env;
+    }
+    
+    /**
+     * Adds an agent to the simulation.
+     * @param agent The agent to be added
+     * @return True if the agent was added, false otherwise
+     */
+    public boolean addAgent(A agent) {
+        for( int i=0; i<agents_.length; i++ )
+            if( agents_[i] == null ) {
+                agents_[i] = agent;
+                return true;
+            }
+        
+        return false;
+    }
+    
+    /**
+     * Sets the print stream the simulator uses to inform the user to where in
+     * the simulation they currently are.
+     * @param out The new print stream
+     */
+    public void setPrintStream(PrintStream out) {
+        out_ = out;
+    }
+}
