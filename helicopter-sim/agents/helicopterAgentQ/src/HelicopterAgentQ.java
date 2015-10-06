@@ -27,8 +27,7 @@ import org.rlcommunity.rlglue.codec.types.Observation;
 import org.rlcommunity.rlglue.codec.util.AgentLoader;
 import org.rlcommunity.rlglue.codec.taskspec.TaskSpecVRLGLUE3;
 
-import marl.agents.learning.*;
-public class HelicopterAgent implements AgentInterface {
+public class HelicopterAgentQ implements AgentInterface {
 	private Action action;
 
 	TaskSpec TSO = null;
@@ -50,7 +49,7 @@ public class HelicopterAgent implements AgentInterface {
 			qz_err = 11; // [recall: any rotation can be represented by a single
 							// rotation around some axis]
 
-	public HelicopterAgent() {
+	public HelicopterAgentQ() {
 		
 	}
 
@@ -75,17 +74,16 @@ public class HelicopterAgent implements AgentInterface {
 	}
 
 	public Action agent_start(Observation o) {
-		agent_policy(o, action);
+		fixed_policy(o, action);
 		return action;
 	}
 
 	public Action agent_step(double reward, Observation o) {
-		System.out.println(reward);
-		agent_policy(o, action);
+		fixed_policy(o, action);
 		return action;
 	}
 
-	private void agent_policy(Observation o, Action a) {
+	private void fixed_policy(Observation o, Action a) {
 		double weights[] = { 0.0196, 0.7475, 0.0367, 0.0185, 0.7904, 0.0322, 0.1969, 0.0513, 0.1348, 0.02, 0, 0.23 };
 
 		int y_w = 0;
@@ -126,7 +124,7 @@ public class HelicopterAgent implements AgentInterface {
 	}
 
 	public static void main(String[] args) {
-		AgentLoader L = new AgentLoader(new HelicopterAgent());
+		AgentLoader L = new AgentLoader(new HelicopterAgentQ());
 		L.run();
 	}
 
