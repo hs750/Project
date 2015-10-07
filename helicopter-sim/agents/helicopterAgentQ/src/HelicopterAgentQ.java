@@ -1,34 +1,23 @@
+package helicopterAgentQ.src;
 
-/* Random Agent that works in all domains
-* Copyright (C) 2007, Brian Tanner brian@tannerpages.com (http://brian.tannerpages.com/)
-* 
-* This program is free software; you can redistribute it and/or
-* modify it under the terms of the GNU General Public License
-* as published by the Free Software Foundation; either version 2
-* of the License, or (at your option) any later version.
-* 
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU General Public License for more details.
-* 
-* You should have received a copy of the GNU General Public License
-* along with this program; if not, write to the Free Software
-* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA. */
+
 
 import java.util.Random;
 
-import org.rlcommunity.rlglue.codec.taskspec.TaskSpec;
-import org.rlcommunity.rlglue.codec.taskspec.ranges.IntRange;
-import org.rlcommunity.rlglue.codec.taskspec.ranges.DoubleRange;
 import org.rlcommunity.rlglue.codec.AgentInterface;
+import org.rlcommunity.rlglue.codec.taskspec.TaskSpec;
 import org.rlcommunity.rlglue.codec.types.Action;
 import org.rlcommunity.rlglue.codec.types.Observation;
 import org.rlcommunity.rlglue.codec.util.AgentLoader;
-import org.rlcommunity.rlglue.codec.taskspec.TaskSpecVRLGLUE3;
 
 public class HelicopterAgentQ implements AgentInterface {
+	private QTable qTable;
+	
 	private Action action;
+	private Observation lastState;
+	
+	private Random randGenerator = new Random();
+	private double sarsa_epsilon = 0.1; //TODO rename / remove
 
 	TaskSpec TSO = null;
 
@@ -50,14 +39,14 @@ public class HelicopterAgentQ implements AgentInterface {
 							// rotation around some axis]
 
 	public HelicopterAgentQ() {
-		
+		qTable = new QTable();
 	}
 
 	public void agent_cleanup() {
 	}
 
 	public void agent_end(double arg0) {
-
+		
 	}
 
 	public void agent_freeze() {
@@ -65,8 +54,11 @@ public class HelicopterAgentQ implements AgentInterface {
 	}
 
 	public void agent_init(String taskSpec) {
+		System.out.println(taskSpec);
 		TSO = new TaskSpec(taskSpec);
 		action = new Action(TSO.getNumDiscreteActionDims(), TSO.getNumContinuousActionDims());
+		
+		lastState = new Observation(0, TSO.getNumContinuousActionDims());
 	}
 
 	public String agent_message(String arg0) {
@@ -74,16 +66,29 @@ public class HelicopterAgentQ implements AgentInterface {
 	}
 
 	public Action agent_start(Observation o) {
-		fixed_policy(o, action);
+		lastState = o;
+		action = randomAction(o);
 		return action;
 	}
 
 	public Action agent_step(double reward, Observation o) {
-		fixed_policy(o, action);
+		double qValueForLastState = qTable.getQValue(lastState, action);
+		double maxQValueForNextState = qTable.getMaxQValue(o);
+		
+		action = egreedy(o);
+		
+		double alpha = 0.1;
+		double gamma = 1;
+		
+		double newQValue = qValueForLastState + alpha * (reward + gamma * maxQValueForNextState - qValueForLastState);
+		
+		qTable.putQValue(o, action, newQValue);
+		lastState = o;
+		
 		return action;
 	}
 
-	private void fixed_policy(Observation o, Action a) {
+	private Action fixed_policy(Observation o) {
 		double weights[] = { 0.0196, 0.7475, 0.0367, 0.0185, 0.7904, 0.0322, 0.1969, 0.0513, 0.1348, 0.02, 0, 0.23 };
 
 		int y_w = 0;
@@ -117,11 +122,51 @@ public class HelicopterAgentQ implements AgentInterface {
 
 		double rudder = -weights[yaw_w] * o.doubleArray[qz_err];
 
+		Action a  =new Action(0,  4);
 		a.doubleArray[0] = aileron;
 		a.doubleArray[1] = elevator;
 		a.doubleArray[2] = rudder;
 		a.doubleArray[3] = coll;
+		
+		return a;
 	}
+	
+	private Action randomAction(Observation o){
+		Action a = fixed_policy(o);
+		a.doubleArray[0] = a.doubleArray[0] * randGenerator.nextDouble();
+		a.doubleArray[1] = a.doubleArray[1] * randGenerator.nextDouble();
+		a.doubleArray[2] = a.doubleArray[2] * randGenerator.nextDouble();
+		a.doubleArray[3] = a.doubleArray[3] * randGenerator.nextDouble();
+		return a;
+	}
+	
+	/**
+    *
+    * Selects a random action with probability 1-sarsa_epsilon,
+    * and the action with the highest value otherwise.  This is a
+    * quick'n'dirty implementation, it does not do tie-breaking.
+
+    * @param theState
+    * @return
+    */
+   private Action egreedy(Observation theState) {
+       //if (!exploringFrozen) {
+           if (randGenerator.nextDouble() <= sarsa_epsilon) {
+               return randomAction(theState);
+           }
+       //}
+       if(qTable.size() == 0){
+    	   return randomAction(theState);
+       }
+
+       /*otherwise choose the greedy action*/
+       Action maxAction = qTable.getActionForMaxQValue(theState);
+       if(maxAction == null){
+    	   return randomAction(theState);
+       }
+       System.out.println("maxAction");
+       return maxAction;
+   }
 
 	public static void main(String[] args) {
 		AgentLoader L = new AgentLoader(new HelicopterAgentQ());
