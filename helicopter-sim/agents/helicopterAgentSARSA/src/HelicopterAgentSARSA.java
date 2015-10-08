@@ -1,4 +1,4 @@
-package helicopterAgentQ.src;
+package helicopterAgentSARSA.src;
 
 
 
@@ -10,7 +10,7 @@ import org.rlcommunity.rlglue.codec.types.Action;
 import org.rlcommunity.rlglue.codec.types.Observation;
 import org.rlcommunity.rlglue.codec.util.AgentLoader;
 
-public class HelicopterAgentQ implements AgentInterface {
+public class HelicopterAgentSARSA implements AgentInterface {
 	private QTable qTable;
 	
 	private Action action;
@@ -39,7 +39,7 @@ public class HelicopterAgentQ implements AgentInterface {
 			qz_err = 11; // [recall: any rotation can be represented by a single
 							// rotation around some axis]
 
-	public HelicopterAgentQ() {
+	public HelicopterAgentSARSA() {
 		qTable = new QTable();
 	}
 
@@ -79,14 +79,16 @@ public class HelicopterAgentQ implements AgentInterface {
 
 	public Action agent_step(double reward, Observation o) {
 		double qValueForLastState = qTable.getQValue(lastState, action);
-		double maxQValueForNextState = qTable.getMaxQValue(o);
+		
 		
 		action = egreedy(o);
+		
+		double qValueForNextState = qTable.getQValue(o, action);
 		
 		double alpha = 0.1;
 		double gamma = 1;
 		
-		double newQValue = qValueForLastState + alpha * (reward + gamma * maxQValueForNextState - qValueForLastState);
+		double newQValue = qValueForLastState + alpha * (reward + gamma * qValueForNextState - qValueForLastState);
 		
 		qTable.putQValue(o, action, newQValue);
 		lastState = o;
@@ -179,7 +181,7 @@ public class HelicopterAgentQ implements AgentInterface {
    }
 
 	public static void main(String[] args) {
-		AgentLoader L = new AgentLoader(new HelicopterAgentQ());
+		AgentLoader L = new AgentLoader(new HelicopterAgentSARSA());
 		L.run();
 	}
 
