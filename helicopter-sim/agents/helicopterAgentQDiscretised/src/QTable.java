@@ -1,7 +1,5 @@
 package helicopterAgentQDiscretised.src;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -31,19 +29,16 @@ public class QTable {
 	public void putQValue(Observation o, Action a, double value) {
 		QKey key = new QKey(o, a);
 		qTable.put(key, value);
-
+		System.out.println(value);
 		HelicopterState state = new HelicopterState(o);
 		HashSet<HelicopterAction> actions = actionsForStates.get(state);
 		if (actions == null) {
-			System.out.println("make new");
 			actions = new HashSet<HelicopterAction>();
 		}
 		HelicopterAction action = new HelicopterAction(a);
 		actions.add(action);
-		HashSet<HelicopterAction> test = actionsForStates.put(state, actions);
-		if(test != null){
-			System.out.println("overriten " + actions.size() + " " + actionsForStates.get(state).size() + " " + (actions == actionsForStates.get(state)));
-		}
+		actionsForStates.put(state, actions);
+		
 	}
 
 	public double getMaxQValue(Observation o) {
@@ -51,23 +46,20 @@ public class QTable {
 
 		HashSet<HelicopterAction> actions = actionsForStates.get(state);
 		if (actions == null) {
-			System.out.println("null actions");
 			actions = new HashSet<HelicopterAction>();
 		}
 
-		double maxValue = Double.NEGATIVE_INFINITY;
+		double maxValue = -Double.MAX_VALUE;
 		for (HelicopterAction action : actions) {
-			QKey key = new QKey(o, action.actionArray);
+			QKey key = new QKey(o, action.action);
 			Double value = qTable.get(key);
 			if (value != null) {
 				if (value > maxValue) {
-					System.out.println("foudn");
 					maxValue = value;
 				}
 			}
 		}
-
-		return maxValue == Double.NEGATIVE_INFINITY ? DEFAULT_Q_VALUE : maxValue;
+		return maxValue == -Double.MAX_VALUE ? DEFAULT_Q_VALUE : maxValue;
 	}
 
 	public Action getActionForMaxQValue(Observation o) {
@@ -75,26 +67,22 @@ public class QTable {
 
 		HashSet<HelicopterAction> actions = actionsForStates.get(state);
 		if (actions == null) {
-			System.out.println("new action");
 			actions = new HashSet<HelicopterAction>();
 		}
 
-		double maxValue = Double.NEGATIVE_INFINITY;
-		Action maxAction = new Action(0, 4);
+		double maxValue = -Double.MAX_VALUE;
+		Action maxAction = null;
 		for (HelicopterAction action : actions) {
-			QKey key = new QKey(o, action.actionArray);
+			QKey key = new QKey(o, action.action);
 			Double value = qTable.get(key);
-			System.out.println(value);
 			if (value != null) {
 				if (value > maxValue) {
-					
 					maxValue = value;
-					maxAction.doubleArray = action.actionArray;
+					maxAction = action.action;
 				}
 			}
 		}
-		System.out.println("wtf " + qTable.values());
-		return maxValue > Double.NEGATIVE_INFINITY ? maxAction : null;
+		return maxAction;
 	}
 
 	public int size() {
@@ -102,35 +90,30 @@ public class QTable {
 	}
 
 	private class HelicopterState {
-		double observationArray[] = new double[12];
+		Observation observation;
 
 		public HelicopterState(Observation o) {
-			for(int i = 0; i < 12; i++){
-				observationArray[i] = o.doubleArray[i];
-			}
+			observation = new Observation(o);
 		}
 
 		@Override
 		public int hashCode() {
-			double hash = observationArray[0] * observationArray[1] * observationArray[2] * observationArray[3] * observationArray[4]
-					* observationArray[5] * observationArray[6] * observationArray[7] * observationArray[8] * observationArray[9]
-					* observationArray[10] * observationArray[11];
-			return (int) hash;
-			// return o.doubleArray.hashCode(); // Helicopter only has
-			// observations in the doubleArray
+			double hash = 1;
+			for(int i = 0; i < observation.doubleArray.length; i++){
+				hash *= observation.doubleArray[i];
+			}
+			return (int) hash; // Helicopter only has observations in the doubleArray
 		}
 
 		@Override
 		public boolean equals(Object obj) {
 			if (obj instanceof HelicopterState) {
 				HelicopterState hs = (HelicopterState) obj;
-				boolean equals = observationArray[0] == hs.observationArray[0] && observationArray[1] == hs.observationArray[1]
-						&& observationArray[2] == hs.observationArray[2] && observationArray[3] == hs.observationArray[3]
-						&& observationArray[4] == hs.observationArray[4] && observationArray[5] == hs.observationArray[5]
-						&& observationArray[6] == hs.observationArray[6] && observationArray[7] == hs.observationArray[7]
-						&& observationArray[8] == hs.observationArray[8] && observationArray[9] == hs.observationArray[9]
-						&& observationArray[10] == hs.observationArray[10] && observationArray[11] == hs.observationArray[11];
-				return equals;
+				boolean equal = true;
+				for(int i = 0; i < observation.doubleArray.length; i++){
+					equal = equal && (observation.doubleArray[i] == hs.observation.doubleArray[i]);
+				}
+				return equal;
 			} else {
 				return false;
 			}
@@ -139,30 +122,31 @@ public class QTable {
 	}
 
 	private class HelicopterAction {
-		private double actionArray[] = new double[4];
+		Action action;
 
 		public HelicopterAction(Action a) {
-			for(int i = 0; i< 4; i++){
-				actionArray[i] = a.doubleArray[i];
-			}
-			System.out.println(actionArray);
+			action = new Action(a);
 		}
 
 		@Override
 		public int hashCode() {
-			double hash = actionArray[0] * actionArray[1] * actionArray[2] * actionArray[3];
+			double hash = 1;
+			for(int i = 0; i < action.doubleArray.length; i++){
+				hash *= action.doubleArray[i];
+			}
 			return (int) hash;
-			// return actionArray.hashCode(); // Helicopter only has actions
-			// in the doubleArray
+			 // Helicopter only has actions in the doubleArray
 		}
 
 		@Override
 		public boolean equals(Object obj) {
 			if (obj instanceof HelicopterAction) {
 				HelicopterAction ha = (HelicopterAction) obj;
-				boolean equals = actionArray[0] == ha.actionArray[0] && actionArray[1] == ha.actionArray[1]
-						&& actionArray[2] == ha.actionArray[2] && actionArray[3] == ha.actionArray[3];
-				return equals;
+				boolean equal = true;
+				for(int i = 0; i < action.doubleArray.length; i++){
+					equal = equal && (action.doubleArray[i] == ha.action.doubleArray[i]);
+				}
+				return equal;
 			} else {
 				return false;
 			}
@@ -171,34 +155,23 @@ public class QTable {
 	}
 
 	private class QKey {
-		double observationArray[] = new double[12];
-		double actionArray[] = new double[4];
+		Observation observation;
+		Action action;
 		
-		public QKey(Observation state, Action action) {
-			for(int i = 0; i< 12; i++){
-				observationArray[i] = state.doubleArray[i];
-			}
-			for(int i = 0; i< 4; i++){
-				actionArray[i] = action.doubleArray[i];
-			}
-		}
-		
-		public QKey(Observation state, double[] actions) {
-			for(int i = 0; i< 12; i++){
-				observationArray[i] = state.doubleArray[i];
-			}
-			for(int i = 0; i< 4; i++){
-				actionArray[i] = actions[i];
-			}
+		public QKey(Observation o, Action a) {
+			observation = new Observation(o);
+			action = new Action(a);
 		}
 
 		@Override
 		public int hashCode() {
-			int hash = (int) (observationArray[0] * observationArray[1] * observationArray[2] * observationArray[3] * observationArray[4]
-					* observationArray[5] * observationArray[6] * observationArray[7] * observationArray[8] * observationArray[9]
-					* observationArray[10] * observationArray[11]);
-			
-			hash *= (int) (actionArray[0] * actionArray[1] * actionArray[2] * actionArray[3]);
+			double hash = 1;
+			for(int i = 0; i < observation.doubleArray.length; i++){
+				hash *= observation.doubleArray[i];
+			}
+			for(int i = 0; i < action.doubleArray.length; i++){
+				hash *= action.doubleArray[i];
+			}
 			
 			return (int) hash;
 		}
@@ -207,18 +180,14 @@ public class QTable {
 		public boolean equals(Object obj) {
 			if (obj instanceof QKey) {
 				QKey q = (QKey) obj;
-				boolean equals = observationArray[0] == q.observationArray[0]
-						&& observationArray[1] == q.observationArray[1] && observationArray[2] == q.observationArray[2]
-						&& observationArray[3] == q.observationArray[3] && observationArray[4] == q.observationArray[4]
-						&& observationArray[5] == q.observationArray[5] && observationArray[6] == q.observationArray[6]
-						&& observationArray[7] == q.observationArray[7] && observationArray[8] == q.observationArray[8]
-						&& observationArray[9] == q.observationArray[9] && observationArray[10] == q.observationArray[10]
-						&& observationArray[11] == q.observationArray[11];
-				
-				equals = equals && actionArray[0] == q.actionArray[0] && actionArray[1] == q.actionArray[1]
-						&& actionArray[2] == q.actionArray[2] && actionArray[3] == q.actionArray[3];
-
-				return equals;
+				boolean equal = true;
+				for(int i = 0; i < observation.doubleArray.length; i++){
+					equal = equal && (observation.doubleArray[i] == q.observation.doubleArray[i]);
+				}
+				for(int i = 0; i < action.doubleArray.length; i++){
+					equal = equal && (action.doubleArray[i] == q.action.doubleArray[i]);
+				}
+				return equal;
 			} else {
 				return false;
 			}
