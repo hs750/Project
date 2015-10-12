@@ -21,6 +21,9 @@ public class HelicopterAgentQDiscretised implements AgentInterface {
 	private boolean exploringFrozen = false;
 
 	TaskSpec TSO = null;
+	
+	double alpha = 0.1;
+	double gamma = 1;
 
 	// Indices into observation_t.doubleArray...
 	private static int u_err = 0, // forward velocity
@@ -46,8 +49,12 @@ public class HelicopterAgentQDiscretised implements AgentInterface {
 	public void agent_cleanup() {
 	}
 
-	public void agent_end(double arg0) {
-
+	public void agent_end(double reward) {
+		double qValueForLastState = qTable.getQValue(lastState, action);
+		
+		double newQValue = qValueForLastState + alpha * (reward - qValueForLastState);
+		
+		qTable.putQValue(lastState, action, newQValue);
 	}
 
 	public void agent_freeze() {
@@ -84,9 +91,6 @@ public class HelicopterAgentQDiscretised implements AgentInterface {
 		double maxQValueForNextState = qTable.getMaxQValue(o);
 		
 		action = egreedy(o);
-		
-		double alpha = 0.9;
-		double gamma = 0.9;
 		
 		double newQValue = qValueForLastState + alpha * (reward + gamma * maxQValueForNextState - qValueForLastState);
 		

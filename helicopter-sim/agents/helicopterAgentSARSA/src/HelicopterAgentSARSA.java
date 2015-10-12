@@ -21,6 +21,9 @@ public class HelicopterAgentSARSA implements AgentInterface {
 	private boolean exploringFrozen = false;
 
 	TaskSpec TSO = null;
+	
+	double alpha = 0.1;
+	double gamma = 1;
 
 	// Indices into observation_t.doubleArray...
 	private static int u_err = 0, // forward velocity
@@ -46,8 +49,13 @@ public class HelicopterAgentSARSA implements AgentInterface {
 	public void agent_cleanup() {
 	}
 
-	public void agent_end(double arg0) {
-
+	//Learn from the final reward
+	public void agent_end(double reward) {
+		double qValueForLastState = qTable.getQValue(lastState, action);
+	
+		double newQValue = qValueForLastState + alpha * (reward - qValueForLastState);
+		
+		qTable.putQValue(lastState, action, newQValue);
 	}
 
 	public void agent_freeze() {
@@ -73,24 +81,22 @@ public class HelicopterAgentSARSA implements AgentInterface {
 
 	public Action agent_start(Observation o) {
 		lastState = o;
-		action = randomAction(o);
+		action = egreedy(o);
 		return action;
 	}
 
 	public Action agent_step(double reward, Observation o) {
-		double qValueForLastState = qTable.getQValue(lastState, action);
+		Action lastAction = action;
+		double qValueForLastState = qTable.getQValue(lastState, lastAction);
 		
 		
 		action = egreedy(o);
 		
 		double qValueForNextState = qTable.getQValue(o, action);
-		
-		double alpha = 0.1;
-		double gamma = 1;
-		
+	
 		double newQValue = qValueForLastState + alpha * (reward + gamma * qValueForNextState - qValueForLastState);
 		
-		qTable.putQValue(o, action, newQValue);
+		qTable.putQValue(lastState, lastAction, newQValue);
 		lastState = o;
 		
 		return action;
