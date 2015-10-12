@@ -51,11 +51,13 @@ public class HelicopterAgentSARSA implements AgentInterface {
 
 	//Learn from the final reward
 	public void agent_end(double reward) {
-		double qValueForLastState = qTable.getQValue(lastState, action);
-	
-		double newQValue = qValueForLastState + alpha * (reward - qValueForLastState);
+		if(!exploringFrozen){
+			double qValueForLastState = qTable.getQValue(lastState, action);
 		
-		qTable.putQValue(lastState, action, newQValue);
+			double newQValue = qValueForLastState + alpha * (reward - qValueForLastState);
+			
+			qTable.putQValue(lastState, action, newQValue);
+		}
 	}
 
 	public void agent_freeze() {
@@ -94,9 +96,11 @@ public class HelicopterAgentSARSA implements AgentInterface {
 		
 		double qValueForNextState = qTable.getQValue(o, action);
 	
-		double newQValue = qValueForLastState + alpha * (reward + gamma * qValueForNextState - qValueForLastState);
-		
-		qTable.putQValue(lastState, lastAction, newQValue);
+		if(!exploringFrozen){
+			double newQValue = qValueForLastState + alpha * (reward + gamma * qValueForNextState - qValueForLastState);
+			
+			qTable.putQValue(lastState, lastAction, newQValue);
+		}
 		lastState = o;
 		
 		return action;

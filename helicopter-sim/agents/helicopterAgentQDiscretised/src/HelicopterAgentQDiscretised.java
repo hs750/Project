@@ -50,11 +50,13 @@ public class HelicopterAgentQDiscretised implements AgentInterface {
 	}
 
 	public void agent_end(double reward) {
-		double qValueForLastState = qTable.getQValue(lastState, action);
-		
-		double newQValue = qValueForLastState + alpha * (reward - qValueForLastState);
-		
-		qTable.putQValue(lastState, action, newQValue);
+		if(!exploringFrozen){
+			double qValueForLastState = qTable.getQValue(lastState, action);
+			
+			double newQValue = qValueForLastState + alpha * (reward - qValueForLastState);
+			
+			qTable.putQValue(lastState, action, newQValue);
+		}
 	}
 
 	public void agent_freeze() {
@@ -80,7 +82,7 @@ public class HelicopterAgentQDiscretised implements AgentInterface {
 	public Action agent_start(Observation o) {
 		discretiseState(o);
 		lastState = o;
-		action = randomAction(o);
+		action = egreedy(o);
 		return action;
 	}
 
@@ -92,9 +94,11 @@ public class HelicopterAgentQDiscretised implements AgentInterface {
 		
 		action = egreedy(o);
 		
-		double newQValue = qValueForLastState + alpha * (reward + gamma * maxQValueForNextState - qValueForLastState);
-		
-		qTable.putQValue(lastState, lastAction, newQValue);
+		if(!exploringFrozen){
+			double newQValue = qValueForLastState + alpha * (reward + gamma * maxQValueForNextState - qValueForLastState);
+			
+			qTable.putQValue(lastState, lastAction, newQValue);
+		}
 		lastState = o;
 		System.out.println(qTable.size());
 		return action;
