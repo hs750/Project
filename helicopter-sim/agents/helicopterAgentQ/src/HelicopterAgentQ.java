@@ -78,7 +78,8 @@ public class HelicopterAgentQ implements AgentInterface {
 	}
 
 	public Action agent_step(double reward, Observation o) {
-		double qValueForLastState = qTable.getQValue(lastState, action);
+		Action lastAction = action;
+		double qValueForLastState = qTable.getQValue(lastState, lastAction);
 		double maxQValueForNextState = qTable.getMaxQValue(o);
 		
 		action = egreedy(o);
@@ -88,9 +89,9 @@ public class HelicopterAgentQ implements AgentInterface {
 		
 		double newQValue = qValueForLastState + alpha * (reward + gamma * maxQValueForNextState - qValueForLastState);
 		
-		qTable.putQValue(o, action, newQValue);
+		qTable.putQValue(lastState, lastAction, newQValue);
 		lastState = o;
-		
+		//System.out.println(qTable.size());
 		return action;
 	}
 
