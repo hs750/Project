@@ -28,8 +28,8 @@ public class consoleTrainer {
 		consoleTrainerHelper.loadHelicopter(whichTrainingMDP);	
 		RLGlue.RL_init();
 
-        int evaluationCount = 10; //number of evaluatins to perfom
-		int episodeCount=10; //number of episodes to run between evaluations
+        int evaluationCount = 100; //number of evaluatins to perfom
+		int episodeCount=1; //number of episodes to run between evaluations
                                 //total number of episodes = evaluationCount * episodeCount
 		int maxEpisodeLength=20000; //set a maxEpisodeLength to cut off long episodes
 	
@@ -41,7 +41,6 @@ public class consoleTrainer {
         for(int j=0;j<evaluationCount;j++){
             for(int i=0;i<episodeCount;i++){
                 RLGlue.RL_episode(maxEpisodeLength);
-                System.out.println(RLGlue.RL_return());
                 totalSteps+=RLGlue.RL_num_steps();
                 System.out.println("Episode: "+i+" steps: "+RLGlue.RL_num_steps());
             }
