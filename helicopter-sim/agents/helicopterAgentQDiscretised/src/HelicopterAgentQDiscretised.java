@@ -100,7 +100,6 @@ public class HelicopterAgentQDiscretised implements AgentInterface {
 			qTable.putQValue(lastState, lastAction, newQValue);
 		}
 		lastState = o;
-		System.out.println(qTable.size());
 		return action;
 	}
 	
@@ -285,7 +284,6 @@ public class HelicopterAgentQDiscretised implements AgentInterface {
        if(maxAction == null){
     	   return randomAction(theState);
        }
-       System.out.println("maxAction");
        return maxAction;
    }
 

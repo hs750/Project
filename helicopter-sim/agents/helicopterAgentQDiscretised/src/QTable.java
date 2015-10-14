@@ -29,7 +29,7 @@ public class QTable {
 	public void putQValue(Observation o, Action a, double value) {
 		QKey key = new QKey(o, a);
 		qTable.put(key, value);
-		System.out.println(value);
+
 		HelicopterState state = new HelicopterState(o);
 		HashSet<HelicopterAction> actions = actionsForStates.get(state);
 		if (actions == null) {

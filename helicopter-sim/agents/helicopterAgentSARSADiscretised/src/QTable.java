@@ -1,4 +1,4 @@
-package helicopterAgentSARSA.src;
+package helicopterAgentSARSADiscretised.src;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -29,6 +29,7 @@ public class QTable {
 	public void putQValue(Observation o, Action a, double value) {
 		QKey key = new QKey(o, a);
 		qTable.put(key, value);
+
 		HelicopterState state = new HelicopterState(o);
 		HashSet<HelicopterAction> actions = actionsForStates.get(state);
 		if (actions == null) {

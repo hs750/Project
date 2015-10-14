@@ -149,14 +149,15 @@ public class HelicopterAgentQ implements AgentInterface {
 	
 	private Action randomAction(Observation o){
 		Action a = fixed_policy(o);
-//		a.doubleArray[0] = (randGenerator.nextDouble() * 2) - 1;
-//		a.doubleArray[1] = (randGenerator.nextDouble() * 2) - 1;
-//		a.doubleArray[2] = (randGenerator.nextDouble() * 2) - 1;
-//		a.doubleArray[3] = (randGenerator.nextDouble() * 2) - 1;
-		a.doubleArray[0] = a.doubleArray[0] * randGenerator.nextDouble();
-		a.doubleArray[1] = a.doubleArray[1] * randGenerator.nextDouble();
-		a.doubleArray[2] = a.doubleArray[2] * randGenerator.nextDouble();
-		a.doubleArray[3] = a.doubleArray[3] * randGenerator.nextDouble();
+		a = new Action(0, 4);
+		a.doubleArray[0] = (randGenerator.nextDouble() * 2) - 1;
+		a.doubleArray[1] = (randGenerator.nextDouble() * 2) - 1;
+		a.doubleArray[2] = (randGenerator.nextDouble() * 2) - 1;
+		a.doubleArray[3] = (randGenerator.nextDouble() * 2) - 1;
+//		a.doubleArray[0] = a.doubleArray[0] * randGenerator.nextDouble();
+//		a.doubleArray[1] = a.doubleArray[1] * randGenerator.nextDouble();
+//		a.doubleArray[2] = a.doubleArray[2] * randGenerator.nextDouble();
+//		a.doubleArray[3] = a.doubleArray[3] * randGenerator.nextDouble();
 		return a;
 	}
 	
