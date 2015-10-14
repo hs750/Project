@@ -10,10 +10,10 @@ import org.rlcommunity.rlglue.codec.types.Action;
 import org.rlcommunity.rlglue.codec.types.Observation;
 import org.rlcommunity.rlglue.codec.util.AgentLoader;
 
-import HSProject.QTable;
+import HSProject.HelicopterQTable;
 
 public class HelicopterAgentSARSA implements AgentInterface {
-	private QTable qTable;
+	private HelicopterQTable qTable;
 	
 	private Action action;
 	private Observation lastState;
@@ -45,7 +45,7 @@ public class HelicopterAgentSARSA implements AgentInterface {
 							// rotation around some axis]
 
 	public HelicopterAgentSARSA() {
-		qTable = new QTable();
+		qTable = new HelicopterQTable();
 	}
 
 	public void agent_cleanup() {

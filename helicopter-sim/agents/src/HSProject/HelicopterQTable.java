@@ -6,13 +6,13 @@ import java.util.HashSet;
 import org.rlcommunity.rlglue.codec.types.Action;
 import org.rlcommunity.rlglue.codec.types.Observation;
 
-public class QTable {
+public class HelicopterQTable {
 	private HashMap<HelicopterState, HashSet<HelicopterAction>> actionsForStates;
 	private HashMap<QKey, Double> qTable;
 
 	private static double DEFAULT_Q_VALUE = 0;
 
-	public QTable() {
+	public HelicopterQTable() {
 		actionsForStates = new HashMap<HelicopterState, HashSet<HelicopterAction>>();
 		qTable = new HashMap<QKey, Double>();
 	}
