@@ -18,7 +18,7 @@ public class HelicopterAgentQ implements AgentInterface {
 	private Action action;
 	private Observation lastState;
 	
-	private Random randGenerator = new Random();
+	protected Random randGenerator = new Random();
 	private double epsilon = 0.1;
 	private boolean exploringFrozen = false;
 
@@ -149,7 +149,7 @@ public class HelicopterAgentQ implements AgentInterface {
 		return a;
 	}
 	
-	private Action randomAction(Observation o){
+	protected Action randomAction(Observation o){
 		Action a = fixed_policy(o);
 		a = new Action(0, 4);
 		a.doubleArray[0] = (randGenerator.nextDouble() * 2) - 1;
