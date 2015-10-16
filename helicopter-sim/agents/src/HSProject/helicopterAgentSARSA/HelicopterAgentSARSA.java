@@ -75,7 +75,7 @@ public class HelicopterAgentSARSA implements AgentInterface {
 	}
 
 	public String agent_message(String message) {
-		if(message.equals("freeze-laerning")){
+		if(message.equals("freeze-learning")){
 			exploringFrozen = true;
 		}else if(message.equals("unfreeze-learning")){
 			exploringFrozen = false;
