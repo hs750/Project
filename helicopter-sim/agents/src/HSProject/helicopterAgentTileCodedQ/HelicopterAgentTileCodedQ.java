@@ -60,16 +60,16 @@ public class HelicopterAgentTileCodedQ implements AgentInterface {
 							// rotation around some axis]
 
 	public HelicopterAgentTileCodedQ() {
-		int numTiles = 10;
+		int numTiles = 20;
 		int numFeatures = 12;
-		numStateTilings = 16;
+		numStateTilings = 32;
 		double[] featureMin = {-5, -5, -5, -20, -20, -20, -12.566, -12.566, -12.566, -1, -1, -1};
 		double[] featureMax = {5, 5, 5, 20, 20, 20, 12.566, 12.566, 12.566, 1, 1, 1};
 		stateTileCoding = new TileCoding(numTiles, numFeatures, numStateTilings, featureMin, featureMax);
 		
-		int aNumTiles = 10;
+		int aNumTiles = 5;
 		int aNumFeatures = 4;
-		numActionTilings = 16;
+		numActionTilings = 8;
 		double[] aFeatureMin = {-1, -1, -1, -1};
 		double[] aFeatureMax = {1, 1, 1, 1};
 		actionTileCoding = new TileCoding(aNumTiles, aNumFeatures, numActionTilings, aFeatureMin, aFeatureMax);
