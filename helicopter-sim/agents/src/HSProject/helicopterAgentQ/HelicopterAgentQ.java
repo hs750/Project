@@ -187,7 +187,6 @@ public class HelicopterAgentQ implements AgentInterface {
        if(maxAction == null){
     	   return randomAction(theState);
        }
-       System.out.println("maxAction");
        return maxAction;
    }
 
