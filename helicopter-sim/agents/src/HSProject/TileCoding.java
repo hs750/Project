@@ -1,8 +1,7 @@
 package HSProject;
 
-import marl.ext.tilecoding.Tile;
+import HSProject.Tile;
 import marl.ext.tilecoding.TileCodingState;
-import marl.utility.Config;
 import marl.utility.Rand;
 
 /**
@@ -40,8 +39,8 @@ public class TileCoding
 	
 	private int 	 nTiles_,
 					 nFeatures_,
-					 nTilings_,
-					 memorySize_;
+					 nTilings_;
+	long			 memorySize_;
 	private double[] minimumValues_,
 					 tileSpacings_;
 	
@@ -52,7 +51,7 @@ public class TileCoding
 	    nTiles_        = numTiles;
 	    nFeatures_     = numFeatures;
 	    nTilings_      = numTilings;
-	    memorySize_    = (int)Math.pow(nTiles_, nFeatures_) * nTilings_;
+	    memorySize_    = (long) Math.pow(nTiles_, nFeatures_) * nTilings_;
 
         minimumValues_ = new double[nFeatures_];
 	    tileSpacings_  = new double[nFeatures_];
@@ -122,7 +121,7 @@ public class TileCoding
     private void GetTiles(
         int tiles[],
         int num_tilings,
-        int memory_size,
+        long memory_size,
         double doubles[],
         int num_doubles,
         int ints[],
@@ -214,7 +213,7 @@ public class TileCoding
     private static int[]   i_tmp_arr = new int[MAX_NUM_VARS];
 //    private static double[] f_tmp_arr = new double[MAX_NUM_VARS];
     // no ints
-    private void GetTiles(int tiles[],int nt,int memory,double doubles[],int nf)
+    private void GetTiles(int tiles[],int nt,long memory,double doubles[],int nf)
     {
         GetTiles(tiles,nt,memory,doubles,nf,i_tmp_arr,0);
     }
