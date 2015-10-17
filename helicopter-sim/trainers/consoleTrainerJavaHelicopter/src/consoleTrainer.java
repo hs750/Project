@@ -29,7 +29,7 @@ public class consoleTrainer {
 		RLGlue.RL_init();
 
         int evaluationCount = 100; //number of evaluatins to perfom
-		int episodeCount=1; //number of episodes to run between evaluations
+		int episodeCount=100; //number of episodes to run between evaluations
                                 //total number of episodes = evaluationCount * episodeCount
 		int maxEpisodeLength=20000; //set a maxEpisodeLength to cut off long episodes
 	
@@ -38,11 +38,31 @@ public class consoleTrainer {
         
         saveScore(true, 0, null);
         
+        boolean firstTime = true;
+        long startTime = 0;
+        long endTime = 0;
+        double timeTaken = 0;
+        
         for(int j=0;j<evaluationCount;j++){
+            System.out.println("Starting Episode Iteration " + j);
             for(int i=0;i<episodeCount;i++){
+                if(firstTime){
+                    startTime = System.currentTimeMillis();
+                }
                 RLGlue.RL_episode(maxEpisodeLength);
+                if(firstTime){
+                    endTime = System.currentTimeMillis();
+                    timeTaken = endTime - startTime;
+                    timeTaken /= 1000.0; //seconds
+                    System.out.println("Eposode Time: " + timeTaken + " seconds");
+                    
+                    timeTaken *= evaluationCount * episodeCount;
+                    System.out.println("Experiment Time: " + (timeTaken / 60.0) + " minutes");
+                    
+                    firstTime = false;
+                }
                 totalSteps+=RLGlue.RL_num_steps();
-                System.out.println("Episode: "+i+" steps: "+RLGlue.RL_num_steps());
+                //System.out.println("Episode: "+i+" steps: "+RLGlue.RL_num_steps());
             }
             evaluationPoint evp = evaluateAgent(maxEpisodeLength, 10);
             printScore(j*episodeCount, evp);
@@ -60,10 +80,17 @@ public class consoleTrainer {
         
         public double mean;
         public double standardDeviation;
+        public int minSteps;
+        public int maxSteps;
+        public double averageSteps;
         
-        public evaluationPoint(double mean, double standardDeviation) {
+        
+        public evaluationPoint(double mean, double standardDeviation, int minSteps, int maxSteps, double averageSteps) {
             this.mean = mean;
             this.standardDeviation = standardDeviation;
+            this.minSteps = minSteps;
+            this.maxSteps = maxSteps;
+            this.averageSteps = averageSteps;
         }
     }
     
@@ -79,6 +106,10 @@ public class consoleTrainer {
         double mean;
         double variance;
         
+        int maxSteps = 0;
+        int minSteps = Integer.MAX_VALUE;
+        double sumSteps = 0;
+        
         RLGlue.RL_agent_message("freeze-learning");
         for (int i = 0; i < episodesToEvaluate; i++) {
             /* We use a cutoff here in case the policy is bad
@@ -87,18 +118,26 @@ public class consoleTrainer {
             this_return = RLGlue.RL_return();
             sum += this_return;
             sum_of_squares += this_return * this_return;
+            
+            int steps = RLGlue.RL_num_steps();
+            if(steps > maxSteps){
+                maxSteps = steps;
+            }else if(steps < minSteps){
+                minSteps = steps;
+            }
+            sumSteps += steps;
         }
         RLGlue.RL_agent_message("unfreeze-learning");
         
         mean = sum / (double)episodesToEvaluate;
         variance = (sum_of_squares - (double)episodesToEvaluate * mean * mean) / ((double)episodesToEvaluate - 1.0f);
-        return new evaluationPoint(mean, Math.sqrt(variance));
+        return new evaluationPoint(mean, Math.sqrt(variance), minSteps, maxSteps, sumSteps/(double)episodesToEvaluate);
     }
     /*
      This function will freeze the agent's policy and test it after every 25 episodes.
      */
     static void printScore(int afterEpisodes, evaluationPoint theScore) {
-        System.out.printf("Episodes: %d\tMean: %.2f\tSTD: %.2f\n", afterEpisodes, theScore.mean, theScore.standardDeviation);
+        System.out.printf("Episodes: %d\tMean: %.2f\tSTD: %.2f\tSteps: %.2f\n", afterEpisodes, theScore.mean, theScore.standardDeviation, theScore.averageSteps);
     }
     
     static void saveScore(boolean initial, int afterEpisodes, evaluationPoint theScore){
@@ -110,6 +149,12 @@ public class consoleTrainer {
                 writer.append("Mean");
                 writer.append(',');
                 writer.append("STD");
+                writer.append(',');
+                writer.append("MinSteps");
+                writer.append(',');
+                writer.append("MaxSteps");
+                writer.append(',');
+                writer.append("AvgSteps");
                 writer.append('\n');
             }else{
                 writer.append("" + afterEpisodes);
@@ -117,6 +162,12 @@ public class consoleTrainer {
                 writer.append("" + theScore.mean);
                 writer.append(',');
                 writer.append("" + theScore.standardDeviation);
+                writer.append(',');
+                writer.append("" + theScore.minSteps);
+                writer.append(',');
+                writer.append("" + theScore.maxSteps);
+                writer.append(',');
+                writer.append("" + theScore.averageSteps);
                 writer.append('\n');
             }
         
