@@ -11,20 +11,20 @@ import org.rlcommunity.rlglue.codec.types.Action;
 import org.rlcommunity.rlglue.codec.types.Observation;
 import org.rlcommunity.rlglue.codec.util.AgentLoader;
 
+import HSProject.TileCodeQTable;
+import HSProject.TileCodeQTable.ActionValue;
 import HSProject.TileCodedHelicopterAction;
 import HSProject.TileCodedHelicopterState;
 import HSProject.TileCoding;
-import marl.agents.learning.qlearning.DiscreteQTable;
-import marl.agents.selection.Argmax;
-import marl.ext.tilecoding.Tile;
+import HSProject.Tile;
 
 public class HelicopterAgentTileCodedQ implements AgentInterface {
-	private DiscreteQTable qTable;
+	private TileCodeQTable qTable;
 	private TileCoding stateTileCoding;
 	private TileCoding actionTileCoding;
 	
-	int numStateTilings = 2;
-	int numActionTilings = 2;
+	int numStateTilings = 32;
+	int numActionTilings = 4;
 	int numActions;
 	private HashMap<Integer, Action> savedActions;
 	
@@ -60,24 +60,23 @@ public class HelicopterAgentTileCodedQ implements AgentInterface {
 							// rotation around some axis]
 
 	public HelicopterAgentTileCodedQ() {
-		int numTiles = 5;
+		int numTiles = 10;
 		int numFeatures = 12;
-		numStateTilings = 2;
+		numStateTilings = 16;
 		double[] featureMin = {-5, -5, -5, -20, -20, -20, -12.566, -12.566, -12.566, -1, -1, -1};
 		double[] featureMax = {5, 5, 5, 20, 20, 20, 12.566, 12.566, 12.566, 1, 1, 1};
 		stateTileCoding = new TileCoding(numTiles, numFeatures, numStateTilings, featureMin, featureMax);
 		
 		int aNumTiles = 10;
 		int aNumFeatures = 4;
-		numActionTilings = 2;
+		numActionTilings = 16;
 		double[] aFeatureMin = {-1, -1, -1, -1};
 		double[] aFeatureMax = {1, 1, 1, 1};
 		actionTileCoding = new TileCoding(aNumTiles, aNumFeatures, numActionTilings, aFeatureMin, aFeatureMax);
 		
 		double numStates = Math.pow(numTiles, numFeatures) * numStateTilings;
 		numActions = (int) Math.pow(aNumTiles, aNumFeatures) * numActionTilings;
-		qTable = new DiscreteQTable();
-		qTable.inform(numActions);
+		qTable = new TileCodeQTable();
 		
 		savedActions = new HashMap<Integer, Action>();
 	}
@@ -97,9 +96,9 @@ public class HelicopterAgentTileCodedQ implements AgentInterface {
     	    
     	    for( int i=0; i<numStateTilings; i++ ) {
     	    	for(int j = 0; i < numActionTilings; i++){
-    	    		double curQ  = qTable.get(curStates[i])[actions[j].hashCode()];
+    	    		double curQ  = qTable.getQValue(curStates[i], actions[j]);
         	        double val   = curQ + (( alpha * (reward - curQ)) / (double)numStateTilings);
-        	        qTable.put(curStates[i], actions[j].hashCode(), val);   // commit the update to the Q table
+        	        qTable.put(curStates[i], actions[j], val, action);   // commit the update to the Q table
     	    	}
     	        
     	    }
@@ -119,7 +118,7 @@ public class HelicopterAgentTileCodedQ implements AgentInterface {
 	}
 
 	public String agent_message(String message) {
-		if(message.equals("freeze-laerning")){
+		if(message.equals("freeze-learning")){
 			exploringFrozen = true;
 		}else if(message.equals("unfreeze-learning")){
 			exploringFrozen = false;
@@ -152,8 +151,7 @@ public class HelicopterAgentTileCodedQ implements AgentInterface {
     	    
     	    for( int i=0; i<numStateTilings; i++ ) {
                 // Get the new states' Q values
-                double[] newQValues = qTable.get(newStates[i]);
-                         newQ[i]    = newQValues[Argmax.select(newQValues)];
+                         newQ[i]    = qTable.getMaxQValue(newStates[i]);
     	    }
     	    
     	    Tile[] actions = new Tile[numStateTilings];
@@ -161,17 +159,10 @@ public class HelicopterAgentTileCodedQ implements AgentInterface {
     	    
     	    for( int i=0; i<numStateTilings; i++ ) {
     	    	for(int j = 0; i < numActionTilings; i++){
-    	    		double curQ  = qTable.get(curStates[i])[actions[j].hashCode()];
+    	    		double curQ  = qTable.getQValue(curStates[i], actions[j]);
         	        double val   = curQ + (( alpha * (reward + (gamma*newQ[i]) - curQ)) / (double)numStateTilings);
-        	        qTable.put(curStates[i], actions[j].hashCode(), val);   // commit the update to the Q table
+        	        qTable.put(curStates[i], actions[j], val, lastAction);   // commit the update to the Q table
         	        
-        	        if(savedActions.containsKey(actions[j].hashCode())){
-        	        	if(val > curQ){
-            	        	savedActions.put(actions[j].hashCode(), lastAction);
-            	        }
-        	        }else{
-        	        	savedActions.put(actions[j].hashCode(), lastAction);
-        	        }
     	    	}
     	        
     	    }
@@ -254,37 +245,54 @@ public class HelicopterAgentTileCodedQ implements AgentInterface {
            }
        }
 	   
-	// Get all the tiles of this state representation
-	    Tile[] tiles = new Tile[numStateTilings];
-	    stateTileCoding.getTiles(tiles, new TileCodedHelicopterState(theState));
-	    
-	    // initialise a container for the sum of the q values
-	    // and sum them
-	    double[] qValues     = new double[numActions],
-	    	     tileQValues;
-	    for( int k=0; k<numActions; k++ )
-	        qValues[k] = 0;
-
-	    for( int j=0; j<numStateTilings; j++ ) {
-	        tileQValues = qTable.get(tiles[j]);
-	        for( int k=0; k<numActions; k++ )
-	            qValues[k] += tileQValues[k];
-	    }
-		
-	    int maxQIndex = 0;
-	    double maxQ = -Double.MAX_VALUE;
-	    for(int i = 0; i<numActions; i++){
-	    	if(qValues[i] > maxQ){
-	    		maxQ = qValues[i];
-	    		maxQIndex = i;
-	    	}
-	    }
-	    
-	    Action maxAction = savedActions.get(maxQIndex);
-	    if(maxAction == null){
-	    	return randomAction(theState);
-	    }
-	    return maxAction;
+	   Tile[] tiles = new Tile[numStateTilings];
+	   stateTileCoding.getTiles(tiles, new TileCodedHelicopterState(theState));
+	   ActionValue maxAction = null;
+	   for(int i = 0; i < numStateTilings; i++){
+		   ActionValue av = qTable.getMaxAction(tiles[i]);
+		   if(maxAction == null){
+			   maxAction = av;
+		   }else if(av.getValue() > maxAction.getValue()){
+			   maxAction = av;
+		   }
+	   }
+	   
+	   if(maxAction.getAction() == null){
+		   return randomAction(theState);
+	   }
+	   return maxAction.getAction();
+	   
+//	// Get all the tiles of this state representation
+//	    Tile[] tiles = new Tile[numStateTilings];
+//	    stateTileCoding.getTiles(tiles, new TileCodedHelicopterState(theState));
+//	    
+//	    // initialise a container for the sum of the q values
+//	    // and sum them
+//	    double[] qValues     = new double[numActions],
+//	    	     tileQValues;
+//	    for( int k=0; k<numActions; k++ )
+//	        qValues[k] = 0;
+//
+//	    for( int j=0; j<numStateTilings; j++ ) {
+//	        tileQValues = qTable.get(tiles[j]);
+//	        for( int k=0; k<numActions; k++ )
+//	            qValues[k] += tileQValues[k];
+//	    }
+//		
+//	    int maxQIndex = 0;
+//	    double maxQ = -Double.MAX_VALUE;
+//	    for(int i = 0; i<numActions; i++){
+//	    	if(qValues[i] > maxQ){
+//	    		maxQ = qValues[i];
+//	    		maxQIndex = i;
+//	    	}
+//	    }
+//	    
+//	    Action maxAction = savedActions.get(maxQIndex);
+//	    if(maxAction == null){
+//	    	return randomAction(theState);
+//	    }
+//	    return maxAction;
    }
 
 	public static void main(String[] args) {
