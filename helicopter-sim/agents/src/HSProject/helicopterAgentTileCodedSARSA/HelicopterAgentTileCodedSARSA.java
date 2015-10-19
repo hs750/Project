@@ -32,7 +32,7 @@ public class HelicopterAgentTileCodedSARSA implements AgentInterface {
 	private Observation lastState;
 	
 	protected Random randGenerator = new Random();
-	private double epsilon = 0.2;
+	private double epsilon = 0.1;
 	private boolean exploringFrozen = false;
 
 	TaskSpec TSO = null;
@@ -60,7 +60,7 @@ public class HelicopterAgentTileCodedSARSA implements AgentInterface {
 							// rotation around some axis]
 
 	public HelicopterAgentTileCodedSARSA() {
-		int numTiles = 20;
+		int numTiles = 10;
 		int numFeatures = 12;
 		numStateTilings = 32;
 		double[] featureMin = {-5, -5, -5, -20, -20, -20, -12.566, -12.566, -12.566, -1, -1, -1};
@@ -91,11 +91,11 @@ public class HelicopterAgentTileCodedSARSA implements AgentInterface {
             Tile[] curStates = new Tile[numStateTilings];
             stateTileCoding.getTiles(curStates, new TileCodedHelicopterState(lastState));
     	    
-    	    Tile[] actions = new Tile[numStateTilings];
+    	    Tile[] actions = new Tile[numActionTilings];
             actionTileCoding.getTiles(actions, new TileCodedHelicopterAction(action));
     	    
     	    for( int i=0; i<numStateTilings; i++ ) {
-    	    	for(int j = 0; i < numActionTilings; i++){
+    	    	for(int j = 0; j < numActionTilings; j++){
     	    		double curQ  = qTable.getQValue(curStates[i], actions[j]);
         	        double val   = curQ + (( alpha * (reward - curQ)) / (double)numStateTilings);
         	        qTable.put(curStates[i], actions[j], val, action);   // commit the update to the Q table
@@ -165,7 +165,7 @@ public class HelicopterAgentTileCodedSARSA implements AgentInterface {
             actionTileCoding.getTiles(actions, new TileCodedHelicopterAction(lastAction));
     	    
     	    for( int i=0; i<numStateTilings; i++ ) {
-    	    	for(int j = 0; i < numActionTilings; i++){
+    	    	for(int j = 0; j < numActionTilings; j++){
     	    		double curQ  = qTable.getQValue(curStates[i], actions[j]);
     	    		double val   = curQ + (( alpha * (reward + (gamma*newQ[i][j]) - curQ)) / (double)numStateTilings);   	    		
     	    		
