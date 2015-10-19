@@ -60,16 +60,16 @@ public class HelicopterAgentTileCodedQ implements AgentInterface {
 							// rotation around some axis]
 
 	public HelicopterAgentTileCodedQ() {
-		int numTiles = 20;
+		int numTiles = 8;
 		int numFeatures = 12;
-		numStateTilings = 32;
+		numStateTilings = 8;
 		double[] featureMin = {-5, -5, -5, -20, -20, -20, -12.566, -12.566, -12.566, -1, -1, -1};
 		double[] featureMax = {5, 5, 5, 20, 20, 20, 12.566, 12.566, 12.566, 1, 1, 1};
 		stateTileCoding = new TileCoding(numTiles, numFeatures, numStateTilings, featureMin, featureMax);
 		
 		int aNumTiles = 5;
 		int aNumFeatures = 4;
-		numActionTilings = 8;
+		numActionTilings = 4;
 		double[] aFeatureMin = {-1, -1, -1, -1};
 		double[] aFeatureMax = {1, 1, 1, 1};
 		actionTileCoding = new TileCoding(aNumTiles, aNumFeatures, numActionTilings, aFeatureMin, aFeatureMax);
@@ -91,11 +91,11 @@ public class HelicopterAgentTileCodedQ implements AgentInterface {
             Tile[] curStates = new Tile[numStateTilings];
             stateTileCoding.getTiles(curStates, new TileCodedHelicopterState(lastState));
     	    
-    	    Tile[] actions = new Tile[numStateTilings];
+    	    Tile[] actions = new Tile[numActionTilings];
             actionTileCoding.getTiles(actions, new TileCodedHelicopterAction(action));
     	    
     	    for( int i=0; i<numStateTilings; i++ ) {
-    	    	for(int j = 0; i < numActionTilings; i++){
+    	    	for(int j = 0; j < numActionTilings; j++){
     	    		double curQ  = qTable.getQValue(curStates[i], actions[j]);
         	        double val   = curQ + (( alpha * (reward - curQ)) / (double)numStateTilings);
         	        qTable.put(curStates[i], actions[j], val, action);   // commit the update to the Q table
@@ -158,15 +158,16 @@ public class HelicopterAgentTileCodedQ implements AgentInterface {
             actionTileCoding.getTiles(actions, new TileCodedHelicopterAction(lastAction));
     	    
     	    for( int i=0; i<numStateTilings; i++ ) {
-    	    	for(int j = 0; i < numActionTilings; i++){
+    	    	for(int j = 0; j < numActionTilings; j++){
     	    		double curQ  = qTable.getQValue(curStates[i], actions[j]);
     	    		double val   = curQ + (( alpha * (reward + (gamma*newQ[i]) - curQ)) / (double)numStateTilings);
     	    		
         	        qTable.put(curStates[i], actions[j], val, lastAction);   // commit the update to the Q table
-        	        
     	    	}
     	        
     	    }
+    	    
+    	    
 		}
 		lastState = o;
 		//System.out.println(qTable.size());
