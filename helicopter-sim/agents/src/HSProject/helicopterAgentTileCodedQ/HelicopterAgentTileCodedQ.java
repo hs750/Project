@@ -154,13 +154,14 @@ public class HelicopterAgentTileCodedQ implements AgentInterface {
                          newQ[i]    = qTable.getMaxQValue(newStates[i]);
     	    }
     	    
-    	    Tile[] actions = new Tile[numStateTilings];
+    	    Tile[] actions = new Tile[numActionTilings];
             actionTileCoding.getTiles(actions, new TileCodedHelicopterAction(lastAction));
     	    
     	    for( int i=0; i<numStateTilings; i++ ) {
     	    	for(int j = 0; i < numActionTilings; i++){
     	    		double curQ  = qTable.getQValue(curStates[i], actions[j]);
-        	        double val   = curQ + (( alpha * (reward + (gamma*newQ[i]) - curQ)) / (double)numStateTilings);
+    	    		double val   = curQ + (( alpha * (reward + (gamma*newQ[i]) - curQ)) / (double)numStateTilings);
+    	    		
         	        qTable.put(curStates[i], actions[j], val, lastAction);   // commit the update to the Q table
         	        
     	    	}
