@@ -64,7 +64,7 @@ public class consoleTrainer {
                 totalSteps+=RLGlue.RL_num_steps();
                 //System.out.println("Episode: "+i+" steps: "+RLGlue.RL_num_steps());
             }
-            evaluationPoint evp = evaluateAgent(maxEpisodeLength, 10);
+            evaluationPoint evp = evaluateAgent(maxEpisodeLength, 50);
             printScore(j*episodeCount, evp);
             saveScore(false, j*episodeCount, evp);
         }
