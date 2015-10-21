@@ -2,15 +2,10 @@ package HSProject.helicopterAgentSARSADiscretised;
 
 
 
-import java.util.Random;
-
-import org.rlcommunity.rlglue.codec.AgentInterface;
-import org.rlcommunity.rlglue.codec.taskspec.TaskSpec;
 import org.rlcommunity.rlglue.codec.types.Action;
 import org.rlcommunity.rlglue.codec.types.Observation;
 import org.rlcommunity.rlglue.codec.util.AgentLoader;
 
-import HSProject.HelicopterQTable;
 import HSProject.helicopterAgentSARSA.HelicopterAgentSARSA;
 
 public class HelicopterAgentSARSADiscretised extends HelicopterAgentSARSA {
@@ -79,7 +74,7 @@ public class HelicopterAgentSARSADiscretised extends HelicopterAgentSARSA {
 	}
 	
 	@Override
-	protected Action randomAction(Observation o){
+	protected Action randomAction(){
 		Action a = new Action(0, 4);//fixed_policy(o);
 //		a.doubleArray[0] = Math.round(((randGenerator.nextDouble() * 2) - 1) * 10) / 10.0;
 //		a.doubleArray[1] = Math.round(((randGenerator.nextDouble() * 2) - 1) * 10) / 10.0;

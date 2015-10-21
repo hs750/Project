@@ -1,7 +1,6 @@
 package HSProject;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map.Entry;
 
 import org.rlcommunity.rlglue.codec.types.Action;
@@ -142,46 +141,6 @@ public class HelicopterQTable {
 				return false;
 			}
 
-		}
-	}
-
-	private class QKey {
-		Observation observation;
-		Action action;
-		
-		public QKey(Observation o, Action a) {
-			observation = new Observation(o);
-			action = new Action(a);
-		}
-
-		@Override
-		public int hashCode() {
-			double hash = 1;
-			for(int i = 0; i < observation.doubleArray.length; i++){
-				hash *= observation.doubleArray[i];
-			}
-			for(int i = 0; i < action.doubleArray.length; i++){
-				hash *= action.doubleArray[i];
-			}
-			
-			return (int) hash;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (obj instanceof QKey) {
-				QKey q = (QKey) obj;
-				boolean equal = true;
-				for(int i = 0; i < observation.doubleArray.length; i++){
-					equal = equal && (observation.doubleArray[i] == q.observation.doubleArray[i]);
-				}
-				for(int i = 0; i < action.doubleArray.length; i++){
-					equal = equal && (action.doubleArray[i] == q.action.doubleArray[i]);
-				}
-				return equal;
-			} else {
-				return false;
-			}
 		}
 	}
 }

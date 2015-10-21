@@ -74,7 +74,7 @@ public class HelicopterAgentQDiscretised extends HelicopterAgentQ {
 	}
 	
 	@Override
-	protected Action randomAction(Observation o){
+	protected Action randomAction(){
 		Action a = new Action(0, 4);//fixed_policy(o);
 //		a.doubleArray[0] = Math.round(((randGenerator.nextDouble() * 2) - 1) * 10) / 10.0;
 //		a.doubleArray[1] = Math.round(((randGenerator.nextDouble() * 2) - 1) * 10) / 10.0;

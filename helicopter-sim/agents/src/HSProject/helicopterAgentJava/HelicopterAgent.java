@@ -1,33 +1,11 @@
 package HSProject.helicopterAgentJava;
 
 
-/* Random Agent that works in all domains
-* Copyright (C) 2007, Brian Tanner brian@tannerpages.com (http://brian.tannerpages.com/)
-* 
-* This program is free software; you can redistribute it and/or
-* modify it under the terms of the GNU General Public License
-* as published by the Free Software Foundation; either version 2
-* of the License, or (at your option) any later version.
-* 
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU General Public License for more details.
-* 
-* You should have received a copy of the GNU General Public License
-* along with this program; if not, write to the Free Software
-* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA. */
-
-import java.util.Random;
-
-import org.rlcommunity.rlglue.codec.taskspec.TaskSpec;
-import org.rlcommunity.rlglue.codec.taskspec.ranges.IntRange;
-import org.rlcommunity.rlglue.codec.taskspec.ranges.DoubleRange;
 import org.rlcommunity.rlglue.codec.AgentInterface;
+import org.rlcommunity.rlglue.codec.taskspec.TaskSpec;
 import org.rlcommunity.rlglue.codec.types.Action;
 import org.rlcommunity.rlglue.codec.types.Observation;
 import org.rlcommunity.rlglue.codec.util.AgentLoader;
-import org.rlcommunity.rlglue.codec.taskspec.TaskSpecVRLGLUE3;
 
 public class HelicopterAgent implements AgentInterface {
 	private Action action;
@@ -35,6 +13,7 @@ public class HelicopterAgent implements AgentInterface {
 	TaskSpec TSO = null;
 
 	// Indices into observation_t.doubleArray...
+	@SuppressWarnings("unused")
 	private static int u_err = 0, // forward velocity
 			v_err = 1, // sideways velocity
 			w_err = 2, // downward velocity
