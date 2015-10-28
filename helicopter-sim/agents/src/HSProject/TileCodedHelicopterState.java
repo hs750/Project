@@ -10,12 +10,10 @@ public class TileCodedHelicopterState implements marl.ext.tilecoding.TileCodingS
 		this.o = new Observation(o);
 	}
 	
-	@Override
 	public void set(TileCodedHelicopterState state) {
 		RL_abstract_type.RLStructCopy(state.o, this.o);
 	}
 
-	@Override
 	public double getFeature(int i) {
 		return o.doubleArray[i];
 	}

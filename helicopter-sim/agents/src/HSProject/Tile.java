@@ -29,7 +29,6 @@ public class Tile
 		return value_;
 	}
 	
-    @Override
     public void set(Tile s)
     {
         value_ = s.value_;
