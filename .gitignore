@@ -1,5 +1,5 @@
 /bin/
 *.class
 *.log
-/helicopter-sim/system/
+/helicopter-sim/system/*
 *.DS_Store
