@@ -1,5 +1,6 @@
 /bin/
 *.class
 *.log
-/helicopter-sim/system/*
+/helicopter-sim/system/
+/Helicopter-Java-R1306/
 *.DS_Store
