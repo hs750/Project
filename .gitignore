@@ -2,3 +2,4 @@
 *.class
 *.log
 /helicopter-sim/system/
+*.DS_Store
