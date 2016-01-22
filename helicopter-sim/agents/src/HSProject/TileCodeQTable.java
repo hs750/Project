@@ -4,10 +4,8 @@ import java.util.HashMap;
 
 import org.rlcommunity.rlglue.codec.types.Action;
 
-import HSProject.Tile;
-
 public class TileCodeQTable {
-	HashMap<Tile, HashMap<Tile, ActionValue>> table = new HashMap<Tile, HashMap<Tile, ActionValue>>();
+	protected HashMap<Tile, HashMap<Tile, ActionValue>> table = new HashMap<Tile, HashMap<Tile, ActionValue>>();
 
 	private static double DEFAULT_Q_VAL = 0;
 	
@@ -69,6 +67,10 @@ public class TileCodeQTable {
 			}else{
 				this.actualAction = null;
 			}
+		}
+		
+		public void setValue(double value){
+			this.value = value;
 		}
 		
 		public double getValue() {
