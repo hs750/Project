@@ -59,7 +59,7 @@ public class HelicopterAgent implements AgentInterface {
 	}
 
 	public Action agent_step(double reward, Observation o) {
-		System.out.println(reward);
+		//System.out.println(reward);
 		agent_policy(o, action);
 		return action;
 	}

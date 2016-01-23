@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import org.rlcommunity.rlglue.codec.types.Action;
 
-public class TileCodeQTable {
+public class TileCodeQTable implements TileCodeQTableInterface{
 	protected HashMap<Tile, HashMap<Tile, ActionValue>> table = new HashMap<Tile, HashMap<Tile, ActionValue>>();
 
 	private static double DEFAULT_Q_VAL = 0;
@@ -20,17 +20,17 @@ public class TileCodeQTable {
 		}
 		ActionValue av = actionValues.get(action);
 		if(av != null){
-			return av.value;
+			return av.getValue();
 		}
 		return DEFAULT_Q_VAL;
 	}
 	
 	public double getMaxQValue(Tile state){
 		ActionValue maxAV = getMaxAction(state);
-		if(maxAV.actualAction == null){
+		if(maxAV.getAction() == null){
 			return DEFAULT_Q_VAL;
 		}
-		return maxAV.value;
+		return maxAV.getValue();
 	}
 	
 	public ActionValue getMaxAction(Tile state){
@@ -40,7 +40,7 @@ public class TileCodeQTable {
 		}
 		ActionValue maxAV = new ActionValue(-Double.MAX_VALUE, null);;
 		for(ActionValue av : actionValues.values()){
-			if(av.value > maxAV.value){
+			if(av.getValue() > maxAV.getValue()){
 				maxAV = av;
 			}
 		}
@@ -55,32 +55,6 @@ public class TileCodeQTable {
 		}
 		av.put(action, new ActionValue(value, actualAction));
 		table.put(state, av);
-	}
-	
-	public class ActionValue{
-		private double value;
-		private Action actualAction;
-		public ActionValue(double value, Action actualAction) {
-			this.value = value;
-			if(actualAction != null){
-				this.actualAction = new Action(actualAction);
-			}else{
-				this.actualAction = null;
-			}
-		}
-		
-		public void setValue(double value){
-			this.value = value;
-		}
-		
-		public double getValue() {
-			return value;
-		}
-		
-		public Action getAction() {
-			return actualAction;
-		}
-		
 	}
 	
 }

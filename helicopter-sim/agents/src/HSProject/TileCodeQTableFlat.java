@@ -7,7 +7,7 @@ import org.rlcommunity.rlglue.codec.types.Action;
 
 import HSProject.Tile;
 
-public class TileCodeQTableFlat {
+public class TileCodeQTableFlat implements TileCodeQTableInterface{
 	private HashMap<Tile, HashSet<Tile>> actionsForStates;
 	private HashMap<QKey, ActionValue> qTable;
 
@@ -22,7 +22,7 @@ public class TileCodeQTableFlat {
 		QKey qk = new QKey(state, action);
 		ActionValue av = qTable.get(qk);
 		if(av != null){
-			return av.value;
+			return av.getValue();
 		}
 		return DEFAULT_Q_VAL;
 	}
@@ -30,10 +30,10 @@ public class TileCodeQTableFlat {
 	public double getMaxQValue(Tile state){
 		ActionValue maxAV = getMaxAction(state);
 		
-		if(maxAV.actualAction == null){
+		if(maxAV.getAction() == null){
 			return DEFAULT_Q_VAL;
 		}
-		return maxAV.value;
+		return maxAV.getValue();
 	}
 	
 	public ActionValue getMaxAction(Tile state){
@@ -46,7 +46,7 @@ public class TileCodeQTableFlat {
 			QKey qk = new QKey(state, action);
 			ActionValue av = qTable.get(qk);
 			if(av != null){
-				if(av.value > maxAV.value){
+				if(av.getValue() > maxAV.getValue()){
 					maxAV = av;
 				}
 			}
@@ -66,28 +66,6 @@ public class TileCodeQTableFlat {
 		}
 		actions.add(action);
 		actionsForStates.put(state, actions);
-	}
-	
-	public class ActionValue{
-		private double value;
-		private Action actualAction;
-		public ActionValue(double value, Action actualAction) {
-			this.value = value;
-			if(actualAction != null){
-				this.actualAction = new Action(actualAction);
-			}else{
-				this.actualAction = null;
-			}
-		}
-		
-		public double getValue() {
-			return value;
-		}
-		
-		public Action getAction() {
-			return actualAction;
-		}
-		
 	}
 	
 	private class QKey {
