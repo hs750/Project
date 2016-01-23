@@ -12,6 +12,7 @@ import org.rlcommunity.rlglue.codec.types.Observation;
 import org.rlcommunity.rlglue.codec.util.AgentLoader;
 
 import HSProject.TileCodeQTable;
+import HSProject.TileCodeQTableInterface;
 import HSProject.TileCodeQTableInterface.ActionValue;
 import HSProject.TileCodedHelicopterAction;
 import HSProject.TileCodedHelicopterState;
@@ -20,7 +21,7 @@ import HSProject.Tile;
 
 @SuppressWarnings("unused")
 public class HelicopterAgentTileCodedSARSA implements AgentInterface {
-	private TileCodeQTable qTable;
+	private TileCodeQTableInterface qTable;
 	private TileCoding stateTileCoding;
 	private TileCoding actionTileCoding;
 	
