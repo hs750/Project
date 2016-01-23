@@ -14,8 +14,8 @@ public class TileCodeQTableFlat implements TileCodeQTableInterface{
 	private static double DEFAULT_Q_VAL = 0;
 	
 	public TileCodeQTableFlat() {
-		actionsForStates = new HashMap<Tile, HashSet<Tile>>();
-		qTable = new HashMap<QKey, ActionValue>();
+		actionsForStates = new HashMap<Tile, HashSet<Tile>>(1000000);
+		qTable = new HashMap<QKey, ActionValue>(1000000);
 	}
 	
 	public double getQValue(Tile state, Tile action){
@@ -61,11 +61,17 @@ public class TileCodeQTableFlat implements TileCodeQTableInterface{
 		ActionValue av = new ActionValue(value, actualAction);
 		qTable.put(qk, av);
 		HashSet<Tile> actions = actionsForStates.get(state);
+		
+		boolean newAction = false;
 		if(actions == null){
 			actions = new HashSet<Tile>();
+			newAction = true;
 		}
 		actions.add(action);
-		actionsForStates.put(state, actions);
+		
+		if(newAction){
+			actionsForStates.put(state, actions);//only need to put the new actions if it is new, otherwise the byref nature means it is already in.
+		}
 	}
 	
 	private class QKey {

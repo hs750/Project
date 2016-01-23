@@ -51,7 +51,7 @@ public class TileCoding
 	    nTiles_        = numTiles;
 	    nFeatures_     = numFeatures;
 	    nTilings_      = numTilings;
-	    memorySize_    = (long) Math.pow(nTiles_, nFeatures_) * nTilings_;
+	    memorySize_    = Math.round(Math.pow(nTiles_, nFeatures_) * nTilings_);
 
         minimumValues_ = new double[nFeatures_];
 	    tileSpacings_  = new double[nFeatures_];
