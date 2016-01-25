@@ -5,7 +5,7 @@ import java.util.HashMap;
 import org.rlcommunity.rlglue.codec.types.Action;
 
 public class TileCodeQTable implements TileCodeQTableInterface{
-	protected HashMap<Tile, HashMap<Tile, ActionValue>> table = new HashMap<Tile, HashMap<Tile, ActionValue>>();
+	protected HashMap<Tile, HashMap<Tile, ActionValue>> table = new HashMap<Tile, HashMap<Tile, ActionValue>>(1000000);
 
 	private static double DEFAULT_Q_VAL = 0;
 	
@@ -51,7 +51,7 @@ public class TileCodeQTable implements TileCodeQTableInterface{
 	public void put(Tile state, Tile action, double value, Action actualAction){
 		HashMap<Tile, ActionValue> av = table.get(state);
 		if(av == null){
-			av = new HashMap<Tile, ActionValue>();
+			av = new HashMap<Tile, ActionValue>(1000);
 		}
 		av.put(action, new ActionValue(value, actualAction));
 		table.put(state, av);

@@ -25,6 +25,11 @@ public interface TileCodeQTableInterface {
 			}
 		}
 		
+		public void update(double value, Action action){
+			this.value = value;
+			this.actualAction = action;
+		}
+		
 		public void setValue(double value){
 			this.value = value;
 		}
