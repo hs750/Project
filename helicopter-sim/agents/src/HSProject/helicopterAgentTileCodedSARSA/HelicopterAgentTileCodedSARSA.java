@@ -12,6 +12,7 @@ import org.rlcommunity.rlglue.codec.types.Observation;
 import org.rlcommunity.rlglue.codec.util.AgentLoader;
 
 import HSProject.TileCodeQTable;
+import HSProject.TileCodeQTableFlat;
 import HSProject.TileCodeQTableInterface;
 import HSProject.TileCodeQTableInterface.ActionValue;
 import HSProject.TileCodedHelicopterAction;
