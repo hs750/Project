@@ -1,24 +1,27 @@
 package HSProject;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import org.rlcommunity.rlglue.codec.types.Action;
 
+import net.openhft.koloboke.collect.map.hash.HashIntObjMaps;
+
 public class TileCodeQTable implements TileCodeQTableInterface{
-	protected HashMap<Tile, HashMap<Tile, ActionValue>> table = new HashMap<Tile, HashMap<Tile, ActionValue>>(1000000);
+	protected Map<Integer, Map<Integer, ActionValue>> table;
 
 	private static double DEFAULT_Q_VAL = 0;
 	
 	public TileCodeQTable() {
 		// TODO Auto-generated constructor stub
+		table = HashIntObjMaps.<Map<Integer, ActionValue>>newUpdatableMap();
 	}
 	
 	public double getQValue(Tile state, Tile action){
-		HashMap<Tile, ActionValue> actionValues = table.get(state);
+		Map<Integer, ActionValue> actionValues = table.get(state.value_);
 		if(actionValues == null){
-			actionValues = new HashMap<Tile, ActionValue>();
+			actionValues = HashIntObjMaps.<ActionValue>newUpdatableMap();
 		}
-		ActionValue av = actionValues.get(action);
+		ActionValue av = actionValues.get(action.value_);
 		if(av != null){
 			return av.getValue();
 		}
@@ -34,9 +37,9 @@ public class TileCodeQTable implements TileCodeQTableInterface{
 	}
 	
 	public ActionValue getMaxAction(Tile state){
-		HashMap<Tile, ActionValue> actionValues = table.get(state);
+		Map<Integer, ActionValue> actionValues = table.get(state.value_);
 		if(actionValues == null){
-			actionValues = new HashMap<Tile, ActionValue>();
+			actionValues = HashIntObjMaps.<ActionValue>newUpdatableMap();
 		}
 		ActionValue maxAV = new ActionValue(-Double.MAX_VALUE, null);;
 		for(ActionValue av : actionValues.values()){
@@ -49,12 +52,12 @@ public class TileCodeQTable implements TileCodeQTableInterface{
 	
 	
 	public void put(Tile state, Tile action, double value, Action actualAction){
-		HashMap<Tile, ActionValue> av = table.get(state);
+		Map<Integer, ActionValue> av = table.get(state.value_);
 		if(av == null){
-			av = new HashMap<Tile, ActionValue>(1000);
+			av = HashIntObjMaps.<ActionValue>newUpdatableMap();
 		}
-		av.put(action, new ActionValue(value, actualAction));
-		table.put(state, av);
+		av.put(action.value_, new ActionValue(value, actualAction));
+		table.put(state.value_, av);
 	}
 	
 }
