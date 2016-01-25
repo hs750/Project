@@ -84,15 +84,16 @@ public class TileCodeQTableFlat implements TileCodeQTableInterface{
 	private class QKey {
 		Tile observation;
 		Tile action;
-		
+		int hash;
 		public QKey(Tile o, Tile a) {
 			observation = o;
 			action = a;
+			hash = observation.hashCode() * action.hashCode();
 		}
 
 		@Override
 		public int hashCode() {
-			return observation.hashCode() * action.hashCode();
+			return hash;
 		}
 
 		@Override
