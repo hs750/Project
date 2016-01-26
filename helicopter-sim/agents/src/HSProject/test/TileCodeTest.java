@@ -9,9 +9,9 @@ import java.util.Random;
 import org.junit.Test;
 import org.rlcommunity.rlglue.codec.types.Observation;
 
-import HSProject.Tile;
-import HSProject.TileCodedHelicopterState;
-import HSProject.TileCoding;
+import HSProject.tileCoded.tilings.Tile;
+import HSProject.tileCoded.tilings.TileCodedHelicopterState;
+import HSProject.tileCoded.tilings.TileCoding;
 
 public class TileCodeTest {
 
