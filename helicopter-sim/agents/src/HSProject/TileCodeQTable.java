@@ -19,13 +19,14 @@ public class TileCodeQTable implements TileCodeQTableInterface{
 	public double getQValue(Tile state, Tile action){
 		Map<Integer, ActionValue> actionValues = table.get(state.value_);
 		if(actionValues == null){
-			actionValues = HashIntObjMaps.<ActionValue>newUpdatableMap();
+			return DEFAULT_Q_VAL;
 		}
 		ActionValue av = actionValues.get(action.value_);
 		if(av != null){
 			return av.getValue();
 		}
 		return DEFAULT_Q_VAL;
+		
 	}
 	
 	public double getMaxQValue(Tile state){
@@ -38,10 +39,11 @@ public class TileCodeQTable implements TileCodeQTableInterface{
 	
 	public ActionValue getMaxAction(Tile state){
 		Map<Integer, ActionValue> actionValues = table.get(state.value_);
+		ActionValue maxAV = new ActionValue(-Double.MAX_VALUE, null);
 		if(actionValues == null){
-			actionValues = HashIntObjMaps.<ActionValue>newUpdatableMap();
+			return maxAV;
 		}
-		ActionValue maxAV = new ActionValue(-Double.MAX_VALUE, null);;
+		
 		for(ActionValue av : actionValues.values()){
 			if(av.getValue() > maxAV.getValue()){
 				maxAV = av;
