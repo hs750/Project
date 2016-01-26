@@ -1,7 +1,6 @@
 package HSProject.tileCoded.helicopterAgentTileCodedEligibilitySARSA;
 
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.rlcommunity.rlglue.codec.types.Action;
 
@@ -32,19 +31,17 @@ public class EligibilityQTable extends TileCodeQTable {
 		double q = getQValue(state, action);
 		put(state, action, q + alpha * delta * getEligibilityValue(state.hashCode(), action.hashCode()), lastAction);
 		
-		for (Entry<Integer, Map<Integer, ActionValue>> states : table.entrySet()){
-			for (Entry<Integer, ActionValue> actions : states.getValue().entrySet()){
-				double curElig = getEligibilityValue(states.getKey(), actions.getKey());
+		table.forEach((s,actions)->{
+			actions.forEach((a, value)->{
+				double curElig = getEligibilityValue(s, a);
 				
-				if(!state.equals(states.getKey()) && !action.equals(actions.getKey())){
-					double curQValue = actions.getValue().getValue();
-					actions.getValue().setValue(curQValue + alpha * delta * curElig);
+				if(!state.equals(s) && !action.equals(a)){
+					double curQValue = value.getValue();
+					value.setValue(curQValue + alpha * delta * curElig);
 				}
-				putEligibilityValue(states.getKey(), actions.getKey(), gamma * lambda * curElig);
-				
-			}
-		}
-		
+				putEligibilityValue(s, a, gamma * lambda * curElig);
+			});
+		});
 	}
 	
 	private double getEligibilityValue(Integer state, Integer action){
