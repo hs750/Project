@@ -1,4 +1,4 @@
-package HSProject;
+package HSProject.tileCoded.tilings;
 
 import org.rlcommunity.rlglue.codec.types.Observation;
 import org.rlcommunity.rlglue.codec.types.RL_abstract_type;

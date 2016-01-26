@@ -1,4 +1,4 @@
-package HSProject;
+package HSProject.tileCoded.tilings;
 
 import java.util.Map;
 
@@ -21,9 +21,15 @@ public class TileCodeQTable implements TileCodeQTableInterface{
 		if(actionValues == null){
 			return DEFAULT_Q_VAL;
 		}
-		ActionValue av = actionValues.get(action.value_);
+		ActionValue av = null;
+		try{
+		av = actionValues.get(action.value_);
+		
 		if(av != null){
 			return av.getValue();
+		}
+		}catch(Exception e){
+			int x = 1;
 		}
 		return DEFAULT_Q_VAL;
 		

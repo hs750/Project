@@ -1,4 +1,4 @@
-package HSProject;
+package HSProject.tileCoded.tilings;
 
 import java.util.Map;
 import java.util.Set;

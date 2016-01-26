@@ -1,4 +1,4 @@
-package HSProject;
+package HSProject.tileCoded.tilings;
 
 import org.rlcommunity.rlglue.codec.types.Action;
 

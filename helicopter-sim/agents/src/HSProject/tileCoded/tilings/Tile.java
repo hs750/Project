@@ -1,4 +1,4 @@
-package HSProject;
+package HSProject.tileCoded.tilings;
 
 import marl.environments.State;
 

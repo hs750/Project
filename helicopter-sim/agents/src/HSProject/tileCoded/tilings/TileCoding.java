@@ -1,6 +1,6 @@
-package HSProject;
+package HSProject.tileCoded.tilings;
 
-import HSProject.Tile;
+import HSProject.tileCoded.tilings.Tile;
 import marl.ext.tilecoding.TileCodingState;
 import marl.utility.Rand;
 
