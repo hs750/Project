@@ -12,7 +12,6 @@ import org.rlcommunity.rlglue.codec.types.Observation;
 import org.rlcommunity.rlglue.codec.util.AgentLoader;
 
 import HSProject.tileCoded.TileCodedAgentSARSA;
-import HSProject.tileCoded.helicopterAgentTileCodedSARSA.HelicopterAgentTileCodedSARSA;
 import HSProject.tileCoded.tilings.Tile;
 import HSProject.tileCoded.tilings.TileCodeQTable;
 import HSProject.tileCoded.tilings.TileCodeQTableFlat;
