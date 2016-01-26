@@ -1,21 +1,23 @@
 package HSProject;
 
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import org.rlcommunity.rlglue.codec.types.Action;
 
-import HSProject.Tile;
+import net.openhft.koloboke.collect.map.hash.HashIntObjMaps;
+import net.openhft.koloboke.collect.map.hash.HashObjObjMaps;
+import net.openhft.koloboke.collect.set.hash.HashIntSets;
 
 public class TileCodeQTableFlat implements TileCodeQTableInterface{
-	private HashMap<Tile, HashSet<Tile>> actionsForStates;
-	private HashMap<QKey, ActionValue> qTable;
+	private Map<Integer, Set<Integer>> actionsForStates;
+	private Map<QKey, ActionValue> qTable;
 
 	private static double DEFAULT_Q_VAL = 0;
 	
 	public TileCodeQTableFlat() {
-		actionsForStates = new HashMap<Tile, HashSet<Tile>>(1000000);
-		qTable = new HashMap<QKey, ActionValue>(10000000);
+		actionsForStates = HashIntObjMaps.<Set<Integer>>newUpdatableMap();
+		qTable = HashObjObjMaps.<QKey, ActionValue>newUpdatableMap();
 	}
 	
 	public double getQValue(Tile state, Tile action){
@@ -38,12 +40,12 @@ public class TileCodeQTableFlat implements TileCodeQTableInterface{
 	
 	public ActionValue getMaxAction(Tile state){
 		ActionValue maxAV = new ActionValue(-Double.MAX_VALUE, null);
-		HashSet<Tile> actions = actionsForStates.get(state);
+		Set<Integer> actions = actionsForStates.get(state.value_);
 		if(actions == null){
-			actions = new HashSet<Tile>();
+			actions = HashIntSets.newUpdatableSet();
 		}
-		for(Tile action : actions){
-			QKey qk = new QKey(state, action);
+		for(Integer action : actions){
+			QKey qk = new QKey(state, new Tile(action));
 			ActionValue av = qTable.get(qk);
 			if(av != null){
 				if(av.getValue() > maxAV.getValue()){
@@ -66,17 +68,17 @@ public class TileCodeQTableFlat implements TileCodeQTableInterface{
 			qTable.put(qk, av);
 		}
 		
-		HashSet<Tile> actions = actionsForStates.get(state);
+		Set<Integer> actions = actionsForStates.get(state.value_);
 		
 		boolean newAction = false;
 		if(actions == null){
-			actions = new HashSet<Tile>();
+			actions = HashIntSets.newUpdatableSet();
 			newAction = true;
 		}
-		actions.add(action);
+		actions.add(action.value_);
 		
 		if(newAction){
-			actionsForStates.put(state, actions);//only need to put the new actions if it is new, otherwise the byref nature means it is already in.
+			actionsForStates.put(state.value_, actions);//only need to put the new actions if it is new, otherwise the byref nature means it is already in.
 		}
 		//System.out.println(actionsForStates.size() + " " + qTable.size() + " " + actions.size());
 	}
