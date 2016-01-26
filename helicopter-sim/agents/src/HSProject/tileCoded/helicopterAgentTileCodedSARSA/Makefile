@@ -1,8 +1,8 @@
-RLVizPath = ../../system/libraries/rl-viz
+include ../Makefile.classPath
 
 all:
-	javac -source 8 -d ../../../bin/HelicopterAgentTileCodedSARSA -cp $(RLVizPath)/RLVizLib.jar -cp ../../../../../YORLL.jar HelicopterAgentTileCodedSARSA.java ../TileCodedHelicopterState.java ../TileCodedHelicopterAction.java ../TileCodeQTableInterface.java ../TileCodeQTableFlat.java ../TileCodeQTable.java ../Tile.java ../TileCoding.java
+	javac -source 8 -d ../../../../bin/HelicopterAgentTileCodedSARSA -cp $(classPath) HelicopterAgentTileCodedSARSA.java
 
 
 clean:
-	rm -Rf ../../../bin/HelicopterAgentTileCodedSARSA/*
+	rm -Rf ../../../../bin/HelicopterAgentTileCodedSARSA/*
