@@ -11,12 +11,12 @@ import org.rlcommunity.rlglue.codec.types.Action;
 import org.rlcommunity.rlglue.codec.types.Observation;
 import org.rlcommunity.rlglue.codec.util.AgentLoader;
 
-import HSProject.Tile;
-import HSProject.TileCodeQTable;
-import HSProject.TileCodeQTableInterface.ActionValue;
-import HSProject.TileCodedHelicopterAction;
-import HSProject.TileCodedHelicopterState;
-import HSProject.TileCoding;
+import HSProject.tileCoded.tilings.Tile;
+import HSProject.tileCoded.tilings.TileCodeQTable;
+import HSProject.tileCoded.tilings.TileCodedHelicopterAction;
+import HSProject.tileCoded.tilings.TileCodedHelicopterState;
+import HSProject.tileCoded.tilings.TileCoding;
+import HSProject.tileCoded.tilings.TileCodeQTableInterface.ActionValue;
 
 public class HelicopterAgentHierarchicalTileCodedQ implements AgentInterface {
 	private TileCodeQTable u_qTable;
