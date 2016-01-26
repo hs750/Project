@@ -1,22 +1,19 @@
 package HSProject.tileCoded;
 
-import java.util.HashMap;
 import java.util.Random;
 
 import org.rlcommunity.rlglue.codec.AgentInterface;
 import org.rlcommunity.rlglue.codec.taskspec.TaskSpec;
 import org.rlcommunity.rlglue.codec.types.Action;
 import org.rlcommunity.rlglue.codec.types.Observation;
-import org.rlcommunity.rlglue.codec.util.AgentLoader;
 
 import HSProject.tileCoded.tilings.Tile;
 import HSProject.tileCoded.tilings.TileCodeQTable;
-import HSProject.tileCoded.tilings.TileCodeQTableFlat;
 import HSProject.tileCoded.tilings.TileCodeQTableInterface;
+import HSProject.tileCoded.tilings.TileCodeQTableInterface.ActionValue;
 import HSProject.tileCoded.tilings.TileCodedHelicopterAction;
 import HSProject.tileCoded.tilings.TileCodedHelicopterState;
 import HSProject.tileCoded.tilings.TileCoding;
-import HSProject.tileCoded.tilings.TileCodeQTableInterface.ActionValue;
 
 @SuppressWarnings("unused")
 public abstract class TileCodedAgent implements AgentInterface {

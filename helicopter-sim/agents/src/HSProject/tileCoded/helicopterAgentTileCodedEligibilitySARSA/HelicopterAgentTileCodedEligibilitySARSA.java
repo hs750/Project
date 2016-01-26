@@ -2,7 +2,6 @@ package HSProject.tileCoded.helicopterAgentTileCodedEligibilitySARSA;
 
 
 
-import java.util.HashMap;
 import java.util.Random;
 
 import org.rlcommunity.rlglue.codec.AgentInterface;
@@ -12,11 +11,10 @@ import org.rlcommunity.rlglue.codec.types.Observation;
 import org.rlcommunity.rlglue.codec.util.AgentLoader;
 
 import HSProject.tileCoded.tilings.Tile;
-import HSProject.tileCoded.tilings.TileCodeQTable;
+import HSProject.tileCoded.tilings.TileCodeQTableInterface.ActionValue;
 import HSProject.tileCoded.tilings.TileCodedHelicopterAction;
 import HSProject.tileCoded.tilings.TileCodedHelicopterState;
 import HSProject.tileCoded.tilings.TileCoding;
-import HSProject.tileCoded.tilings.TileCodeQTableInterface.ActionValue;
 
 @SuppressWarnings("unused")
 public class HelicopterAgentTileCodedEligibilitySARSA implements AgentInterface {

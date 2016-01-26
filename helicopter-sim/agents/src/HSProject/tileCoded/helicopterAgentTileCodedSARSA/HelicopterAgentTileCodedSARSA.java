@@ -2,26 +2,10 @@ package HSProject.tileCoded.helicopterAgentTileCodedSARSA;
 
 
 
-import java.util.HashMap;
-import java.util.Random;
-
-import org.rlcommunity.rlglue.codec.AgentInterface;
-import org.rlcommunity.rlglue.codec.taskspec.TaskSpec;
-import org.rlcommunity.rlglue.codec.types.Action;
-import org.rlcommunity.rlglue.codec.types.Observation;
 import org.rlcommunity.rlglue.codec.util.AgentLoader;
 
 import HSProject.tileCoded.TileCodedAgentSARSA;
-import HSProject.tileCoded.tilings.Tile;
-import HSProject.tileCoded.tilings.TileCodeQTable;
-import HSProject.tileCoded.tilings.TileCodeQTableFlat;
-import HSProject.tileCoded.tilings.TileCodeQTableInterface;
-import HSProject.tileCoded.tilings.TileCodedHelicopterAction;
-import HSProject.tileCoded.tilings.TileCodedHelicopterState;
-import HSProject.tileCoded.tilings.TileCoding;
-import HSProject.tileCoded.tilings.TileCodeQTableInterface.ActionValue;
 
-@SuppressWarnings("unused")
 public class HelicopterAgentTileCodedSARSA extends TileCodedAgentSARSA {
 	private static double alpha = 0.1;
 	private static double gamma = 1;
