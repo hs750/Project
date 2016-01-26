@@ -1,7 +1,7 @@
 RLVizPath = ../../system/libraries/rl-viz
 
 all:
-	javac -source 5 -d ../../../bin/HelicopterAgentHierarchicalTileCodedQ -cp $(RLVizPath)/RLVizLib.jar -cp ../../../../../YORLL.jar HelicopterAgentHierarchicalTileCodedQ.java ../TileCodedHelicopterState.java ../TileCodedHelicopterAction.java ../TileCodeQTable.java ../Tile.java ../TileCoding.java
+	javac -source 8 -d ../../../bin/HelicopterAgentHierarchicalTileCodedQ -cp $(RLVizPath)/RLVizLib.jar -cp ../../../../../YORLL.jar HelicopterAgentHierarchicalTileCodedQ.java ../TileCodedHelicopterState.java ../TileCodedHelicopterAction.java ../TileCodeQTable.java ../Tile.java ../TileCoding.java
 
 
 clean:

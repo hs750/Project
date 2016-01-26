@@ -1,7 +1,7 @@
 RLVizPath = ../../system/libraries/rl-viz
 
 all:
-	javac -source 5 -d ../../../bin/HelicopterAgentQ -cp $(RLVizPath)/RLVizLib.jar HelicopterAgentQ.java ../HelicopterQTable.java
+	javac -source 8 -d ../../../bin/HelicopterAgentQ -cp $(RLVizPath)/RLVizLib.jar HelicopterAgentQ.java ../HelicopterQTable.java
 
 
 clean:
