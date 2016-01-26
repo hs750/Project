@@ -52,12 +52,16 @@ public abstract class TileCodedAgent implements AgentInterface {
 							// rotation around that axis
 			qz_err = 11; // [recall: any rotation can be represented by a single
 							// rotation around some axis]
-
+	
 	public TileCodedAgent(double alpha, double gamma) {
 		this.alpha = alpha;
 		this.gamma = gamma;
 
 		qTable = new TileCodeQTable();
+	}
+	
+	protected void setQTable(TileCodeQTableInterface qTable){
+		this.qTable = qTable;
 	}
 
 	protected void initialiseStateTiling(int numStateVariables, double[] statesMin, double[] statesMax, int numTiles,

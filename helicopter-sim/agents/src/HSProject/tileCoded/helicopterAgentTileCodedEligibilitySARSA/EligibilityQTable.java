@@ -45,7 +45,6 @@ public class EligibilityQTable extends TileCodeQTable {
 			}
 		}
 		
-		
 	}
 	
 	private double getEligibilityValue(Integer state, Integer action){
