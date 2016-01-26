@@ -6,66 +6,60 @@ import org.rlcommunity.rlglue.codec.types.Action;
 
 import net.openhft.koloboke.collect.map.hash.HashIntObjMaps;
 
-public class TileCodeQTable implements TileCodeQTableInterface{
+public class TileCodeQTable implements TileCodeQTableInterface {
 	protected Map<Integer, Map<Integer, ActionValue>> table;
 
 	private static double DEFAULT_Q_VAL = 0;
-	
+
 	public TileCodeQTable() {
 		// TODO Auto-generated constructor stub
-		table = HashIntObjMaps.<Map<Integer, ActionValue>>newUpdatableMap();
+		table = HashIntObjMaps.<Map<Integer, ActionValue>> newUpdatableMap();
 	}
-	
-	public double getQValue(Tile state, Tile action){
+
+	public double getQValue(Tile state, Tile action) {
 		Map<Integer, ActionValue> actionValues = table.get(state.value_);
-		if(actionValues == null){
+		if (actionValues == null) {
 			return DEFAULT_Q_VAL;
 		}
-		ActionValue av = null;
-		try{
-		av = actionValues.get(action.value_);
-		
-		if(av != null){
+		ActionValue av = actionValues.get(action.value_);
+
+		if (av != null) {
 			return av.getValue();
 		}
-		}catch(Exception e){
-			int x = 1;
-		}
 		return DEFAULT_Q_VAL;
-		
+
 	}
-	
-	public double getMaxQValue(Tile state){
+
+	public double getMaxQValue(Tile state) {
 		ActionValue maxAV = getMaxAction(state);
-		if(maxAV.getAction() == null){
+		if (maxAV.getAction() == null) {
 			return DEFAULT_Q_VAL;
 		}
 		return maxAV.getValue();
 	}
-	
-	public ActionValue getMaxAction(Tile state){
+
+	public ActionValue getMaxAction(Tile state) {
 		Map<Integer, ActionValue> actionValues = table.get(state.value_);
 		ActionValue maxAV = new ActionValue(-Double.MAX_VALUE, null);
-		if(actionValues == null){
+		if (actionValues == null) {
 			return maxAV;
 		}
-		
-		for(ActionValue av : actionValues.values()){
-			if(av.getValue() > maxAV.getValue()){
+
+		for (ActionValue av : actionValues.values()) {
+			if (av.getValue() > maxAV.getValue()) {
 				maxAV = av;
 			}
 		}
 		return maxAV;
 	}
-	
-	
-	public void put(Tile state, Tile action, double value, Action actualAction){
+
+	public void put(Tile state, Tile action, double value, Action actualAction) {
 		Map<Integer, ActionValue> av = table.get(state.value_);
-		if(av == null){
-			av = HashIntObjMaps.<ActionValue>newUpdatableMap();
+		if (av == null) {
+			av = HashIntObjMaps.<ActionValue> newUpdatableMap();
 		}
 		av.put(action.value_, new ActionValue(value, actualAction));
 		table.put(state.value_, av);
 	}
-	
+
 }
