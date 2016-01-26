@@ -11,17 +11,17 @@ import net.openhft.koloboke.collect.set.hash.HashIntSets;
 
 public class TileCodeQTableFlat implements TileCodeQTableInterface{
 	private Map<Integer, Set<Integer>> actionsForStates;
-	private Map<QKey, ActionValue> qTable;
+	private Map<StateActionPair, ActionValue> qTable;
 
 	private static double DEFAULT_Q_VAL = 0;
 	
 	public TileCodeQTableFlat() {
 		actionsForStates = HashIntObjMaps.<Set<Integer>>newUpdatableMap();
-		qTable = HashObjObjMaps.<QKey, ActionValue>newUpdatableMap();
+		qTable = HashObjObjMaps.<StateActionPair, ActionValue>newUpdatableMap();
 	}
 	
 	public double getQValue(Tile state, Tile action){
-		QKey qk = new QKey(state, action);
+		StateActionPair qk = new StateActionPair(state, action);
 		ActionValue av = qTable.get(qk);
 		if(av != null){
 			return av.getValue();
@@ -45,7 +45,7 @@ public class TileCodeQTableFlat implements TileCodeQTableInterface{
 			actions = HashIntSets.newUpdatableSet();
 		}
 		for(Integer action : actions){
-			QKey qk = new QKey(state, new Tile(action));
+			StateActionPair qk = new StateActionPair(state, new Tile(action));
 			ActionValue av = qTable.get(qk);
 			if(av != null){
 				if(av.getValue() > maxAV.getValue()){
@@ -59,7 +59,7 @@ public class TileCodeQTableFlat implements TileCodeQTableInterface{
 	
 	
 	public void put(Tile state, Tile action, double value, Action actualAction){
-		QKey qk = new QKey(state, action);
+		StateActionPair qk = new StateActionPair(state, action);
 		ActionValue av = qTable.get(qk);
 		if(av != null){
 			av.update(value, actualAction);
@@ -81,32 +81,6 @@ public class TileCodeQTableFlat implements TileCodeQTableInterface{
 			actionsForStates.put(state.value_, actions);//only need to put the new actions if it is new, otherwise the byref nature means it is already in.
 		}
 		//System.out.println(actionsForStates.size() + " " + qTable.size() + " " + actions.size());
-	}
-	
-	private class QKey {
-		Tile observation;
-		Tile action;
-		int hash;
-		public QKey(Tile o, Tile a) {
-			observation = o;
-			action = a;
-			hash = observation.hashCode() * action.hashCode();
-		}
-
-		@Override
-		public int hashCode() {
-			return hash;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (obj instanceof QKey) {
-				QKey qk = (QKey) obj;
-				return this.observation.equals(qk.observation) && this.action.equals(qk.action);
-			} else {
-				return false;
-			}
-		}
 	}
 	
 }
