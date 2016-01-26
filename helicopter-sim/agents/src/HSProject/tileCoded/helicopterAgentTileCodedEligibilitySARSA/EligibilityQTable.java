@@ -1,6 +1,7 @@
 package HSProject.tileCoded.helicopterAgentTileCodedEligibilitySARSA;
 
 import java.util.Map;
+import java.util.Set;
 
 import org.rlcommunity.rlglue.codec.types.Action;
 
@@ -8,9 +9,12 @@ import HSProject.tileCoded.tilings.Tile;
 import HSProject.tileCoded.tilings.TileCodeQTable;
 import net.openhft.koloboke.collect.map.hash.HashIntDoubleMaps;
 import net.openhft.koloboke.collect.map.hash.HashIntObjMaps;
+import net.openhft.koloboke.collect.set.hash.HashObjSets;
+import HSProject.tileCoded.tilings.StateActionPair;
 
 public class EligibilityQTable extends TileCodeQTable {
 	Map<Integer, Map<Integer, Double>> eligibilityTable;
+	Set<StateActionPair> state_actions;
 	
 	double alpha;
 	double gamma;
@@ -18,6 +22,7 @@ public class EligibilityQTable extends TileCodeQTable {
 	
 	public EligibilityQTable(double alpha, double gamma, double lambda) {
 		eligibilityTable = HashIntObjMaps.<Map<Integer, Double>>newUpdatableMap();
+		state_actions = HashObjSets.<StateActionPair>newUpdatableSet();
 		
 		this.alpha = alpha;
 		this.gamma = gamma;
@@ -25,23 +30,33 @@ public class EligibilityQTable extends TileCodeQTable {
 	}
 	
 	public void eligibilityUpdate(Tile state, Tile action, double delta, Action lastAction){
+		StateActionPair stateAction = new StateActionPair(state, action);
+		state_actions.add(stateAction);
+		
 		double oldElig = getEligibilityValue(state.hashCode(), action.hashCode());
 		putEligibilityValue(state.hashCode(), action.hashCode(), oldElig + 1);
 		
-		double q = getQValue(state, action);
-		put(state, action, q + alpha * delta * getEligibilityValue(state.hashCode(), action.hashCode()), lastAction);
 		
-		table.forEach((s,actions)->{
-			actions.forEach((a, value)->{
-				double curElig = getEligibilityValue(s, a);
-				
-				if(!state.equals(s) && !action.equals(a)){
-					double curQValue = value.getValue();
-					value.setValue(curQValue + alpha * delta * curElig);
-				}
-				putEligibilityValue(s, a, gamma * lambda * curElig);
-			});
+		
+		state_actions.forEach((sa)->{
+			int s = sa.getState().hashCode();
+			int a = sa.getAction().hashCode();
+			double curElig = getEligibilityValue(s, a);
+			
+			// Q(s,a) <- Q(s,a) + alpha delta e(s,a)
+			if(!state.equals(sa.getState()) && !action.equals(sa.getAction())){
+				//update others
+				ActionValue av = table.get(s).get(a);
+				double curQValue = av.getValue();
+				av.setValue(curQValue + alpha * delta * curElig);
+			}else{
+				//put current
+				double q = getQValue(state, action);
+				put(state, action, q + alpha * delta * curElig, lastAction);
+			}
+			putEligibilityValue(s, a, gamma * lambda * curElig);
 		});
+		
 	}
 	
 	private double getEligibilityValue(Integer state, Integer action){
@@ -51,7 +66,7 @@ public class EligibilityQTable extends TileCodeQTable {
 		}
 		Double oldElig = eligActions.get(action);
 		if(oldElig == null){
-			oldElig = new Double(0);
+			return 0;
 		}
 		return oldElig;
 	}
