@@ -10,8 +10,9 @@ public interface TileCodeQTableInterface {
 	
 	public ActionValue getMaxAction(Tile state);
 	
-	
 	public void put(Tile state, Tile action, double value, Action actualAction);
+	
+	public int getNumStates();
 	
 	public class ActionValue{
 		private double value;

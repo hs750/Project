@@ -62,4 +62,10 @@ public class TileCodeQTable implements TileCodeQTableInterface {
 		table.put(state.value_, av);
 	}
 
+	@Override
+	public int getNumStates() {
+		int size = table.size();
+		return size;
+	}
+
 }

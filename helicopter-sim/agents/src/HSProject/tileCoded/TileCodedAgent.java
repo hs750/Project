@@ -131,7 +131,7 @@ public abstract class TileCodedAgent implements AgentInterface {
 	public String agent_message(String message) {
 		if (message.equals("freeze-learning")) {
 			exploringFrozen = true;
-			System.out.println("Evaluation");
+			System.out.println("Evaluation! States=" + qTable.getNumStates());
 		} else if (message.equals("unfreeze-learning")) {
 			exploringFrozen = false;
 			System.out.println("Learning");

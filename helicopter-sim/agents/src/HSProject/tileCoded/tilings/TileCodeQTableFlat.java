@@ -82,5 +82,10 @@ public class TileCodeQTableFlat implements TileCodeQTableInterface{
 		}
 		//System.out.println(actionsForStates.size() + " " + qTable.size() + " " + actions.size());
 	}
+
+	@Override
+	public int getNumStates() {
+		return actionsForStates.size();
+	}
 	
 }
