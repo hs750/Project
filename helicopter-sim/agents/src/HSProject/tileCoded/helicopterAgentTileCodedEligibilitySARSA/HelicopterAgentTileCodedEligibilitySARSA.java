@@ -66,7 +66,7 @@ public class HelicopterAgentTileCodedEligibilitySARSA extends TileCodedAgentSARS
 	    	for(int j = 0; j < numActionTilings; j++){
 	    		
 	    		double curQ  = qTable.getQValue(curStates[i], actions[j]);
-	    		double delta  = ( reward - curQ ) / (double) (numStateTilings * numActionTilings); 	    		
+	    		double delta  = ( reward + (gamma * newQ[i][j]) - curQ ) / (double) (numStateTilings * numActionTilings); 	    		
 	    		
 	    		qTable.eligibilityUpdate(curStates[i], actions[j], delta, getCurrentAction());
 	    		
