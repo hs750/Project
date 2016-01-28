@@ -42,11 +42,13 @@ public abstract class TileCodedAgentQ extends TileCodedAgent{
         
 		for( int i=0; i<numStateTilings; i++ ) {
             // Get the new states' Q values
+			// max_a Q(s',a')
             newQ[i]    = qTable.getMaxQValue(tiledCurStates[i]);
 	    }
 		
 		for( int i=0; i<numStateTilings; i++ ) {
 	    	for(int j = 0; j < numActionTilings; j++){
+	    		//Q(s,a)
 	    		double curQ  = qTable.getQValue(tiledLastStates[i], tiledLastActions[j]);
 	    		double val   = curQ + (( alpha * (reward + (gamma*newQ[i]) - curQ)) / (double)(numStateTilings*numActionTilings));
 	    		
@@ -61,6 +63,7 @@ public abstract class TileCodedAgentQ extends TileCodedAgent{
 		TileCodeQTableInterface qTable = getQTable();
 		for( int i=0; i<numStateTilings; i++ ) {
 	    	for(int j = 0; j < numActionTilings; j++){
+	    		//Q(s,a)
 	    		double curQ  = qTable.getQValue(tiledLastStates[i], tiledLastActions[j]);
     	        double val   = curQ + (( alpha * (reward - curQ)) / (double)(numStateTilings*numActionTilings));
     	        qTable.put(tiledLastStates[i], tiledLastActions[j], val, getNextAction());   // commit the update to the Q table
