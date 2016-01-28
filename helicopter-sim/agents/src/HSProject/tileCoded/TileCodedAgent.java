@@ -204,6 +204,86 @@ public abstract class TileCodedAgent implements AgentInterface {
 
 		Tile[] tiles = new Tile[numStateTilings];
 		stateTileCoding.getTiles(tiles, new TileCodedHelicopterState(theState));
+		
+//		HashIntDoubleMap actionValues = HashIntDoubleMaps.newUpdatableMap();
+//		Map<Integer, Action> actions = HashIntObjMaps.<Action>newUpdatableMap();
+//		HashIntIntMap actionUsages = HashIntIntMaps.newUpdatableMap();
+//		
+//		//average over just state tiles
+//		for(int i = 0; i<numStateTilings; i++){
+//			ActionValue av = qTable.getMaxAction(tiles[i]);
+//			if(av!= null){
+//			int usages = actionUsages.getOrDefault(av.getActionTile(), 0);
+//			if(usages > 0){
+//				Action action = actions.get(av.getActionTile());
+//				if(action != null && av.getAction() != null){
+//				action.doubleArray[0] += av.getAction().getDouble(0);
+//				action.doubleArray[1] += av.getAction().getDouble(1);
+//				action.doubleArray[2] += av.getAction().getDouble(2);
+//				action.doubleArray[3] += av.getAction().getDouble(3);
+//				}
+//			}else{
+//				actions.put(av.getActionTile(), av.getAction());
+//			}
+//			actionUsages.addValue(av.getActionTile(), 1);
+//			actionValues.addValue(av.getActionTile(), av.getValue());
+//			}
+//		}
+			
+		
+		//average over state and action tiles
+//		for(int i=0; i< numStateTilings; i++){
+//			Map<Integer, ActionValue> avs = qTable.getActionsValues(tiles[i]);
+//			if(avs != null){
+//			avs.forEach((a, av)->{
+//				int usages = actionUsages.getOrDefault((int)a, 0);
+//				if(usages > 0){
+//					Action action = actions.get((int) a);
+//					action.doubleArray[0] += av.getAction().getDouble(0);
+//					action.doubleArray[1] += av.getAction().getDouble(1);
+//					action.doubleArray[2] += av.getAction().getDouble(2);
+//					action.doubleArray[3] += av.getAction().getDouble(3);
+//				}else{
+//					actions.put((int) a, av.getAction());
+//				}
+//				actionUsages.addValue((int) a, 1);
+//				actionValues.addValue((int)a, av.getValue());
+//				
+//			});
+//			}
+//		}
+		
+//		Integer maxAction = null;
+//		double maxValue = Integer.MIN_VALUE;
+//		for(Entry<Integer, Double> avs : actionValues.entrySet()){
+//			if(maxAction == null){
+//				maxAction = avs.getKey();
+//			}else{
+//				if(avs.getValue() > maxValue){
+//					maxAction = avs.getKey();
+//					maxValue = avs.getValue();
+//				}
+//			}
+//		}
+//		
+//		if(maxAction != null){
+//			Action theAction = actions.get(maxAction);
+//			if(theAction !=null){
+//			double usages = actionUsages.get((int)maxAction);
+//			theAction.doubleArray[0] /= usages;
+//			theAction.doubleArray[1] /= usages;
+//			theAction.doubleArray[2] /= usages;
+//			theAction.doubleArray[3] /= usages;
+//			return theAction;
+//			}
+//			
+//			
+//		}
+//		return randomAction(theState);
+		
+		
+		
+		
 		ActionValue maxAction = null;
 		for (int i = 0; i < numStateTilings; i++) {
 			ActionValue av = qTable.getMaxAction(tiles[i]);
