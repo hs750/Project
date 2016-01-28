@@ -80,7 +80,7 @@ public abstract class TileCodedAgent implements AgentInterface {
 		return qTable;
 	}
 	
-	protected Action getCurrentAction(){
+	protected Action getNextAction(){
 		return action;
 	}
 	
@@ -169,9 +169,9 @@ public abstract class TileCodedAgent implements AgentInterface {
 		return action;
 	}
 
-	protected abstract void learn(double reward, Action lastAction, Tile[] curStates, Tile[] actions, Tile[] newStates);
+	protected abstract void learn(double reward, Action lastAction, Tile[] tiledLastStates, Tile[] tiledLastActions, Tile[] tiledCurStates);
 
-	protected abstract void learnEnd(double reward, Tile[] curStates, Tile[] actions);
+	protected abstract void learnEnd(double reward, Tile[] tiledLastStates, Tile[] tiledLastActions);
 
 	protected Action randomAction(Observation o) {
 		return randomAction();

@@ -35,7 +35,7 @@ public abstract class TileCodedAgentSARSA extends TileCodedAgent{
 	}
 	
 	@Override
-	protected void learn(double reward, Action lastAction, Tile[] curStates, Tile[] actions, Tile[] newStates) {
+	protected void learn(double reward, Action lastAction, Tile[] tiledLastStates, Tile[] tiledLastActions, Tile[] tiledCurStates) {
 		TileCodeQTableInterface qTable = getQTable();
 		
 		// get the current Q values
@@ -43,12 +43,12 @@ public abstract class TileCodedAgentSARSA extends TileCodedAgent{
 		
 		// Get all the tiles of the next actions
 		Tile[] nextActions = new Tile[numActionTilings];
-		getActionTileCoding().getTiles(nextActions, new TileCodedHelicopterAction(getCurrentAction()));
+		getActionTileCoding().getTiles(nextActions, new TileCodedHelicopterAction(getNextAction()));
 					
 		for (int i = 0; i < numStateTilings; i++) {
 			// Get the new states' Q values
 			for (int j = 0; j < numActionTilings; j++) {
-				newQ[i][j] = qTable.getQValue(newStates[i], nextActions[j]);
+				newQ[i][j] = qTable.getQValue(tiledCurStates[i], nextActions[j]);
 			}
 
 		}
@@ -56,11 +56,11 @@ public abstract class TileCodedAgentSARSA extends TileCodedAgent{
 		for (int i = 0; i < numStateTilings; i++) {
 			for (int j = 0; j < numActionTilings; j++) {
 				
-				double curQ = qTable.getQValue(curStates[i], actions[j]);
+				double curQ = qTable.getQValue(tiledLastStates[i], tiledLastActions[j]);
 				double val = curQ + ((alpha * (reward + (gamma * newQ[i][j]) - curQ))
 						/ (double) (numStateTilings * numActionTilings));
 
-				qTable.put(curStates[i], actions[j], val, lastAction); // commit
+				qTable.put(tiledLastStates[i], tiledLastActions[j], val, lastAction); // commit
 																		// the
 																		// update
 																		// to
@@ -74,13 +74,13 @@ public abstract class TileCodedAgentSARSA extends TileCodedAgent{
 	}
 	
 	@Override
-	protected void learnEnd(double reward, Tile[] curStates, Tile[] actions) {
+	protected void learnEnd(double reward, Tile[] tiledLastStates, Tile[] tiledLastActions) {
 		TileCodeQTableInterface qTable = getQTable();
 		for (int i = 0; i < numStateTilings; i++) {
 			for (int j = 0; j < numActionTilings; j++) {
-				double curQ = getQTable().getQValue(curStates[i], actions[j]);
+				double curQ = getQTable().getQValue(tiledLastStates[i], tiledLastActions[j]);
 				double val = curQ + ((alpha * (reward - curQ)) / (double) (numStateTilings * numActionTilings));
-				qTable.put(curStates[i], actions[j], val, getCurrentAction()); // commit
+				qTable.put(tiledLastStates[i], tiledLastActions[j], val, getNextAction()); // commit
 																	// the
 																	// update
 																	// to

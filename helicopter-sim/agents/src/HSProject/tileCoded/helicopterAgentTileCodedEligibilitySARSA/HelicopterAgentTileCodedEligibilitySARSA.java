@@ -11,11 +11,11 @@ import HSProject.tileCoded.tilings.TileCodedHelicopterAction;
 
 
 public class HelicopterAgentTileCodedEligibilitySARSA extends TileCodedAgentSARSA {
-	private EligibilityQTable qTable = new EligibilityQTable(alpha, gamma, lambda);;
+	private EligibilityQTable qTable = new EligibilityQTable(alpha, gamma, lambda);
 	
 	private static double alpha = 0.1;
 	private static double gamma = 1;
-	private static double lambda = 0.9;
+	private static double lambda = 0.9999;
 	
 	private int numStateTilings;
 	private int numActionTilings;
@@ -52,7 +52,7 @@ public class HelicopterAgentTileCodedEligibilitySARSA extends TileCodedAgentSARS
 		
 		// Get all the tiles of the next actions
 		Tile[] nextActions = new Tile[numActionTilings];
-		getActionTileCoding().getTiles(nextActions, new TileCodedHelicopterAction(getCurrentAction()));
+		getActionTileCoding().getTiles(nextActions, new TileCodedHelicopterAction(getNextAction()));
 					
 		for (int i = 0; i < numStateTilings; i++) {
 			// Get the new states' Q values
@@ -68,7 +68,7 @@ public class HelicopterAgentTileCodedEligibilitySARSA extends TileCodedAgentSARS
 	    		double curQ  = qTable.getQValue(curStates[i], actions[j]);
 	    		double delta  = ( reward + (gamma * newQ[i][j]) - curQ ) / (double) (numStateTilings * numActionTilings); 	    		
 	    		
-	    		qTable.eligibilityUpdate(curStates[i], actions[j], delta, getCurrentAction());
+	    		qTable.eligibilityUpdate(curStates[i], actions[j], delta, getNextAction());
 	    		
 	    	}
 	        
@@ -83,7 +83,7 @@ public class HelicopterAgentTileCodedEligibilitySARSA extends TileCodedAgentSARS
 	    		double curQ  = qTable.getQValue(curStates[i], actions[j]);
 	    		double delta  = ( reward - curQ ) / (double) (numStateTilings * numActionTilings); 	    		
 	    		
-	    		qTable.eligibilityUpdate(curStates[i], actions[j], delta, getCurrentAction());
+	    		qTable.eligibilityUpdate(curStates[i], actions[j], delta, getNextAction());
 	    		
 	    	}
 	        

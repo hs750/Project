@@ -34,7 +34,7 @@ public abstract class TileCodedAgentQ extends TileCodedAgent{
 	}
 	
 	@Override
-	protected void learn(double reward, Action lastAction, Tile[] curStates, Tile[] actions, Tile[] newStates) {
+	protected void learn(double reward, Action lastAction, Tile[] tiledLastStates, Tile[] tiledLastActions, Tile[] tiledCurStates) {
 		TileCodeQTableInterface qTable = getQTable();
 		
 		// get the current Q values
@@ -42,28 +42,28 @@ public abstract class TileCodedAgentQ extends TileCodedAgent{
         
 		for( int i=0; i<numStateTilings; i++ ) {
             // Get the new states' Q values
-            newQ[i]    = qTable.getMaxQValue(newStates[i]);
+            newQ[i]    = qTable.getMaxQValue(tiledCurStates[i]);
 	    }
 		
 		for( int i=0; i<numStateTilings; i++ ) {
 	    	for(int j = 0; j < numActionTilings; j++){
-	    		double curQ  = qTable.getQValue(curStates[i], actions[j]);
-	    		double val   = curQ + (( alpha * (reward + (gamma*newQ[i]) - curQ)) / (double)numStateTilings);
+	    		double curQ  = qTable.getQValue(tiledLastStates[i], tiledLastActions[j]);
+	    		double val   = curQ + (( alpha * (reward + (gamma*newQ[i]) - curQ)) / (double)(numStateTilings*numActionTilings));
 	    		
-    	        qTable.put(curStates[i], actions[j], val, lastAction);   // commit the update to the Q table
+    	        qTable.put(tiledLastStates[i], tiledLastActions[j], val, lastAction);   // commit the update to the Q table
 	    	}
 	        
 	    }
 	}
 	
 	@Override
-	protected void learnEnd(double reward, Tile[] curStates, Tile[] actions) {
+	protected void learnEnd(double reward, Tile[] tiledLastStates, Tile[] tiledLastActions) {
 		TileCodeQTableInterface qTable = getQTable();
 		for( int i=0; i<numStateTilings; i++ ) {
 	    	for(int j = 0; j < numActionTilings; j++){
-	    		double curQ  = qTable.getQValue(curStates[i], actions[j]);
+	    		double curQ  = qTable.getQValue(tiledLastStates[i], tiledLastActions[j]);
     	        double val   = curQ + (( alpha * (reward - curQ)) / (double)(numStateTilings*numActionTilings));
-    	        qTable.put(curStates[i], actions[j], val, getCurrentAction());   // commit the update to the Q table
+    	        qTable.put(tiledLastStates[i], tiledLastActions[j], val, getNextAction());   // commit the update to the Q table
 	    	}
 	        
 	    }
