@@ -16,8 +16,11 @@
 * along with this program; if not, write to the Free Software
 * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA. */
 import org.rlcommunity.rlglue.codec.RLGlue;
+
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Date;
 
 public class consoleTrainer {
 
@@ -171,6 +174,16 @@ public class consoleTrainer {
 	}
 
 	static void saveScore(boolean initial, int afterEpisodes, evaluationPoint theScore) {
+		if (initial) {
+			File lastExperiment = new File("experiementResults.csv");
+			if (lastExperiment.exists()) {
+				long expTime = lastExperiment.lastModified();
+				Date expDate = new Date(expTime);
+				String date = expDate.toString().replace(' ', '_').replace(':', '.');
+				File renamedLastExperiment = new File("experimentResults_" + date + ".csv");
+				lastExperiment.renameTo(renamedLastExperiment);
+			}
+		}
 		try {
 			FileWriter writer = new FileWriter("experiementResults.csv", true);
 			if (initial) {
