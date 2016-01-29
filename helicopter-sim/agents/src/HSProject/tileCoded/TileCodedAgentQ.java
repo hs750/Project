@@ -37,7 +37,8 @@ public abstract class TileCodedAgentQ extends TileCodedAgent{
 	protected void learn(double reward, Action lastAction, Tile[] tiledLastStates, Tile[] tiledLastActions, Tile[] tiledCurStates) {
 		TileCodeQTableInterface qTable = getQTable();
 		
-		// get the current Q values
+		// get the new Q values
+		// newQ for state tile i
         double newQ[] = new double[numStateTilings];
         
 		for( int i=0; i<numStateTilings; i++ ) {
