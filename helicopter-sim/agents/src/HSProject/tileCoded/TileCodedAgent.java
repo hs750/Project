@@ -35,6 +35,8 @@ public abstract class TileCodedAgent implements AgentInterface {
 
 	private double alpha = 0.1;
 	private double gamma = 1;
+	
+	private static double gb = 1024*1024*1024;
 
 	// Indices into observation_t.doubleArray...
 	private static int u_err = 0, // forward velocity
@@ -58,6 +60,8 @@ public abstract class TileCodedAgent implements AgentInterface {
 		this.gamma = gamma;
 
 		qTable = new TileCodeQTable();
+		
+		System.out.println("JVM MEMORY = " + (Runtime.getRuntime().maxMemory() / gb) + "GB");
 	}
 	
 	protected void setQTable(TileCodeQTableInterface qTable){
@@ -131,7 +135,7 @@ public abstract class TileCodedAgent implements AgentInterface {
 	public String agent_message(String message) {
 		if (message.equals("freeze-learning")) {
 			exploringFrozen = true;
-			System.out.println("Evaluation! States=" + qTable.getNumStates());
+			System.out.println("Evaluation! States=" + qTable.getNumStates() + " Memory=" + (Runtime.getRuntime().totalMemory() / gb));
 		} else if (message.equals("unfreeze-learning")) {
 			exploringFrozen = false;
 			System.out.println("Learning");
