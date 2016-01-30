@@ -146,6 +146,8 @@ public abstract class TileCodedAgent implements AgentInterface {
 	}
 
 	public Action agent_step(double reward, Observation o) {
+		o = manipulateState(o);
+		
 		Action lastAction = action;
 
 		action = egreedy(o);
@@ -175,6 +177,11 @@ public abstract class TileCodedAgent implements AgentInterface {
 
 	protected Action randomAction(Observation o) {
 		return randomAction();
+	}
+	
+	protected Observation manipulateState(Observation o){
+		//By default do nothing
+		return o;
 	}
 
 	Action randomAction() {

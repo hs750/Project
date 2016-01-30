@@ -2,7 +2,6 @@ package HSProject.tileCoded.helicopterAgentTileCodedSARSA8State;
 
 
 
-import org.rlcommunity.rlglue.codec.types.Action;
 import org.rlcommunity.rlglue.codec.types.Observation;
 import org.rlcommunity.rlglue.codec.util.AgentLoader;
 
@@ -35,16 +34,7 @@ public class HelicopterAgentTileCodedSARSA8State extends TileCodedAgentSARSA {
 	}
 	
 	@Override
-	public Action agent_start(Observation o) {
-		return super.agent_start(compactOpservation(o));
-	}
-	
-	@Override
-	public Action agent_step(double reward, Observation o) {
-		return super.agent_step(reward, compactOpservation(o));
-	}
-	
-	private Observation compactOpservation(Observation o){
+	protected Observation manipulateState(Observation o){
 		Observation newO = new Observation(0, 8);
 		// Velocities
 		newO.doubleArray[0] = o.doubleArray[0];
