@@ -1,8 +1,10 @@
 include ../Makefile.classPath
 
+agentName=EligibilitySARSA
 all:
-	javac -source 8 -d ../../../../bin/HelicopterAgentTileCodedEligibilitySARSA -cp $(classPath) HelicopterAgentTileCodedEligibilitySARSA.java EligibilityQTable.java StateActionVisitQueue.java
+	mkdir -p ../../../../bin/HelicopterAgentTileCoded$(agentName)
+	javac -source 8 -d ../../../../bin/HelicopterAgentTileCoded$(agentName) -cp $(classPath) HelicopterAgentTileCoded$(agentName).java EligibilityQTable.java StateActionVisitQueue.java
 
 
 clean:
-	rm -Rf ../../../../bin/HelicopterAgentTileCodedEligibilitySARSA/*
+	rm -Rf ../../../../bin/HelicopterAgentTileCoded$(agentName)/*

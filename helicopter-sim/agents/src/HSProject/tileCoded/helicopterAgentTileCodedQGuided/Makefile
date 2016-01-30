@@ -1,8 +1,10 @@
 include ../Makefile.classPath
 
+agentName=QGuided
 all:
-	javac -source 8 -d ../../../../bin/HelicopterAgentTileCodedQGuided -cp $(classPath) HelicopterAgentTileCodedQGuided.java
+	mkdir -p ../../../../bin/HelicopterAgentTileCoded$(agentName)
+	javac -source 8 -d ../../../../bin/HelicopterAgentTileCoded$(agentName) -cp $(classPath) HelicopterAgentTileCoded$(agentName).java
 
 
 clean:
-	rm -Rf ../../../../bin/HelicopterAgentTileCodedQGuided/*
+	rm -Rf ../../../../bin/HelicopterAgentTileCoded$(agentName)/*
