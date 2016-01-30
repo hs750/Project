@@ -58,8 +58,15 @@ public class TileCodeQTable implements TileCodeQTableInterface {
 		if (av == null) {
 			av = HashIntObjMaps.<ActionValue> newUpdatableMap();
 		}
-		av.put(action.value_, new ActionValue(value, actualAction));
-		table.put(state.value_, av);
+		if (actualAction == null) {
+			ActionValue actionValue = av.get(action.value_);
+			if (actionValue != null) {
+				actionValue.setValue(value);
+			}
+		} else {
+			av.put(action.value_, new ActionValue(value, actualAction));
+			table.put(state.value_, av);
+		}
 	}
 
 	@Override
