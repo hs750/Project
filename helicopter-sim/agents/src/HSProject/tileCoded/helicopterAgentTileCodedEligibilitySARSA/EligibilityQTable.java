@@ -5,6 +5,7 @@ import java.util.Map;
 import HSProject.tileCoded.tilings.Tile;
 import HSProject.tileCoded.tilings.TileCodeQTable;
 import net.openhft.koloboke.collect.map.hash.HashIntDoubleMaps;
+import net.openhft.koloboke.collect.map.hash.HashIntObjMaps;
 
 public class EligibilityQTable extends TileCodeQTable {
 	Map<Integer, Map<Integer, Double>> eligibilityTable;
@@ -17,6 +18,8 @@ public class EligibilityQTable extends TileCodeQTable {
 		this.alpha = alpha;
 		this.gamma = gamma;
 		this.lambda = lambda;
+		
+		eligibilityTable = HashIntObjMaps.<Map<Integer, Double>>newUpdatableMap();
 	}
 	
 	private double getEligibilityValue(Integer state, Integer action){
