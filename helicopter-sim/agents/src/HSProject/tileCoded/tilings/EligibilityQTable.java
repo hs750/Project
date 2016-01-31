@@ -1,9 +1,7 @@
-package HSProject.tileCoded.helicopterAgentTileCodedEligibilitySARSA;
+package HSProject.tileCoded.tilings;
 
 import java.util.Map;
 
-import HSProject.tileCoded.tilings.Tile;
-import HSProject.tileCoded.tilings.TileCodeQTable;
 import net.openhft.koloboke.collect.map.hash.HashIntDoubleMaps;
 import net.openhft.koloboke.collect.map.hash.HashIntObjMaps;
 

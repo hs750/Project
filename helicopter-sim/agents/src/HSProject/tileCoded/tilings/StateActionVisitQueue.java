@@ -1,12 +1,9 @@
-package HSProject.tileCoded.helicopterAgentTileCodedEligibilitySARSA;
+package HSProject.tileCoded.tilings;
 
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
-
-import HSProject.tileCoded.tilings.StateActionPair;
-import HSProject.tileCoded.tilings.Tile;
 
 public class StateActionVisitQueue {
 	private LinkedHashSet<StateActionPair> queue;
