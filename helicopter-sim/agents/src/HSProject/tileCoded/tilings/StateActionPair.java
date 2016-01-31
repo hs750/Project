@@ -1,25 +1,48 @@
 package HSProject.tileCoded.tilings;
 
-public class StateActionPair{
-	Tile observation;
+/**
+ * A structure combining a state and an action in the form if {@link Tile}s.
+ * 
+ * @author harrison
+ *
+ */
+public class StateActionPair {
+	Tile state;
 	Tile action;
 	int hash;
-	public StateActionPair(Tile o, Tile a) {
-		observation = o;
+
+	/**
+	 * New State-Action pair
+	 * 
+	 * @param s
+	 *            the state
+	 * @param a
+	 *            the action
+	 */
+	public StateActionPair(Tile s, Tile a) {
+		state = s;
 		action = a;
-		hash = observation.hashCode() * action.hashCode();
+		hash = state.hashCode() * action.hashCode();
 	}
 
 	@Override
 	public int hashCode() {
 		return hash;
 	}
-	
-	public Tile getState(){
-		return observation;
+
+	/**
+	 * 
+	 * @return the state in this pair
+	 */
+	public Tile getState() {
+		return state;
 	}
-	
-	public Tile getAction(){
+
+	/**
+	 * 
+	 * @return the action in this pair
+	 */
+	public Tile getAction() {
 		return action;
 	}
 
@@ -27,7 +50,7 @@ public class StateActionPair{
 	public boolean equals(Object obj) {
 		if (obj instanceof StateActionPair) {
 			StateActionPair qk = (StateActionPair) obj;
-			return this.observation.equals(qk.observation) && this.action.equals(qk.action);
+			return this.state.equals(qk.state) && this.action.equals(qk.action);
 		} else {
 			return false;
 		}

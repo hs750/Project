@@ -6,13 +6,22 @@ import org.rlcommunity.rlglue.codec.types.Action;
 
 import net.openhft.koloboke.collect.map.hash.HashIntObjMaps;
 
+/**
+ * An implementation of {@link TileCodeQTableInterface} with a nested
+ * {@link Map} structure.
+ * 
+ * @author harrison
+ * 
+ */
 public class TileCodeQTable implements TileCodeQTableInterface {
 	protected Map<Integer, Map<Integer, ActionValue>> table;
 
 	private static double DEFAULT_Q_VAL = 0;
 
+	/**
+	 * A new Tile Coded Q Table
+	 */
 	public TileCodeQTable() {
-		// TODO Auto-generated constructor stub
 		table = HashIntObjMaps.<Map<Integer, ActionValue>> newUpdatableMap();
 	}
 

@@ -3,6 +3,9 @@ package HSProject.tileCoded.tilings;
 import org.rlcommunity.rlglue.codec.types.Observation;
 
 /**
+ * An implementation of {@link StateManipulator} reducing the number of states
+ * from 12 to 5. These 5 are the states shared between the state reductions
+ * described in: <br>
  * The states used by both <br>
  * A. Y. Ng, H. J. Kim, M. I. Jordan, and S. Sastry, “Autonomous helicopter
  * flight via Reinforcement Learning,” Adv. Neural Inf. Process. Syst. 16, vol.

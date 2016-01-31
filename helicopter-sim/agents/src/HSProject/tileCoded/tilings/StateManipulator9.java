@@ -3,6 +3,8 @@ package HSProject.tileCoded.tilings;
 import org.rlcommunity.rlglue.codec.types.Observation;
 
 /**
+ * An implementation of {@link StateManipulator} reducing the number of states
+ * from 12 to 9. As described in: <br>
  * R. Koppejan and S. Whiteson, “Neuroevolutionary reinforcement learning for
  * generalized control of simulated helicopters.,” Evol. Intell., vol. 4, no. 4,
  * pp. 219–241, 2011.

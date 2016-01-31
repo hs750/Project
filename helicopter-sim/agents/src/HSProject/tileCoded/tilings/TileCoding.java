@@ -5,7 +5,8 @@ import marl.ext.tilecoding.TileCodingState;
 import marl.utility.Rand;
 
 /**
- * Taken from: YOrk Reinforcment Learning Library (YORLL)
+ * 16/10/2015
+ * Taken from: YOrk Reinforcement Learning Library (YORLL)
  * Modified to work with the helicopter simulator (RL Glue)
  * 
  * Taken from: http://webdocs.cs.ualberta.ca/~sutton/tiles2.html, 23/03/2012
