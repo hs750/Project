@@ -1,6 +1,6 @@
 
 	RLVizPath=../../system/libraries/rl-viz
 
-	classPath = $(RLVizPath)/RLVizLib.jar:../../../../../../JavaRLGlueCodec.jar:../../../../../../YORLL.jar:../../../../../../koloboke-api-jdk8-0.6.8.jar ../TileCodedAgent.java ../TileCodedAgentSARSA.java ../TileCodedAgentQ.java ../tilings/TileCodedHelicopterState.java ../tilings/TileCodedHelicopterAction.java ../tilings/TileCodeQTableInterface.java ../tilings/TileCodeQTableFlat.java ../tilings/TileCodeQTable.java ../tilings/Tile.java ../tilings/TileCoding.java ../tilings/StateActionPair.java
+	classPath = $(RLVizPath)/RLVizLib.jar:../../../../../../JavaRLGlueCodec.jar:../../../../../../YORLL.jar:../../../../../../koloboke-api-jdk8-0.6.8.jar ../*.java ../tilings/*.java
 
 
