@@ -35,6 +35,7 @@ public abstract class TileCodedAgent implements AgentInterface {
 
 	private double alpha = 0.1;
 	private double gamma = 1;
+	private boolean explorationAction;
 	
 	private static double gb = 1024*1024*1024;
 
@@ -187,6 +188,10 @@ public abstract class TileCodedAgent implements AgentInterface {
 		//By default do nothing
 		return o;
 	}
+	
+	protected boolean lastActionExploration(){
+		return explorationAction;
+	}
 
 	Action randomAction() {
 		Action a = new Action(0, 4);
@@ -208,7 +213,8 @@ public abstract class TileCodedAgent implements AgentInterface {
 	 */
 	private Action egreedy(Observation theState) {
 		if (!exploringFrozen) {
-			if (randGenerator.nextDouble() <= epsilon) {
+			explorationAction = randGenerator.nextDouble() <= epsilon;
+			if (explorationAction) {
 				return randomAction(theState);
 			}
 		}
