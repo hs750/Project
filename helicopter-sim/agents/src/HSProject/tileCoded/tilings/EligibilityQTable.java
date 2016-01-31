@@ -14,25 +14,10 @@ import net.openhft.koloboke.collect.map.hash.HashIntObjMaps;
 public class EligibilityQTable extends TileCodeQTable {
 	Map<Integer, Map<Integer, Double>> eligibilityTable;
 
-	double alpha;
-	double gamma;
-	double lambda;
-
 	/**
 	 * A new eligibility table
-	 * 
-	 * @param alpha
-	 *            the learning rate
-	 * @param gamma
-	 *            the discount factor
-	 * @param lambda
-	 *            the trace factor
 	 */
-	public EligibilityQTable(double alpha, double gamma, double lambda) {
-		this.alpha = alpha;
-		this.gamma = gamma;
-		this.lambda = lambda;
-
+	public EligibilityQTable() {
 		eligibilityTable = HashIntObjMaps.<Map<Integer, Double>> newUpdatableMap();
 	}
 

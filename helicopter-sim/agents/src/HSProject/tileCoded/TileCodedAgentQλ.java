@@ -26,7 +26,7 @@ public class TileCodedAgentQλ extends TileCodedAgent{
 		this.gamma = gamma;
 		this.lambda = lambda;
 		
-		qTable = new EligibilityQTable(alpha, gamma, lambda);
+		qTable = new EligibilityQTable();
 		setQTable(qTable);
 	}
 
