@@ -66,6 +66,9 @@ public class TileCodedAgentSARSAλ extends TileCodedAgent{
 			double qForNextAction[] = new double[numActionTilings];
 			for (int j = 0; j < numActionTilings; j++) {
 				qForNextAction[j] = qTable.getQValue(tiledCurStates[i], nextActions[j]);
+				
+				// Here for convenience as don't want to have to do this nested loop again just for this.
+				savq.add(new StateActionPair(tiledLastStates[i], tiledLastActions[j]));
 				savq.add(new StateActionPair(tiledCurStates[i], nextActions[j]));
 			}
 			nextQ[i] = Argmax.select(qForNextAction);
