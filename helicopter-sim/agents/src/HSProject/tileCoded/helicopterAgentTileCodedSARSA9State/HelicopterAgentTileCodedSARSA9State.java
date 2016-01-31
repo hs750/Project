@@ -21,8 +21,8 @@ public class HelicopterAgentTileCodedSARSA9State extends TileCodedAgentSARSA {
 		int numTiles = 10;
 		int numVariables = 9;
 		int numTilings = 16;
-		double[] statesMin = {-5, -5, -5, -20, -20, -20, -12.566, -12.566, -12.566};
-		double[] statesMax = {5, 5, 5, 20, 20, 20, 12.566, 12.566, 12.566};
+		double[] statesMin = {-5, -5, -5, -20, -20, -20, -1, -1, -1};
+		double[] statesMax = {5, 5, 5, 20, 20, 20, 1, 1, 1};
 		
 		initialiseStateTiling(numVariables, statesMin, statesMax, numTiles, numTilings);
 
