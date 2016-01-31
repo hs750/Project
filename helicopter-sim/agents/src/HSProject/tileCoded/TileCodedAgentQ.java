@@ -14,7 +14,6 @@ public abstract class TileCodedAgentQ extends TileCodedAgent{
 	
 
 	public TileCodedAgentQ(double alpha, double gamma) {
-		super(alpha, gamma);
 		this.alpha = alpha;
 		this.gamma = gamma;
 	}

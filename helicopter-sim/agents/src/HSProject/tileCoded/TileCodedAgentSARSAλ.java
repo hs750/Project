@@ -21,7 +21,6 @@ public class TileCodedAgentSARSAλ extends TileCodedAgent{
 	private int numActionTilings;
 
 	public TileCodedAgentSARSAλ(double alpha, double gamma, double lambda) {
-		super(alpha, gamma);
 		this.alpha = alpha;
 		this.gamma = gamma;
 		this.lambda = lambda;

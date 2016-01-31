@@ -15,7 +15,7 @@ import HSProject.tileCoded.tilings.TileCodedHelicopterAction;
 import HSProject.tileCoded.tilings.TileCodedHelicopterState;
 import HSProject.tileCoded.tilings.TileCoding;
 
-@SuppressWarnings("unused")
+
 public abstract class TileCodedAgent implements AgentInterface {
 	private TileCodeQTableInterface qTable;
 	private TileCoding stateTileCoding;
@@ -33,13 +33,12 @@ public abstract class TileCodedAgent implements AgentInterface {
 
 	private TaskSpec TSO = null;
 
-	private double alpha = 0.1;
-	private double gamma = 1;
 	private boolean explorationAction;
 	
 	private static double gb = 1024*1024*1024;
 
 	// Indices into observation_t.doubleArray...
+	@SuppressWarnings("unused")
 	private static int u_err = 0, // forward velocity
 			v_err = 1, // sideways velocity
 			w_err = 2, // downward velocity
@@ -56,10 +55,7 @@ public abstract class TileCodedAgent implements AgentInterface {
 			qz_err = 11; // [recall: any rotation can be represented by a single
 							// rotation around some axis]
 	
-	public TileCodedAgent(double alpha, double gamma) {
-		this.alpha = alpha;
-		this.gamma = gamma;
-
+	public TileCodedAgent() {
 		qTable = new TileCodeQTable();
 		
 		System.out.println("JVM MEMORY = " + (Runtime.getRuntime().maxMemory() / gb) + "GB");
