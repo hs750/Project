@@ -1,9 +1,7 @@
 package HSProject.tileCoded.tilings;
 
-import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 /**
  * A queue structure that stores a finite history of state-action pairs
