@@ -4,7 +4,11 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="YORLL.jar" sourcepath="YORLL-Java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="koloboke-api-jdk8-0.6.8.jar"/>
+	<classpathentry kind="lib" path="koloboke-api-jdk8-0.6.8.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/Project/koloboke-api-jdk8-0.6.8_javadocs.zip!/koloboke-api-jdk8-0.6.8_javadocs"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="lib" path="koloboke-impl-jdk8-0.6.8.jar"/>
 	<classpathentry kind="lib" path="JavaRLGlueCodec.jar">
 		<attributes>
