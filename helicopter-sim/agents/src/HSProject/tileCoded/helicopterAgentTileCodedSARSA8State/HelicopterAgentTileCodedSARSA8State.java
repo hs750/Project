@@ -6,10 +6,13 @@ import org.rlcommunity.rlglue.codec.types.Observation;
 import org.rlcommunity.rlglue.codec.util.AgentLoader;
 
 import HSProject.tileCoded.TileCodedAgentSARSA;
+import HSProject.tileCoded.tilings.StateManipulator;
+import HSProject.tileCoded.tilings.StateManipulator8;
 
 public class HelicopterAgentTileCodedSARSA8State extends TileCodedAgentSARSA {
 	private static double alpha = 0.1;
 	private static double gamma = 1;
+	private StateManipulator sm;
 	
 	public HelicopterAgentTileCodedSARSA8State() {
 		super(alpha, gamma);
@@ -31,27 +34,13 @@ public class HelicopterAgentTileCodedSARSA8State extends TileCodedAgentSARSA {
 		double[] actionsMax = {1, 1, 1, 1};
 
 		initialiseActionTiling(numVariables, actionsMin, actionsMax, numTiles, numTilings);
+		
+		sm = new StateManipulator8();
 	}
 	
 	@Override
 	protected Observation manipulateState(Observation o){
-		Observation newO = new Observation(0, 8);
-		// Velocities
-		newO.doubleArray[0] = o.doubleArray[0];
-		newO.doubleArray[1] = o.doubleArray[1];
-		newO.doubleArray[2] = o.doubleArray[2];
-		
-		// Angular Velocities 
-		newO.doubleArray[3] = o.doubleArray[6];
-		newO.doubleArray[4] = o.doubleArray[7];
-		newO.doubleArray[5] = o.doubleArray[8];
-		
-		// Roll Pitch
-		newO.doubleArray[6] = o.doubleArray[9];
-		newO.doubleArray[7] = o.doubleArray[10];
-		
-		
-		return newO;
+		return sm.manipulateState(o);
 	}
 
 	public static void main(String[] args) {
