@@ -9,6 +9,18 @@ import HSProject.tileCoded.TileCodedAgentQ;
 import HSProject.tileCoded.tilings.StateManipulator;
 import HSProject.tileCoded.tilings.StateManipulator8;
 
+/**
+ * An experiment applying Q-Learning to a reduced state space of 8 states. These
+ * eight states are these defined in: <br>
+ * R. Koppejan and S. Whiteson, “Neuroevolutionary reinforcement learning for
+ * generalized control of simulated helicopters.,” Evol. Intell., vol. 4, no. 4,
+ * pp. 219–241, 2011.
+ * 
+ * @see StateManipulator8
+ * 
+ * @author harrison
+ *
+ */
 public class HelicopterAgentTileCodedQ8State extends TileCodedAgentQ {
 	private static double alpha = 0.1;
 	private static double gamma = 1;
@@ -38,6 +50,11 @@ public class HelicopterAgentTileCodedQ8State extends TileCodedAgentQ {
 		sm = new StateManipulator8();
 	}
 	
+	/**
+	 * Modify the input state to only contain eight state variables.
+	 * 
+	 * @see StateManipulator8
+	 */
 	@Override
 	protected Observation manipulateState(Observation o){
 		return sm.manipulateState(o);

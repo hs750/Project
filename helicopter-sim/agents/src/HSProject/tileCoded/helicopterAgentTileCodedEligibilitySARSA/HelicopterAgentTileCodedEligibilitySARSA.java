@@ -4,6 +4,12 @@ import org.rlcommunity.rlglue.codec.util.AgentLoader;
 
 import HSProject.tileCoded.TileCodedAgentSARSAλ;
 
+/**
+ * An experiment applying SARSA with eligibility traces.
+ * 
+ * @author harrison
+ *
+ */
 public class HelicopterAgentTileCodedEligibilitySARSA extends TileCodedAgentSARSAλ {
 	private static double alpha = 0.1;
 	private static double gamma = 1;
@@ -31,7 +37,7 @@ public class HelicopterAgentTileCodedEligibilitySARSA extends TileCodedAgentSARS
 
 		initialiseActionTiling(numVariables, actionsMin, actionsMax, numTiles, numActionTilings);
 	}
-	
+
 	public static void main(String[] args) {
 		AgentLoader L = new AgentLoader(new HelicopterAgentTileCodedEligibilitySARSA());
 		L.run();

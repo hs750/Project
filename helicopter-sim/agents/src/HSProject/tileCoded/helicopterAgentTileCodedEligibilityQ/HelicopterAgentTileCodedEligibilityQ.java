@@ -4,6 +4,12 @@ import org.rlcommunity.rlglue.codec.util.AgentLoader;
 
 import HSProject.tileCoded.TileCodedAgentQλ;
 
+/**
+ * An experiment applying Q-Learning with eligibility traces.
+ * 
+ * @author harrison
+ *
+ */
 public class HelicopterAgentTileCodedEligibilityQ extends TileCodedAgentQλ {
 	private static double alpha = 0.1;
 	private static double gamma = 1;
@@ -31,7 +37,7 @@ public class HelicopterAgentTileCodedEligibilityQ extends TileCodedAgentQλ {
 
 		initialiseActionTiling(numVariables, actionsMin, actionsMax, numTiles, numActionTilings);
 	}
-	
+
 	public static void main(String[] args) {
 		AgentLoader L = new AgentLoader(new HelicopterAgentTileCodedEligibilityQ());
 		L.run();
