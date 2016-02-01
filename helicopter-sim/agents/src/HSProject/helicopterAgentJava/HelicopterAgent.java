@@ -1,12 +1,20 @@
 package HSProject.helicopterAgentJava;
 
-
 import org.rlcommunity.rlglue.codec.AgentInterface;
 import org.rlcommunity.rlglue.codec.taskspec.TaskSpec;
 import org.rlcommunity.rlglue.codec.types.Action;
 import org.rlcommunity.rlglue.codec.types.Observation;
 import org.rlcommunity.rlglue.codec.util.AgentLoader;
 
+/**
+ * Taken from rl-competition 2014 training download 14/10/2015 <br>
+ * An implementation of {@link AgentInterface} without any reinforcement
+ * learning. Action selection is done by a hard coded policy. This policy is not
+ * optimal by allows the agent to reach the end of the episode.
+ * 
+ * @author rl-competition
+ *
+ */
 public class HelicopterAgent implements AgentInterface {
 	private Action action;
 
@@ -59,7 +67,7 @@ public class HelicopterAgent implements AgentInterface {
 	}
 
 	public Action agent_step(double reward, Observation o) {
-		//System.out.println(reward);
+		// System.out.println(reward);
 		agent_policy(o, action);
 		return action;
 	}

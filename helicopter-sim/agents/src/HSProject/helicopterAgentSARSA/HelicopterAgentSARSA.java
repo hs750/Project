@@ -12,6 +12,13 @@ import org.rlcommunity.rlglue.codec.util.AgentLoader;
 
 import HSProject.HelicopterQTable;
 
+/**
+ * An implementation of {@link AgentInterface} that naively applies discrete
+ * SARSA to the continuous helicopter control task.
+ * 
+ * @author harrison
+ *
+ */
 public class HelicopterAgentSARSA implements AgentInterface {
 	private HelicopterQTable qTable;
 	

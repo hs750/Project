@@ -1,7 +1,5 @@
 package HSProject.helicopterAgentQ;
 
-
-
 import java.util.Random;
 
 import org.rlcommunity.rlglue.codec.AgentInterface;
@@ -12,18 +10,25 @@ import org.rlcommunity.rlglue.codec.util.AgentLoader;
 
 import HSProject.HelicopterQTable;
 
+/**
+ * An implementation of {@link AgentInterface} that naively applies discrete
+ * Q-Learning to the continuous helicopter control task.
+ * 
+ * @author harrison
+ *
+ */
 public class HelicopterAgentQ implements AgentInterface {
 	private HelicopterQTable qTable;
-	
+
 	private Action action;
 	private Observation lastState;
-	
+
 	protected Random randGenerator = new Random();
 	private double epsilon = 0.1;
 	private boolean exploringFrozen = false;
 
 	TaskSpec TSO = null;
-	
+
 	double alpha = 0.1;
 	double gamma = 1;
 
@@ -52,13 +57,13 @@ public class HelicopterAgentQ implements AgentInterface {
 	public void agent_cleanup() {
 	}
 
-	//Learn from last reward
+	// Learn from last reward
 	public void agent_end(double reward) {
-		if(!exploringFrozen){
+		if (!exploringFrozen) {
 			double qValueForLastState = qTable.getQValue(lastState, action);
-			
+
 			double newQValue = qValueForLastState + alpha * (reward - qValueForLastState);
-			
+
 			qTable.putQValue(lastState, action, newQValue);
 		}
 	}
@@ -71,14 +76,14 @@ public class HelicopterAgentQ implements AgentInterface {
 		System.out.println(taskSpec);
 		TSO = new TaskSpec(taskSpec);
 		action = new Action(TSO.getNumDiscreteActionDims(), TSO.getNumContinuousActionDims());
-		
+
 		lastState = new Observation(0, TSO.getNumContinuousActionDims());
 	}
 
 	public String agent_message(String message) {
-		if(message.equals("freeze-learning")){
+		if (message.equals("freeze-learning")) {
 			exploringFrozen = true;
-		}else if(message.equals("unfreeze-learning")){
+		} else if (message.equals("unfreeze-learning")) {
 			exploringFrozen = false;
 		}
 		return null;
@@ -94,20 +99,21 @@ public class HelicopterAgentQ implements AgentInterface {
 		Action lastAction = action;
 		double qValueForLastState = qTable.getQValue(lastState, lastAction);
 		double maxQValueForNextState = qTable.getMaxQValue(o);
-		
+
 		action = egreedy(o);
-		
-		if(!exploringFrozen){
-			double newQValue = qValueForLastState + alpha * (reward + gamma * maxQValueForNextState - qValueForLastState);
-			
+
+		if (!exploringFrozen) {
+			double newQValue = qValueForLastState
+					+ alpha * (reward + gamma * maxQValueForNextState - qValueForLastState);
+
 			qTable.putQValue(lastState, lastAction, newQValue);
 		}
 		lastState = o;
-		//System.out.println(qTable.size());
+		// System.out.println(qTable.size());
 		return action;
 	}
-	
-	protected Action randomAction(){
+
+	protected Action randomAction() {
 		Action a = new Action(0, 4);
 		a.doubleArray[0] = (randGenerator.nextDouble() * 2) - 1;
 		a.doubleArray[1] = (randGenerator.nextDouble() * 2) - 1;
@@ -115,33 +121,33 @@ public class HelicopterAgentQ implements AgentInterface {
 		a.doubleArray[3] = (randGenerator.nextDouble() * 2) - 1;
 		return a;
 	}
-	
+
 	/**
-    *
-    * Selects a random action with probability 1-sarsa_epsilon,
-    * and the action with the highest value otherwise.  This is a
-    * quick'n'dirty implementation, it does not do tie-breaking.
+	 *
+	 * Selects a random action with probability 1-sarsa_epsilon, and the action
+	 * with the highest value otherwise. This is a quick'n'dirty implementation,
+	 * it does not do tie-breaking.
+	 * 
+	 * @param theState
+	 * @return
+	 */
+	private Action egreedy(Observation theState) {
+		if (!exploringFrozen) {
+			if (randGenerator.nextDouble() <= epsilon) {
+				return randomAction();
+			}
+		}
+		if (qTable.size() == 0) {
+			return randomAction();
+		}
 
-    * @param theState
-    * @return
-    */
-   private Action egreedy(Observation theState) {
-       if (!exploringFrozen) {
-           if (randGenerator.nextDouble() <= epsilon) {
-               return randomAction();
-           }
-       }
-       if(qTable.size() == 0){
-    	   return randomAction();
-       }
-
-       /*otherwise choose the greedy action*/
-       Action maxAction = qTable.getActionForMaxQValue(theState);
-       if(maxAction == null){
-    	   return randomAction();
-       }
-       return maxAction;
-   }
+		/* otherwise choose the greedy action */
+		Action maxAction = qTable.getActionForMaxQValue(theState);
+		if (maxAction == null) {
+			return randomAction();
+		}
+		return maxAction;
+	}
 
 	public static void main(String[] args) {
 		AgentLoader L = new AgentLoader(new HelicopterAgentQ());
