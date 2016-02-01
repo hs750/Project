@@ -491,7 +491,6 @@ public abstract class TileCodedAgent implements AgentInterface {
 	/**
 	 * A controller for the helicopter which performs well but not optimally.
 	 * This method was provided by the reinforcement learning competition.
-	 * {@link http://https://sites.google.com/site/rlcompetition2014/}
 	 * 
 	 * @param o
 	 *            the state
@@ -541,6 +540,9 @@ public abstract class TileCodedAgent implements AgentInterface {
 	/**
 	 * An exception thrown when and agents tilings are not initialised. Extends
 	 * {@link NullPointerException}.
+	 * 
+	 * @see TileCodedAgent#initialiseStateTiling
+	 * @see TileCodedAgent#initialiseActionTiling
 	 * 
 	 * @author harrison
 	 *
