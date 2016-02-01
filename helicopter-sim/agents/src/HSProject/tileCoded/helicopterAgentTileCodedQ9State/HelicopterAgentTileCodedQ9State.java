@@ -7,7 +7,6 @@ import org.rlcommunity.rlglue.codec.util.AgentLoader;
 
 import HSProject.tileCoded.TileCodedAgentQ;
 import HSProject.tileCoded.tilings.StateManipulator;
-import HSProject.tileCoded.tilings.StateManipulator8;
 import HSProject.tileCoded.tilings.StateManipulator9;
 
 /**
