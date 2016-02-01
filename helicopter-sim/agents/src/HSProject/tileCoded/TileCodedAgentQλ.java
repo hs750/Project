@@ -14,7 +14,7 @@ import HSProject.tileCoded.tilings.TileCodedHelicopterAction;
  * @author harrison
  *
  */
-public class TileCodedAgentQλ extends TileCodedAgent {
+public abstract class TileCodedAgentQλ extends TileCodedAgent {
 	private EligibilityQTable qTable;
 	private StateActionVisitQueue savq;
 

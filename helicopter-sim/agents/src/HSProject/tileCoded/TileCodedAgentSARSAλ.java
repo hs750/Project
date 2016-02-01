@@ -15,7 +15,7 @@ import marl.agents.selection.Argmax;
  * @author harrison
  *
  */
-public class TileCodedAgentSARSAλ extends TileCodedAgent{
+public abstract class TileCodedAgentSARSAλ extends TileCodedAgent{
 	private EligibilityQTable qTable;
 	private StateActionVisitQueue savq;
 	
