@@ -3,7 +3,7 @@ package HSProject.tileCoded.tilings;
 import marl.environments.State;
 
 /**
- * Taken from YORLL 17/10/15
+ * Taken from YORLL 17/10/15: Modified to have correct equals method. <br>
  * 
  * A Tile is very simple implementation of a State Representation where it is
  * given an unsigned int value on construction and then simply give that value
