@@ -13,8 +13,18 @@ import HSProject.tileCoded.tilings.Tile;
 import HSProject.tileCoded.tilings.TileCodedHelicopterState;
 import HSProject.tileCoded.tilings.TileCoding;
 
+/**
+ * Test the tile coding algorithm
+ * 
+ * @author harrison
+ *
+ */
 public class TileCodeTest {
 
+	/**
+	 * Test whether 1,000,000 randomly generated states tile to the same state
+	 * on two applications of the tiling algorithm
+	 */
 	@Test
 	public void test() {
 		Random r = new Random();
@@ -28,7 +38,7 @@ public class TileCodeTest {
 				states.clear();
 				;
 
-				int numTiles = k == 0 && j ==0 ? 10 : (r.nextInt(20) + 1);
+				int numTiles = k == 0 && j == 0 ? 10 : (r.nextInt(20) + 1);
 				int numFeatures = 12;
 				int numStateTilings = (int) Math.pow(2, j);
 				double[] featureMin = { -5, -5, -5, -20, -20, -20, -12.566, -12.566, -12.566, -1, -1, -1 };
@@ -71,7 +81,8 @@ public class TileCodeTest {
 					boolean same = Arrays.equals(tile, tiles.get(i));
 
 					if (!same) {
-						fail("tiles not same: numTiles=" + numTiles + " numTilings=" + numStateTilings + " tile1=" + Arrays.toString(tile) + " tile2=" + Arrays.toString(tiles.get(i)));
+						fail("tiles not same: numTiles=" + numTiles + " numTilings=" + numStateTilings + " tile1="
+								+ Arrays.toString(tile) + " tile2=" + Arrays.toString(tiles.get(i)));
 					}
 				}
 				System.out.println("finished " + k + " " + j);
@@ -79,6 +90,10 @@ public class TileCodeTest {
 		}
 	}
 
+	/**
+	 * Tests whether a state will always be tilled the same way by tiling a
+	 * single randomly generated state 1,000,000 times.
+	 */
 	@Test
 	public void test2() {
 		Random r = new Random();
