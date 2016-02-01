@@ -1,4 +1,5 @@
 /bin/
+/doc/
 *.class
 *.log
 /helicopter-sim/system/
