@@ -7,6 +7,12 @@ import HSProject.tileCoded.tilings.TileCodeQTableInterface;
 import HSProject.tileCoded.tilings.TileCodedHelicopterAction;
 import marl.agents.selection.Argmax;
 
+/**
+ * A {@link TileCodedAgent} with SARSA implemented
+ * 
+ * @author harrison
+ *
+ */
 public abstract class TileCodedAgentSARSA extends TileCodedAgent {
 	private double alpha;
 	private double gamma;
@@ -14,6 +20,14 @@ public abstract class TileCodedAgentSARSA extends TileCodedAgent {
 	private int numStateTilings;
 	private int numActionTilings;
 
+	/**
+	 * A new SARSA tile agent
+	 * 
+	 * @param alpha
+	 *            the learning rate
+	 * @param gamma
+	 *            the discount factor
+	 */
 	public TileCodedAgentSARSA(double alpha, double gamma) {
 		this.alpha = alpha;
 		this.gamma = gamma;
@@ -33,6 +47,12 @@ public abstract class TileCodedAgentSARSA extends TileCodedAgent {
 		super.initialiseActionTiling(numActionVariables, actionsMin, actionsMax, numTiles, numTilings);
 	}
 
+	/**
+	 * Implementation of SARSA. <br>
+	 * <br>
+	 * 
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected void learn(double reward, Action lastAction, Tile[] tiledLastStates, Tile[] tiledLastActions,
 			Tile[] tiledCurStates) {
@@ -71,6 +91,12 @@ public abstract class TileCodedAgentSARSA extends TileCodedAgent {
 		}
 	}
 
+	/**
+	 * Implementation of SARSA. <br>
+	 * <br>
+	 * 
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected void learnEnd(double reward, Tile[] tiledLastStates, Tile[] tiledLastActions) {
 		TileCodeQTableInterface qTable = getQTable();

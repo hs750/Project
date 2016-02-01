@@ -9,6 +9,12 @@ import HSProject.tileCoded.tilings.Tile;
 import HSProject.tileCoded.tilings.TileCodedHelicopterAction;
 import marl.agents.selection.Argmax;
 
+/**
+ * A {@link TileCodedAgent} with SARSA(λ) implemented.
+ * 
+ * @author harrison
+ *
+ */
 public class TileCodedAgentSARSAλ extends TileCodedAgent{
 	private EligibilityQTable qTable;
 	private StateActionVisitQueue savq;
@@ -20,6 +26,16 @@ public class TileCodedAgentSARSAλ extends TileCodedAgent{
 	private int numStateTilings;
 	private int numActionTilings;
 
+	/**
+	 * A new SARSA(λ) learning agent.
+	 * 
+	 * @param alpha
+	 *            the learning rate
+	 * @param gamma
+	 *            the discount factor
+	 * @param lambda
+	 *            the eligibility trace parameter
+	 */
 	public TileCodedAgentSARSAλ(double alpha, double gamma, double lambda) {
 		this.alpha = alpha;
 		this.gamma = gamma;
@@ -43,6 +59,12 @@ public class TileCodedAgentSARSAλ extends TileCodedAgent{
 		super.initialiseActionTiling(numActionVariables, actionsMin, actionsMax, numTiles, numTilings);
 	}
 
+	/**
+	 * Implementation of SARSA(λ) <br>
+	 * <br>
+	 * 
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected void learn(double reward, Action lastAction, Tile[] tiledLastStates, Tile[] tiledLastActions,
 			Tile[] tiledCurStates) {
@@ -104,6 +126,12 @@ public class TileCodedAgentSARSAλ extends TileCodedAgent{
 		}
 	}
 
+	/**
+	 * Implementation of SARSA(λ) <br>
+	 * <br>
+	 * 
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected void learnEnd(double reward, Tile[] curStates, Tile[] actions) {
 		for (int i = 0; i < numStateTilings; i++) {

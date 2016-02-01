@@ -112,11 +112,11 @@ public abstract class TileCodedAgent implements AgentInterface {
 	 * {@link TilingsNotInitialisedException} will be thrown on connection to
 	 * RL-Glue
 	 * 
-	 * @param numStateVariables
+	 * @param numActionVariables
 	 *            the number of variables in the action
-	 * @param statesMin
+	 * @param actionsMin
 	 *            the minimum values of each of the action variables
-	 * @param statesMax
+	 * @param actionsMax
 	 *            the maximum values of each of the action variables
 	 * @param numTiles
 	 *            the number of tiles to use in each action dimension
@@ -139,9 +139,8 @@ public abstract class TileCodedAgent implements AgentInterface {
 	}
 
 	/**
-	 * Get the action the agent will invoke on the next time step
 	 * 
-	 * @return
+	 * @return the action the agent will invoke on the next time step
 	 */
 	protected Action getNextAction() {
 		return action;

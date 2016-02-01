@@ -8,11 +8,16 @@ import HSProject.tileCoded.tilings.StateActionVisitQueue;
 import HSProject.tileCoded.tilings.Tile;
 import HSProject.tileCoded.tilings.TileCodedHelicopterAction;
 
-// Watkins Q(lambda)
-public class TileCodedAgentQλ extends TileCodedAgent{
+/**
+ * A {@link TileCodedAgent} with Watkins-Q(λ) implemented.
+ * 
+ * @author harrison
+ *
+ */
+public class TileCodedAgentQλ extends TileCodedAgent {
 	private EligibilityQTable qTable;
 	private StateActionVisitQueue savq;
-	
+
 	private double alpha;
 	private double gamma;
 	private double lambda;
@@ -20,11 +25,21 @@ public class TileCodedAgentQλ extends TileCodedAgent{
 	private int numStateTilings;
 	private int numActionTilings;
 
+	/**
+	 * A new Q(λ) learning agent.
+	 * 
+	 * @param alpha
+	 *            the learning rate
+	 * @param gamma
+	 *            the discount factor
+	 * @param lambda
+	 *            the eligibility trace parameter
+	 */
 	public TileCodedAgentQλ(double alpha, double gamma, double lambda) {
 		this.alpha = alpha;
 		this.gamma = gamma;
 		this.lambda = lambda;
-		
+
 		qTable = new EligibilityQTable();
 		setQTable(qTable);
 	}
@@ -43,66 +58,77 @@ public class TileCodedAgentQλ extends TileCodedAgent{
 		super.initialiseActionTiling(numActionVariables, actionsMin, actionsMax, numTiles, numTilings);
 	}
 
+	/**
+	 * Implementation of Watkins Q(λ) <br>
+	 * <br>
+	 * 
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected void learn(double reward, Action lastAction, Tile[] tiledLastStates, Tile[] tiledLastActions,
 			Tile[] tiledCurStates) {
-		//Initialise savq here as the size of this is the only time tiling numbers are known
-		if(savq == null){
+		// Initialise savq here as the size of this is the only time tiling
+		// numbers are known
+		if (savq == null) {
 			savq = new StateActionVisitQueue(10 * numStateTilings * numActionTilings);
 		}
-		
+
 		Tile[] nextActions = new Tile[numActionTilings];
 		getActionTileCoding().getTiles(nextActions, new TileCodedHelicopterAction(getNextAction()));
-		
-		
+
 		// get the new Q values
 		// newQ for state tile i
-        double newQ[] = new double[numStateTilings];
-        
-		for( int i=0; i<numStateTilings; i++ ) {
-            // Get the new states' Q values
+		double newQ[] = new double[numStateTilings];
+
+		for (int i = 0; i < numStateTilings; i++) {
+			// Get the new states' Q values
 			// max_a Q(s',a')
-            newQ[i]    = qTable.getMaxQValue(tiledCurStates[i]);
-            
-            for(int j = 0; j < numActionTilings; j++){
-            	savq.add(new StateActionPair(tiledLastStates[i], tiledLastActions[j]));
-            	savq.add(new StateActionPair(tiledCurStates[i], nextActions[j]));
-            }
-	    }
-		
-		for( int i=0; i<numStateTilings; i++ ) {
-	    	for(int j = 0; j < numActionTilings; j++){
-	    		//Q(s,a)
-	    		Tile lastS = tiledLastStates[i];
+			newQ[i] = qTable.getMaxQValue(tiledCurStates[i]);
+
+			for (int j = 0; j < numActionTilings; j++) {
+				savq.add(new StateActionPair(tiledLastStates[i], tiledLastActions[j]));
+				savq.add(new StateActionPair(tiledCurStates[i], nextActions[j]));
+			}
+		}
+
+		for (int i = 0; i < numStateTilings; i++) {
+			for (int j = 0; j < numActionTilings; j++) {
+				// Q(s,a)
+				Tile lastS = tiledLastStates[i];
 				Tile lastA = tiledLastActions[j];
 				double curQ = qTable.getQValue(lastS, lastA);
 				double eligibility = qTable.getEligibility(lastS, lastA) + 1;
 				qTable.updateEligibility(lastS, lastA, eligibility);
-	    		
-				double delta = (reward + (gamma * newQ[i]) - curQ)
-						/ (double) (numStateTilings * numActionTilings);
+
+				double delta = (reward + (gamma * newQ[i]) - curQ) / (double) (numStateTilings * numActionTilings);
 
 				savq.forEach((s, a) -> {
 					double e = qTable.getEligibility(s, a);
 					double q = qTable.getQValue(s, a);
 
 					Action putAction = null;
-					if(s.equals(lastS) && a.equals(lastA)){
+					if (s.equals(lastS) && a.equals(lastA)) {
 						putAction = lastAction;
 					}
 					qTable.put(s, a, q + alpha * delta * e, putAction);
-					if(!super.lastActionExploration()){
+					if (!super.lastActionExploration()) {
 						qTable.updateEligibility(s, a, gamma * lambda * e);
-					}else{
+					} else {
 						qTable.updateEligibility(s, a, 0);
 					}
-					
+
 				});
-	    	}
-	        
-	    }
+			}
+
+		}
 	}
 
+	/**
+	 * Implementation of Watkins Q(λ) <br>
+	 * <br>
+	 * 
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected void learnEnd(double reward, Tile[] curStates, Tile[] actions) {
 		for (int i = 0; i < numStateTilings; i++) {
@@ -120,13 +146,13 @@ public class TileCodedAgentQλ extends TileCodedAgent{
 					double q = qTable.getQValue(s, a);
 
 					Action putAction = null;
-					if(s.equals(lastS) && a.equals(lastA)){
+					if (s.equals(lastS) && a.equals(lastA)) {
 						putAction = getNextAction();
 					}
 					qTable.put(s, a, q + alpha * delta * e, putAction);
-					if(!lastActionExploration()){
+					if (!lastActionExploration()) {
 						qTable.updateEligibility(s, a, gamma * lambda * e);
-					}else{
+					} else {
 						qTable.updateEligibility(s, a, 0);
 					}
 				});
