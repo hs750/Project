@@ -6,7 +6,6 @@ import org.rlcommunity.rlglue.codec.types.Action;
 import org.rlcommunity.rlglue.codec.types.Observation;
 import org.rlcommunity.rlglue.codec.util.AgentLoader;
 
-import HSProject.helicopterAgentQ.HelicopterAgentQ;
 import HSProject.helicopterAgentSARSA.HelicopterAgentSARSA;
 
 /**
