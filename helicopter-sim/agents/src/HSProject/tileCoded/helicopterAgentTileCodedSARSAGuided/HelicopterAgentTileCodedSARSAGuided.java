@@ -50,11 +50,10 @@ public class HelicopterAgentTileCodedSARSAGuided extends TileCodedAgentSARSA {
 		Action a = new Action(0, 4);
 		agent_policy(o, a);
 		
-		double widthAdjust = 4;
-		a.doubleArray[0] += randGenerator.nextGaussian()/widthAdjust;
-		a.doubleArray[1] += randGenerator.nextGaussian()/widthAdjust;
-		a.doubleArray[2] += randGenerator.nextGaussian()/widthAdjust;
-		a.doubleArray[3] += randGenerator.nextGaussian()/widthAdjust;
+		a.doubleArray[0] += (randGenerator.nextDouble() / 5.0) - 0.1;
+		a.doubleArray[1] += (randGenerator.nextDouble() / 5.0) - 0.1;
+		a.doubleArray[2] += (randGenerator.nextDouble() / 5.0) - 0.1;
+		a.doubleArray[3] += (randGenerator.nextDouble() / 5.0) - 0.1;
 		
 		for(int i = 0; i < 4; i++){
 			if(a.doubleArray[i] > 1){
