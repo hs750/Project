@@ -41,8 +41,7 @@ public abstract class TileCodedAgent implements AgentInterface {
 	private static double gb = 1024 * 1024 * 1024;
 
 	// Indices into observation_t.doubleArray...
-	@SuppressWarnings("unused")
-	private static int u_err = 0, // forward velocity
+	protected static final int u_err = 0, // forward velocity
 			v_err = 1, // sideways velocity
 			w_err = 2, // downward velocity
 			x_err = 3, // forward error
@@ -141,7 +140,7 @@ public abstract class TileCodedAgent implements AgentInterface {
 	 * @return the action the agent will invoke on the next time step
 	 */
 	protected Action getNextAction() {
-		return action;
+		return getAction();
 	}
 
 	/**
@@ -180,10 +179,10 @@ public abstract class TileCodedAgent implements AgentInterface {
 		if (!isExploringFrozen()) {
 			// Get all the tiles for the current state
 			Tile[] curStates = new Tile[numStateTilings];
-			stateTileCoding.getTiles(curStates, lastState.doubleArray);
+			stateTileCoding.getTiles(curStates, getLastState().doubleArray);
 
 			Tile[] actions = new Tile[numActionTilings];
-			actionTileCoding.getTiles(actions, action.doubleArray);
+			actionTileCoding.getTiles(actions, getAction().doubleArray);
 
 			learnEnd(reward, curStates, actions);
 		}
@@ -212,9 +211,9 @@ public abstract class TileCodedAgent implements AgentInterface {
 
 		System.out.println(taskSpec);
 		TSO = new TaskSpec(taskSpec);
-		action = new Action(TSO.getNumDiscreteActionDims(), TSO.getNumContinuousActionDims());
+		setAction(new Action(TSO.getNumDiscreteActionDims(), TSO.getNumContinuousActionDims()));
 
-		lastState = new Observation(0, TSO.getNumContinuousActionDims());
+		setLastState(new Observation(0, TSO.getNumContinuousActionDims()));
 	}
 
 	/**
@@ -235,7 +234,7 @@ public abstract class TileCodedAgent implements AgentInterface {
 	public String agent_message(String message) {
 		if (message.equals("freeze-learning")) {
 			setExploringFrozen(true);
-			System.out.println("Evaluation! States=" + qTable.getNumStates() + " Memory="
+			System.out.println("Evaluation! States=" + getNumStates() + " Memory="
 					+ (Runtime.getRuntime().totalMemory() / gb));
 		} else if (message.equals("unfreeze-learning")) {
 			setExploringFrozen(false);
@@ -254,9 +253,9 @@ public abstract class TileCodedAgent implements AgentInterface {
 	 */
 	@Override
 	public Action agent_start(Observation o) {
-		lastState = o;
-		action = egreedy(o);
-		return action;
+		setLastState(o);
+		setAction(egreedy(o));
+		return getAction();
 	}
 
 	/**
@@ -271,14 +270,14 @@ public abstract class TileCodedAgent implements AgentInterface {
 	public Action agent_step(double reward, Observation o) {
 		o = manipulateState(o);
 
-		Action lastAction = action;
+		Action lastAction = getAction();
 
-		action = egreedy(o);
+		setAction(egreedy(o));
 
 		if (!isExploringFrozen()) {
 			// Get all the tiles for the current state
 			Tile[] curStates = new Tile[numStateTilings];
-			stateTileCoding.getTiles(curStates, lastState.doubleArray);
+			stateTileCoding.getTiles(curStates, getLastState().doubleArray);
 
 			// Get all the tiles of the new states
 			Tile[] newStates = new Tile[numStateTilings];
@@ -289,9 +288,9 @@ public abstract class TileCodedAgent implements AgentInterface {
 
 			learn(reward, lastAction, curStates, actions, newStates);
 		}
-		lastState = o;
+		setLastState(o);
 
-		return action;
+		return getAction();
 	}
 
 	/**
@@ -364,7 +363,7 @@ public abstract class TileCodedAgent implements AgentInterface {
 	 * 
 	 * @return the randomly selected action
 	 */
-	Action randomAction() {
+	protected Action randomAction() {
 		Action a = new Action(0, 4);
 		a.doubleArray[0] = (randGenerator.nextDouble() * 2) - 1;
 		a.doubleArray[1] = (randGenerator.nextDouble() * 2) - 1;
@@ -548,6 +547,26 @@ public abstract class TileCodedAgent implements AgentInterface {
 
 	public void setExplorationAction(boolean explorationAction) {
 		this.explorationAction = explorationAction;
+	}
+
+	public Observation getLastState() {
+		return lastState;
+	}
+
+	public void setLastState(Observation lastState) {
+		this.lastState = lastState;
+	}
+
+	public Action getAction() {
+		return action;
+	}
+
+	public void setAction(Action action) {
+		this.action = action;
+	}
+	
+	public int getNumStates(){
+		return qTable.getNumStates();
 	}
 
 	/**
