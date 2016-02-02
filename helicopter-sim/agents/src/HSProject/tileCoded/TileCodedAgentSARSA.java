@@ -4,7 +4,6 @@ import org.rlcommunity.rlglue.codec.types.Action;
 
 import HSProject.tileCoded.tilings.Tile;
 import HSProject.tileCoded.tilings.TileCodeQTableInterface;
-import HSProject.tileCoded.tilings.TileCodedHelicopterAction;
 import marl.agents.selection.Argmax;
 
 /**
@@ -65,7 +64,7 @@ public abstract class TileCodedAgentSARSA extends TileCodedAgent {
 		// Get all the tiles of the next actions
 		// a' given s'
 		Tile[] nextActions = new Tile[numActionTilings];
-		getActionTileCoding().getTiles(nextActions, new TileCodedHelicopterAction(getNextAction()));
+		getActionTileCoding().getTiles(nextActions, getNextAction().doubleArray);
 
 		for (int i = 0; i < numStateTilings; i++) {
 			// Get the next states' Q values

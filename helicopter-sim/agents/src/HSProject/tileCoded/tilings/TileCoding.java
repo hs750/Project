@@ -1,7 +1,5 @@
 package HSProject.tileCoded.tilings;
 
-import HSProject.tileCoded.tilings.Tile;
-import marl.ext.tilecoding.TileCodingState;
 import marl.utility.Rand;
 
 /**
@@ -71,7 +69,7 @@ public class TileCoding
 	}
 	
 	
-	public void getTiles(Tile[] tiles, TileCodingState<?> state)
+	public void getTiles(Tile[] tiles, double[] state)
 	{
 	    // collect up the features into an array
 	    int[]    hashes = new int[nTilings_];
@@ -84,7 +82,7 @@ public class TileCoding
 	    for( int i=0; i<nTilings_; i++ )
 	        tiles[i] = new Tile(hashes[i]);
 	}
-	public void getTiles(int[] tiles, TileCodingState<?> state)
+	public void getTiles(int[] tiles, double[] state)
 	{
 	    // collect up the features into an array
 	    double[] doubles = prepareFeatures(state);
@@ -92,13 +90,13 @@ public class TileCoding
 	    // get the tile hashes
 	    GetTiles(tiles, nTilings_, memorySize_, doubles, nFeatures_);
 	}
-	protected double[] prepareFeatures(TileCodingState<?> state)
+	protected double[] prepareFeatures(double[] state)
 	{
 	    double[] doubles = new double[nFeatures_];
 	    for( int i=0; i<nFeatures_; i++ )
 	        // ( (value - min) / (max - min) ) * ( (max - min) / spacing)
 	        // === (value - min) / spacing
-	        doubles[i] = (state.getFeature(i) - minimumValues_[i]) / tileSpacings_[i];
+	        doubles[i] = (state[i] - minimumValues_[i]) / tileSpacings_[i];
 
 	    return doubles;
 	}

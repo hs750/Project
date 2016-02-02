@@ -11,8 +11,6 @@ import HSProject.tileCoded.tilings.Tile;
 import HSProject.tileCoded.tilings.TileCodeQTable;
 import HSProject.tileCoded.tilings.TileCodeQTableInterface;
 import HSProject.tileCoded.tilings.TileCodeQTableInterface.ActionValue;
-import HSProject.tileCoded.tilings.TileCodedHelicopterAction;
-import HSProject.tileCoded.tilings.TileCodedHelicopterState;
 import HSProject.tileCoded.tilings.TileCoding;
 
 /**
@@ -182,10 +180,10 @@ public abstract class TileCodedAgent implements AgentInterface {
 		if (!exploringFrozen) {
 			// Get all the tiles for the current state
 			Tile[] curStates = new Tile[numStateTilings];
-			stateTileCoding.getTiles(curStates, new TileCodedHelicopterState(lastState));
+			stateTileCoding.getTiles(curStates, lastState.doubleArray);
 
 			Tile[] actions = new Tile[numActionTilings];
-			actionTileCoding.getTiles(actions, new TileCodedHelicopterAction(action));
+			actionTileCoding.getTiles(actions, action.doubleArray);
 
 			learnEnd(reward, curStates, actions);
 		}
@@ -280,14 +278,14 @@ public abstract class TileCodedAgent implements AgentInterface {
 		if (!exploringFrozen) {
 			// Get all the tiles for the current state
 			Tile[] curStates = new Tile[numStateTilings];
-			stateTileCoding.getTiles(curStates, new TileCodedHelicopterState(lastState));
+			stateTileCoding.getTiles(curStates, lastState.doubleArray);
 
 			// Get all the tiles of the new states
 			Tile[] newStates = new Tile[numStateTilings];
-			stateTileCoding.getTiles(newStates, new TileCodedHelicopterState(o));
+			stateTileCoding.getTiles(newStates, o.doubleArray);
 
 			Tile[] actions = new Tile[numActionTilings];
-			actionTileCoding.getTiles(actions, new TileCodedHelicopterAction(lastAction));
+			actionTileCoding.getTiles(actions, lastAction.doubleArray);
 
 			learn(reward, lastAction, curStates, actions, newStates);
 		}
@@ -393,7 +391,7 @@ public abstract class TileCodedAgent implements AgentInterface {
 		}
 
 		Tile[] tiles = new Tile[numStateTilings];
-		stateTileCoding.getTiles(tiles, new TileCodedHelicopterState(theState));
+		stateTileCoding.getTiles(tiles, theState.doubleArray);
 
 		// HashIntDoubleMap actionValues = HashIntDoubleMaps.newUpdatableMap();
 		// Map<Integer, Action> actions =

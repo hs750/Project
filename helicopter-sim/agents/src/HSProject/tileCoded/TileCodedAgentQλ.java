@@ -6,7 +6,6 @@ import HSProject.tileCoded.tilings.EligibilityQTable;
 import HSProject.tileCoded.tilings.StateActionPair;
 import HSProject.tileCoded.tilings.StateActionVisitQueue;
 import HSProject.tileCoded.tilings.Tile;
-import HSProject.tileCoded.tilings.TileCodedHelicopterAction;
 
 /**
  * A {@link TileCodedAgent} with Watkins-Q(λ) implemented.
@@ -74,7 +73,7 @@ public abstract class TileCodedAgentQλ extends TileCodedAgent {
 		}
 
 		Tile[] nextActions = new Tile[numActionTilings];
-		getActionTileCoding().getTiles(nextActions, new TileCodedHelicopterAction(getNextAction()));
+		getActionTileCoding().getTiles(nextActions, getNextAction().doubleArray);
 
 		// get the new Q values
 		// newQ for state tile i

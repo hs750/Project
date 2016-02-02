@@ -13,10 +13,8 @@ import org.rlcommunity.rlglue.codec.util.AgentLoader;
 
 import HSProject.tileCoded.tilings.Tile;
 import HSProject.tileCoded.tilings.TileCodeQTable;
-import HSProject.tileCoded.tilings.TileCodedHelicopterAction;
-import HSProject.tileCoded.tilings.TileCodedHelicopterState;
-import HSProject.tileCoded.tilings.TileCoding;
 import HSProject.tileCoded.tilings.TileCodeQTableInterface.ActionValue;
+import HSProject.tileCoded.tilings.TileCoding;
 
 public class HelicopterAgentHierarchicalTileCodedQ implements AgentInterface {
 	private TileCodeQTable u_qTable;
@@ -131,20 +129,20 @@ public class HelicopterAgentHierarchicalTileCodedQ implements AgentInterface {
 				Observation ls = new Observation(0, 1);
 				ls.doubleArray[0] = lastState.doubleArray[s];
 				if(s < 3){
-					stateTileCoding_vel.getTiles(curStates, new TileCodedHelicopterState(ls));
+					stateTileCoding_vel.getTiles(curStates, ls.doubleArray);
 				}else if(s<6){
-					stateTileCoding_pos.getTiles(curStates, new TileCodedHelicopterState(ls));
+					stateTileCoding_pos.getTiles(curStates, ls.doubleArray);
 				}else if(s<9){
-					stateTileCoding_rate.getTiles(curStates, new TileCodedHelicopterState(ls));
+					stateTileCoding_rate.getTiles(curStates, ls.doubleArray);
 				}else{
-					stateTileCoding_quat.getTiles(curStates, new TileCodedHelicopterState(ls));
+					stateTileCoding_quat.getTiles(curStates, ls.doubleArray);
 				}
 				currentStates.add(curStates);
 				
 			}
     	    
     	    Tile[] actions = new Tile[numActionTilings];
-            actionTileCoding.getTiles(actions, new TileCodedHelicopterAction(action));
+            actionTileCoding.getTiles(actions, action.doubleArray);
     	    
             for(int s = 0; s < 12; s++){
 	    	    for( int i=0; i<numStateTilings; i++ ) {
@@ -240,13 +238,13 @@ public class HelicopterAgentHierarchicalTileCodedQ implements AgentInterface {
 				Observation ls = new Observation(0, 1);
 				ls.doubleArray[0] = lastState.doubleArray[s];
 				if(s < 3){
-					stateTileCoding_vel.getTiles(curStates, new TileCodedHelicopterState(ls));
+					stateTileCoding_vel.getTiles(curStates, ls.doubleArray);
 				}else if(s<6){
-					stateTileCoding_pos.getTiles(curStates, new TileCodedHelicopterState(ls));
+					stateTileCoding_pos.getTiles(curStates, ls.doubleArray);
 				}else if(s<9){
-					stateTileCoding_rate.getTiles(curStates, new TileCodedHelicopterState(ls));
+					stateTileCoding_rate.getTiles(curStates, ls.doubleArray);
 				}else{
-					stateTileCoding_quat.getTiles(curStates, new TileCodedHelicopterState(ls));
+					stateTileCoding_quat.getTiles(curStates, ls.doubleArray);
 				}
 				currentStates.add(curStates);
 				
@@ -263,13 +261,13 @@ public class HelicopterAgentHierarchicalTileCodedQ implements AgentInterface {
 				Observation ls = new Observation(0, 1);
 				ls.doubleArray[0] = o.doubleArray[s];
 				if(s < 3){
-					stateTileCoding_vel.getTiles(newStates_, new TileCodedHelicopterState(ls));
+					stateTileCoding_vel.getTiles(newStates_, ls.doubleArray);
 				}else if(s<6){
-					stateTileCoding_pos.getTiles(newStates_, new TileCodedHelicopterState(ls));
+					stateTileCoding_pos.getTiles(newStates_, ls.doubleArray);
 				}else if(s<9){
-					stateTileCoding_rate.getTiles(newStates_, new TileCodedHelicopterState(ls));
+					stateTileCoding_rate.getTiles(newStates_, ls.doubleArray);
 				}else{
-					stateTileCoding_quat.getTiles(newStates_, new TileCodedHelicopterState(ls));
+					stateTileCoding_quat.getTiles(newStates_, ls.doubleArray);
 				}
 				newStates.add(newStates_);
 				
@@ -277,7 +275,7 @@ public class HelicopterAgentHierarchicalTileCodedQ implements AgentInterface {
 
     	    
     	    Tile[] actions = new Tile[numActionTilings];
-            actionTileCoding.getTiles(actions, new TileCodedHelicopterAction(lastAction));
+            actionTileCoding.getTiles(actions, lastAction.doubleArray);
     	    
             for(int s = 0; s < 12; s++){
 	    	    for( int i=0; i<numStateTilings; i++ ) {
@@ -368,13 +366,13 @@ public class HelicopterAgentHierarchicalTileCodedQ implements AgentInterface {
 			Observation ls = new Observation(0, 1);
 			ls.doubleArray[0] = theState.doubleArray[s];
 			if(s < 3){
-				stateTileCoding_vel.getTiles(tiles, new TileCodedHelicopterState(ls));
+				stateTileCoding_vel.getTiles(tiles, ls.doubleArray);
 			}else if(s<6){
-				stateTileCoding_pos.getTiles(tiles, new TileCodedHelicopterState(ls));
+				stateTileCoding_pos.getTiles(tiles, ls.doubleArray);
 			}else if(s<9){
-				stateTileCoding_rate.getTiles(tiles, new TileCodedHelicopterState(ls));
+				stateTileCoding_rate.getTiles(tiles, ls.doubleArray);
 			}else{
-				stateTileCoding_quat.getTiles(tiles, new TileCodedHelicopterState(ls));
+				stateTileCoding_quat.getTiles(tiles, ls.doubleArray);
 			}
 			states.add(tiles);
 			
