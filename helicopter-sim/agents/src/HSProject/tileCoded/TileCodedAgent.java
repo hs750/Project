@@ -31,7 +31,7 @@ public abstract class TileCodedAgent implements AgentInterface {
 	private Observation lastState;
 
 	protected Random randGenerator = new Random();
-	private double epsilon = 0.1;
+	protected double epsilon = 0.1;
 	private boolean exploringFrozen = false;
 
 	private TaskSpec TSO = null;
@@ -177,7 +177,7 @@ public abstract class TileCodedAgent implements AgentInterface {
 	 */
 	@Override
 	public void agent_end(double reward) {
-		if (!exploringFrozen) {
+		if (!isExploringFrozen()) {
 			// Get all the tiles for the current state
 			Tile[] curStates = new Tile[numStateTilings];
 			stateTileCoding.getTiles(curStates, lastState.doubleArray);
@@ -234,11 +234,11 @@ public abstract class TileCodedAgent implements AgentInterface {
 	@Override
 	public String agent_message(String message) {
 		if (message.equals("freeze-learning")) {
-			exploringFrozen = true;
+			setExploringFrozen(true);
 			System.out.println("Evaluation! States=" + qTable.getNumStates() + " Memory="
 					+ (Runtime.getRuntime().totalMemory() / gb));
 		} else if (message.equals("unfreeze-learning")) {
-			exploringFrozen = false;
+			setExploringFrozen(false);
 			System.out.println("Learning");
 		}
 		return null;
@@ -275,7 +275,7 @@ public abstract class TileCodedAgent implements AgentInterface {
 
 		action = egreedy(o);
 
-		if (!exploringFrozen) {
+		if (!isExploringFrozen()) {
 			// Get all the tiles for the current state
 			Tile[] curStates = new Tile[numStateTilings];
 			stateTileCoding.getTiles(curStates, lastState.doubleArray);
@@ -356,7 +356,7 @@ public abstract class TileCodedAgent implements AgentInterface {
 	 * @return whether or not the last action chosen was an exploratory action.
 	 */
 	protected boolean lastActionExploration() {
-		return explorationAction;
+		return isExplorationAction();
 	}
 
 	/**
@@ -382,10 +382,10 @@ public abstract class TileCodedAgent implements AgentInterface {
 	 *            the state to base the action selection off of.
 	 * @return the action selected
 	 */
-	private Action egreedy(Observation theState) {
-		if (!exploringFrozen) {
-			explorationAction = randGenerator.nextDouble() <= epsilon;
-			if (explorationAction) {
+	protected Action egreedy(Observation theState) {
+		if (!isExploringFrozen()) {
+			setExplorationAction(randGenerator.nextDouble() <= epsilon);
+			if (isExplorationAction()) {
 				return randomAction(theState);
 			}
 		}
@@ -532,6 +532,22 @@ public abstract class TileCodedAgent implements AgentInterface {
 		a.doubleArray[1] = elevator;
 		a.doubleArray[2] = rudder;
 		a.doubleArray[3] = coll;
+	}
+
+	public boolean isExploringFrozen() {
+		return exploringFrozen;
+	}
+
+	public void setExploringFrozen(boolean exploringFrozen) {
+		this.exploringFrozen = exploringFrozen;
+	}
+
+	public boolean isExplorationAction() {
+		return explorationAction;
+	}
+
+	public void setExplorationAction(boolean explorationAction) {
+		this.explorationAction = explorationAction;
 	}
 
 	/**
