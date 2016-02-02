@@ -31,8 +31,8 @@ public class consoleTrainer {
 		consoleTrainerHelper.loadHelicopter(whichTrainingMDP);
 		RLGlue.RL_init();
 
-		int evaluationCount = 100; // number of evaluatins to perfom
-		int episodeCount = 100; // number of episodes to run between evaluations
+		int evaluationCount = 200; // number of evaluatins to perfom
+		int episodeCount = 500; // number of episodes to run between evaluations
 								// total number of episodes = evaluationCount *
 								// episodeCount
 		int maxEpisodeLength = 20000; // set a maxEpisodeLength to cut off long
