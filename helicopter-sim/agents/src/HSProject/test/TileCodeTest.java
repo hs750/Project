@@ -10,7 +10,6 @@ import org.junit.Test;
 import org.rlcommunity.rlglue.codec.types.Observation;
 
 import HSProject.tileCoded.tilings.Tile;
-import HSProject.tileCoded.tilings.TileCodedHelicopterState;
 import HSProject.tileCoded.tilings.TileCoding;
 
 /**
@@ -28,7 +27,7 @@ public class TileCodeTest {
 	@Test
 	public void test() {
 		Random r = new Random();
-		ArrayList<TileCodedHelicopterState> states = new ArrayList<TileCodedHelicopterState>(1000000);
+		ArrayList<double[]> states = new ArrayList<double[]>(1000000);
 		ArrayList<Tile[]> tiles = new ArrayList<Tile[]>(1000000);
 
 		for (int k = 0; k < 5; k++) {
@@ -62,18 +61,17 @@ public class TileCodeTest {
 					o.doubleArray[10] = r2.nextDouble() * 2 - 1;
 					o.doubleArray[11] = r2.nextDouble() * 2 - 1;
 
-					TileCodedHelicopterState state = new TileCodedHelicopterState(o);
-					states.add(state);
+					states.add(o.doubleArray);
 
 					Tile[] tile = new Tile[numStateTilings];
-					tc.getTiles(tile, state);
+					tc.getTiles(tile, o.doubleArray);
 
 					tiles.add(tile);
 				}
 
 				for (int i = 0; i < 1000000; i++) {
 
-					TileCodedHelicopterState state = states.get(i);
+					double[] state = states.get(i);
 
 					Tile[] tile = new Tile[numStateTilings];
 					tc.getTiles(tile, state);
@@ -125,7 +123,7 @@ public class TileCodeTest {
 			o.doubleArray[10] = r2.nextDouble() * 2 - 1;
 			o.doubleArray[11] = r2.nextDouble() * 2 - 1;
 
-			TileCodedHelicopterState state = new TileCodedHelicopterState(o);
+			double[] state = o.doubleArray;
 
 			for (int i = 0; i < 1000000; i++) {
 
