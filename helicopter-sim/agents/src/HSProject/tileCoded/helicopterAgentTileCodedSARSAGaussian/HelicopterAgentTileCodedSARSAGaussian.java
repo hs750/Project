@@ -35,6 +35,7 @@ public class HelicopterAgentTileCodedSARSAGaussian extends TileCodedAgentSARSA {
 		initialiseActionTiling(numVariables, actionsMin, actionsMax, numTiles, numTilings);
 
 		gaussianWidth = getConfig().getDouble("gaussian");
+		System.out.println("Width=" + gaussianWidth);
 	}
 
 	/**

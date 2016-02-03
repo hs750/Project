@@ -22,7 +22,7 @@ import HSProject.tileCoded.tilings.TileCodeQTableInterface.ActionValue;
 public class HelicopterAgentTileCodedSARSAGreedyGuided extends TileCodedAgentSARSA {
 	private int numStateTilings;
 	private int numActionTilings;
-	private double gaussianWidth;
+	private double noiseWidth;
 
 	public HelicopterAgentTileCodedSARSAGreedyGuided() {
 
@@ -44,7 +44,8 @@ public class HelicopterAgentTileCodedSARSAGreedyGuided extends TileCodedAgentSAR
 
 		initialiseActionTiling(numVariables, actionsMin, actionsMax, numTiles, numTilings);
 		
-		gaussianWidth = getConfig().getDouble("gaussian");
+		noiseWidth = getConfig().getDouble("noise");
+		System.out.println("Noise=" + noiseWidth);
 	}
 
 	/**
@@ -56,10 +57,12 @@ public class HelicopterAgentTileCodedSARSAGreedyGuided extends TileCodedAgentSAR
 		Action a = new Action(0, 4);
 		agent_policy(o, a);
 
-		a.doubleArray[0] = randGenerator.nextGaussian() / gaussianWidth;
-		a.doubleArray[1] = randGenerator.nextGaussian() / gaussianWidth;
-		a.doubleArray[2] = randGenerator.nextGaussian() / gaussianWidth;
-		a.doubleArray[3] = randGenerator.nextGaussian() / gaussianWidth;
+		double divisor = 1.0 / noiseWidth;
+		double adjustor = noiseWidth / 2.0;
+		a.doubleArray[0] += (randGenerator.nextDouble() / divisor) - adjustor;
+		a.doubleArray[1] += (randGenerator.nextDouble() / divisor) - adjustor;
+		a.doubleArray[2] += (randGenerator.nextDouble() / divisor) - adjustor;
+		a.doubleArray[3] += (randGenerator.nextDouble() / divisor) - adjustor;
 
 		for (int i = 0; i < 4; i++) {
 			if (a.doubleArray[i] > 1) {

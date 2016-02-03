@@ -35,6 +35,7 @@ public class HelicopterAgentTileCodedQGaussian extends TileCodedAgentQ {
 		initialiseActionTiling(numVariables, actionsMin, actionsMax, numTiles, numTilings);
 		
 		gaussianWidth = getConfig().getDouble("gaussian");
+		System.out.println("Width=" + gaussianWidth);
 	}
 
 	/**

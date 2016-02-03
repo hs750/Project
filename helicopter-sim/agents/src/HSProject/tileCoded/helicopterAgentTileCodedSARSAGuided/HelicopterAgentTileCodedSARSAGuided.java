@@ -37,6 +37,7 @@ public class HelicopterAgentTileCodedSARSAGuided extends TileCodedAgentSARSA {
 		initialiseActionTiling(numVariables, actionsMin, actionsMax, numTiles, numTilings);
 		
 		noiseWidth = getConfig().getDouble("noise");
+		System.out.println("Noise=" + noiseWidth);
 	}
 	
 	/**
