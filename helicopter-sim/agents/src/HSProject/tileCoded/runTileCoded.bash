@@ -27,4 +27,9 @@ fi
 echo "JVM MEMORY: $maxMemory"
 
 extraPath=./../../../bin/HelicopterAgentTileCoded$agentName:../../../../../YORLL.jar:../../../../../koloboke-api-jdk8-0.6.8.jar:../../../../../koloboke-impl-jdk8-0.6.8.jar		 #Item for the class path so your agent can be found
+
+cp ../../../../../experimentConfig.ini experimentConfig.ini
+
 startJavaAgent $extraPath $className $maxMemory
+
+rm experimentConfig.ini
