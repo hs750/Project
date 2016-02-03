@@ -14,7 +14,7 @@ maxMemory=$(echo -e 'import re\nmatched=re.search(r"^MemTotal:\s+(\d+)",open("/p
 #Max amount of memory to give the agent (Java default is often too low)
 
 # For Mac OSX use 6 gigabytes
-if [ "$OSTYPE" = "darwin" ]; then #linux is "linux-gnu"
+if [ "$OSTYPE" = "darwin15" ]; then #linux is "linux-gnu"
 maxMemory=6G
 fi
 
