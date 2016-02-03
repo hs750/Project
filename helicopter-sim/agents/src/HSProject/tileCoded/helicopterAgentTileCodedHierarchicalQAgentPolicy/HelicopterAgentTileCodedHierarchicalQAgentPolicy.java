@@ -3,7 +3,6 @@ package HSProject.tileCoded.helicopterAgentTileCodedHierarchicalQAgentPolicy;
 import java.util.ArrayList;
 import java.util.Random;
 
-import org.rlcommunity.rlglue.codec.taskspec.TaskSpec;
 import org.rlcommunity.rlglue.codec.types.Action;
 import org.rlcommunity.rlglue.codec.types.Observation;
 import org.rlcommunity.rlglue.codec.util.AgentLoader;
@@ -45,20 +44,13 @@ public class HelicopterAgentTileCodedHierarchicalQAgentPolicy extends TileCodedA
 	int numActionTilings = 4;
 
 	protected Random randGenerator = new Random();
-	private double epsilon = 0.1;
 	private boolean exploringFrozen = false;
-
-	TaskSpec TSO = null;
-
-	static double alpha = 0.1;
-	static double gamma = 1;
 
 	private StateType currentStateType = StateType.AILERON;
 
 	public HelicopterAgentTileCodedHierarchicalQAgentPolicy() {
-		super(alpha, gamma);
-		int numTiles = 20;
-		numStateTilings = 128;
+		int numTiles = getConfig().getInt("stateTiles");
+		numStateTilings = getConfig().getInt("stateTilings");
 
 		// {Sideways velocity, Sideways Pos, y axis rotation}
 		double[] featureMin_aileron = { -5, -20, -1 };
@@ -92,16 +84,16 @@ public class HelicopterAgentTileCodedHierarchicalQAgentPolicy extends TileCodedA
 		stateTileCodings = new TileCoding[] { stateTileCoding_aileron, stateTileCoding_elevation,
 				stateTileCoding_rudder, stateTileCoding_collective };
 
-		int aNumTiles = 40;
+		int aNumTiles = getConfig().getInt("actionTiles");
 		int aNumFeatures = 1;
-		numActionTilings = 32;
+		numActionTilings = getConfig().getInt("actionTilings");
 		double[] aFeatureMin = { -1 };
 		double[] aFeatureMax = { 1 };
 		actionTileCoding = new TileCoding(aNumTiles, aNumFeatures, numActionTilings, aFeatureMin, aFeatureMax);
 
 		// To trick the super into thinking we are using all its
-		initialiseStateTiling(1, new double[1], new double[1], 1, numStateTilings);
-		initialiseActionTiling(1, new double[1], new double[1], 1, numActionTilings);
+		initialiseStateTiling(1, new double[1], new double[1], numTiles, numStateTilings);
+		initialiseActionTiling(1, new double[1], new double[1], aNumTiles, numActionTilings);
 	}
 
 	private double[] generateState(Observation o, StateType st) {

@@ -34,13 +34,17 @@ public abstract class TileCodedAgentQλ extends TileCodedAgent {
 	 * @param lambda
 	 *            the eligibility trace parameter
 	 */
-	public TileCodedAgentQλ(double alpha, double gamma, double lambda) {
-		this.alpha = alpha;
-		this.gamma = gamma;
-		this.lambda = lambda;
+	public TileCodedAgentQλ() {
+		this.alpha = getConfig().getDouble("alpha");
+		this.gamma = getConfig().getDouble("gamma");
+		this.lambda = getConfig().getDouble("lambda");
 
 		qTable = new EligibilityQTable();
 		setQTable(qTable);
+		
+		System.out.println("Alpha=" + alpha);
+		System.out.println("Gamma=" + gamma);
+		System.out.println("Lambda=" + lambda);
 	}
 
 	@Override

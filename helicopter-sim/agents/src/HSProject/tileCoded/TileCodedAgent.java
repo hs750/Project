@@ -1,5 +1,6 @@
 package HSProject.tileCoded;
 
+import java.io.IOException;
 import java.util.Random;
 
 import org.rlcommunity.rlglue.codec.AgentInterface;
@@ -12,6 +13,7 @@ import HSProject.tileCoded.tilings.TileCodeQTable;
 import HSProject.tileCoded.tilings.TileCodeQTableInterface;
 import HSProject.tileCoded.tilings.TileCodeQTableInterface.ActionValue;
 import HSProject.tileCoded.tilings.TileCoding;
+import marl.utility.Config;
 
 /**
  * An RL-Glue agent that uses tile coding and epsilon-greedy exploration
@@ -20,10 +22,14 @@ import HSProject.tileCoded.tilings.TileCoding;
  *
  */
 public abstract class TileCodedAgent implements AgentInterface {
+	private static Config configFile;
+	
 	private TileCodeQTableInterface qTable;
 	private TileCoding stateTileCoding;
 	private TileCoding actionTileCoding;
 
+	// Learning parameters
+	protected double epsilon = 0.1;
 	private int numStateTilings = 32;
 	private int numActionTilings = 4;
 
@@ -31,7 +37,7 @@ public abstract class TileCodedAgent implements AgentInterface {
 	private Observation lastState;
 
 	protected Random randGenerator = new Random();
-	protected double epsilon = 0.1;
+	
 	private boolean exploringFrozen = false;
 
 	private TaskSpec TSO = null;
@@ -56,14 +62,28 @@ public abstract class TileCodedAgent implements AgentInterface {
 							// rotation around that axis
 			qz_err = 11; // [recall: any rotation can be represented by a single
 							// rotation around some axis]
+	
+	public static Config getConfig(){
+		if(configFile == null){
+			configFile = new Config();
+			try {
+				configFile.readFile("experimentConfig.ini");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return configFile;
+	}
 
 	/**
 	 * A new RL-Glue agent
 	 */
 	public TileCodedAgent() {
 		qTable = new TileCodeQTable();
+		this.epsilon = getConfig().getDouble("epsilon");
 
 		System.out.println("JVM MEMORY = " + (Runtime.getRuntime().maxMemory() / gb) + "GB");
+		System.out.println("Epsilon=" + epsilon);
 	}
 
 	/**
@@ -99,6 +119,8 @@ public abstract class TileCodedAgent implements AgentInterface {
 			int numTilings) {
 		numStateTilings = numTilings;
 		stateTileCoding = new TileCoding(numTiles, numStateVariables, numStateTilings, statesMin, statesMax);
+		System.out.println("State Tiles=" + numTiles);
+		System.out.println("State Tilings=" + numTilings);
 	}
 
 	/**
@@ -124,6 +146,8 @@ public abstract class TileCodedAgent implements AgentInterface {
 			int numTiles, int numTilings) {
 		numActionTilings = numTilings;
 		actionTileCoding = new TileCoding(numTiles, numActionVariables, numActionTilings, actionsMin, actionsMax);
+		System.out.println("Action Tiles=" + numTiles);
+		System.out.println("Action Tilings=" + numTilings);
 	}
 
 	/**

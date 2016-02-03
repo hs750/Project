@@ -17,25 +17,21 @@ import HSProject.tileCoded.TileCodedAgentSARSA;
  *
  */
 public class HelicopterAgentTileCodedSARSARewardShaped extends TileCodedAgentSARSA {
-	private static double alpha = 0.1;
-	private static double gamma = 1;
 	
 	public HelicopterAgentTileCodedSARSARewardShaped() {
-		super(alpha, gamma);
 		
 		
-		int numTiles = 10;
+		int numTiles = getConfig().getInt("stateTiles");
 		int numVariables = 12;
-		int numTilings = 16;
-		double[] statesMin = {-5, -5, -5, -20, -20, -20, -12.566, -12.566, -12.566, -1, -1, -1};
-		double[] statesMax = {5, 5, 5, 20, 20, 20, 12.566, 12.566, 12.566, 1, 1, 1};
-		
+		int numTilings = getConfig().getInt("stateTilings");
+		double[] statesMin = { -5, -5, -5, -20, -20, -20, -12.566, -12.566, -12.566, -1, -1, -1 };
+		double[] statesMax = { 5, 5, 5, 20, 20, 20, 12.566, 12.566, 12.566, 1, 1, 1 };
+
 		initialiseStateTiling(numVariables, statesMin, statesMax, numTiles, numTilings);
 
-		
-		numTiles = 5;
+		numTiles = getConfig().getInt("actionTiles");
 		numVariables = 4;
-		numTilings = 16;
+		numTilings = getConfig().getInt("actionTilings");
 		double[] actionsMin = {-1, -1, -1, -1};
 		double[] actionsMax = {1, 1, 1, 1};
 

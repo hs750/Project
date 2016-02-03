@@ -27,9 +27,12 @@ public abstract class TileCodedAgentSARSA extends TileCodedAgent {
 	 * @param gamma
 	 *            the discount factor
 	 */
-	public TileCodedAgentSARSA(double alpha, double gamma) {
-		this.alpha = alpha;
-		this.gamma = gamma;
+	public TileCodedAgentSARSA() {
+		this.alpha = getConfig().getDouble("alpha");
+		this.gamma = getConfig().getDouble("gamma");
+		
+		System.out.println("Alpha=" + alpha);
+		System.out.println("Gamma=" + gamma);
 	}
 
 	@Override

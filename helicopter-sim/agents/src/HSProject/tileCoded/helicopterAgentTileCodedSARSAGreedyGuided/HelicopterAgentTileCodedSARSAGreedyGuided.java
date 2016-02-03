@@ -20,31 +20,31 @@ import HSProject.tileCoded.tilings.TileCodeQTableInterface.ActionValue;
  *
  */
 public class HelicopterAgentTileCodedSARSAGreedyGuided extends TileCodedAgentSARSA {
-	private static double alpha = 0.1;
-	private static double gamma = 1;
 	private int numStateTilings;
 	private int numActionTilings;
+	private double gaussianWidth;
 
 	public HelicopterAgentTileCodedSARSAGreedyGuided() {
-		super(alpha, gamma);
 
-		int numTiles = 10;
+		int numTiles = getConfig().getInt("stateTiles");
 		int numVariables = 12;
-		int numTilings = 16;
+		int numTilings = getConfig().getInt("stateTilings");
 		numStateTilings = numTilings;
 		double[] statesMin = { -5, -5, -5, -20, -20, -20, -12.566, -12.566, -12.566, -1, -1, -1 };
 		double[] statesMax = { 5, 5, 5, 20, 20, 20, 12.566, 12.566, 12.566, 1, 1, 1 };
 
 		initialiseStateTiling(numVariables, statesMin, statesMax, numTiles, numTilings);
 
-		numTiles = 5;
+		numTiles = getConfig().getInt("actionTiles");
 		numVariables = 4;
-		numTilings = 16;
+		numTilings = getConfig().getInt("actionTilings");
 		numActionTilings = numTilings;
 		double[] actionsMin = { -1, -1, -1, -1 };
 		double[] actionsMax = { 1, 1, 1, 1 };
 
 		initialiseActionTiling(numVariables, actionsMin, actionsMax, numTiles, numTilings);
+		
+		gaussianWidth = getConfig().getDouble("gaussian");
 	}
 
 	/**
@@ -56,11 +56,10 @@ public class HelicopterAgentTileCodedSARSAGreedyGuided extends TileCodedAgentSAR
 		Action a = new Action(0, 4);
 		agent_policy(o, a);
 
-		double widthAdjust = 5;
-		a.doubleArray[0] += randGenerator.nextGaussian() / widthAdjust;
-		a.doubleArray[1] += randGenerator.nextGaussian() / widthAdjust;
-		a.doubleArray[2] += randGenerator.nextGaussian() / widthAdjust;
-		a.doubleArray[3] += randGenerator.nextGaussian() / widthAdjust;
+		a.doubleArray[0] = randGenerator.nextGaussian() / gaussianWidth;
+		a.doubleArray[1] = randGenerator.nextGaussian() / gaussianWidth;
+		a.doubleArray[2] = randGenerator.nextGaussian() / gaussianWidth;
+		a.doubleArray[3] = randGenerator.nextGaussian() / gaussianWidth;
 
 		for (int i = 0; i < 4; i++) {
 			if (a.doubleArray[i] > 1) {

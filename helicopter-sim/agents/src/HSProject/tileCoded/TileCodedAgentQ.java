@@ -26,9 +26,11 @@ public abstract class TileCodedAgentQ extends TileCodedAgent {
 	 * @param gamma
 	 *            the discount factor
 	 */
-	public TileCodedAgentQ(double alpha, double gamma) {
-		this.alpha = alpha;
-		this.gamma = gamma;
+	public TileCodedAgentQ() {
+		this.alpha = getConfig().getDouble("alpha");
+		this.gamma = getConfig().getDouble("gamma");
+		System.out.println("Alpha=" + alpha);
+		System.out.println("Gamma=" + gamma);
 	}
 
 	@Override
