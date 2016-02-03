@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="helicopter-sim/agents/src"/>
+	<classpathentry kind="src" path="helicopter-sim/trainers/consoleTrainerJavaHelicopter/src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="YORLL.jar" sourcepath="YORLL-Java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
@@ -15,5 +16,6 @@
 			<attribute name="javadoc_location" value="jar:platform:/resource/Project/JavaRLGlueCodec_javadocs.zip!/JavaRLGlueCodec_javadocs"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="helicopter-sim/system/libraries/rl-viz/RLVizLib.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
