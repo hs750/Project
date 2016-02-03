@@ -29,9 +29,12 @@ public abstract class TileCodedAgent implements AgentInterface {
 	private TileCoding actionTileCoding;
 
 	// Learning parameters
+	private double initialEpsilon;
 	protected double epsilon = 0.1;
 	private int numStateTilings = 32;
 	private int numActionTilings = 4;
+	private int episodes;
+	private int episodeNumber = 0;
 
 	private Action action;
 	private Observation lastState;
@@ -82,9 +85,12 @@ public abstract class TileCodedAgent implements AgentInterface {
 	public TileCodedAgent() {
 		qTable = new TileCodeQTable();
 		this.epsilon = getConfig().getDouble("epsilon");
-
+		this.episodes = getConfig().getInt("episodes");
+		initialEpsilon = epsilon;
+		
 		System.out.println("JVM MEMORY = " + (Runtime.getRuntime().maxMemory() / gb) + "GB");
 		System.out.println("Epsilon=" + epsilon);
+		System.out.println("Episodes=" + epsilon);
 	}
 
 	/**
@@ -210,6 +216,9 @@ public abstract class TileCodedAgent implements AgentInterface {
 			actionTileCoding.getTiles(actions, getAction().doubleArray);
 
 			learnEnd(reward, curStates, actions);
+			
+			episodeNumber++;
+			epsilon = initialEpsilon - ((initialEpsilon * episodeNumber) / episodes);
 		}
 	}
 
@@ -260,7 +269,7 @@ public abstract class TileCodedAgent implements AgentInterface {
 		if (message.equals("freeze-learning")) {
 			setExploringFrozen(true);
 			System.out.println("Evaluation! States=" + getNumStates() + " Memory="
-					+ (Runtime.getRuntime().totalMemory() / gb));
+					+ (Runtime.getRuntime().totalMemory() / gb) + " epsilon=" + epsilon);
 		} else if (message.equals("unfreeze-learning")) {
 			setExploringFrozen(false);
 			System.out.println("Learning");
