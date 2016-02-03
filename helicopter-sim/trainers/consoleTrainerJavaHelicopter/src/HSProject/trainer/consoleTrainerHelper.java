@@ -1,3 +1,4 @@
+package HSProject.trainer;
 /* console Trainer for RL Competition
 * Copyright (C) 2007, Brian Tanner brian@tannerpages.com (http://brian.tannerpages.com/)
 * 

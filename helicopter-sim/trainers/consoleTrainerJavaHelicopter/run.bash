@@ -10,7 +10,7 @@ BIN_CLASSPATH=bin
 startRLGlueInBackGround
 startEnvShellInBackGround
 
-java -Xmx128M -classpath $basePath/system/libraries/rl-viz/RLVizLib.jar:$BIN_CLASSPATH consoleTrainer
+java -Xmx128M -classpath $basePath/system/libraries/rl-viz/RLVizLib.jar:$BIN_CLASSPATH HSProject.trainer.consoleTrainer
 
 #Utility functions from rl-competition-includes.sh
 waitForEnvShellToDie
