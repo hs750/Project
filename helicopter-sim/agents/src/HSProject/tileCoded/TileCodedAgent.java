@@ -69,7 +69,8 @@ public abstract class TileCodedAgent implements AgentInterface {
 			try {
 				configFile.readFile("experimentConfig.ini");
 			} catch (IOException e) {
-				e.printStackTrace();
+				System.err.println("Unable to access expermiment configuration " + e.getMessage());
+				System.exit(-1);
 			}
 		}
 		return configFile;
