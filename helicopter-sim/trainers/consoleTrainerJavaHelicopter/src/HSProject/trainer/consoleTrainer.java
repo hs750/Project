@@ -33,7 +33,7 @@ public class consoleTrainer {
 		RLGlue.RL_init();
 
 		int evaluationCount = 200; // number of evaluatins to perfom
-		int episodeCount = 200; // number of episodes to run between evaluations
+		int episodeCount = 100; // number of episodes to run between evaluations
 								// total number of episodes = evaluationCount *
 								// episodeCount
 		int maxEpisodeLength = 20000; // set a maxEpisodeLength to cut off long
