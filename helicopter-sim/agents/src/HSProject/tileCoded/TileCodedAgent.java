@@ -23,7 +23,7 @@ import marl.utility.Config;
  */
 public abstract class TileCodedAgent implements AgentInterface {
 	private static Config configFile;
-	
+
 	private TileCodeQTableInterface qTable;
 	private TileCoding stateTileCoding;
 	private TileCoding actionTileCoding;
@@ -40,7 +40,7 @@ public abstract class TileCodedAgent implements AgentInterface {
 	private Observation lastState;
 
 	protected Random randGenerator = new Random();
-	
+
 	private boolean exploringFrozen = false;
 
 	private TaskSpec TSO = null;
@@ -65,9 +65,9 @@ public abstract class TileCodedAgent implements AgentInterface {
 							// rotation around that axis
 			qz_err = 11; // [recall: any rotation can be represented by a single
 							// rotation around some axis]
-	
-	public static Config getConfig(){
-		if(configFile == null){
+
+	public static Config getConfig() {
+		if (configFile == null) {
 			configFile = new Config();
 			try {
 				configFile.readFile("experimentConfig.ini");
@@ -87,10 +87,10 @@ public abstract class TileCodedAgent implements AgentInterface {
 		this.epsilon = getConfig().getDouble("epsilon");
 		this.episodes = getConfig().getInt("episodes");
 		initialEpsilon = epsilon;
-		
+
 		System.out.println("JVM MEMORY = " + (Runtime.getRuntime().maxMemory() / gb) + "GB");
 		System.out.println("Epsilon=" + epsilon);
-		System.out.println("Episodes=" + epsilon);
+		System.out.println("Episodes=" + episodes);
 	}
 
 	/**
@@ -216,9 +216,11 @@ public abstract class TileCodedAgent implements AgentInterface {
 			actionTileCoding.getTiles(actions, getAction().doubleArray);
 
 			learnEnd(reward, curStates, actions);
-			
-			episodeNumber++;
-			epsilon = initialEpsilon - ((initialEpsilon * episodeNumber) / episodes);
+
+			if (episodes > 0) {
+				episodeNumber++;
+				epsilon = initialEpsilon - ((initialEpsilon * episodeNumber) / episodes);
+			}
 		}
 	}
 
@@ -598,8 +600,8 @@ public abstract class TileCodedAgent implements AgentInterface {
 	public void setAction(Action action) {
 		this.action = action;
 	}
-	
-	public int getNumStates(){
+
+	public int getNumStates() {
 		return qTable.getNumStates();
 	}
 
