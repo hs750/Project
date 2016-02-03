@@ -1,5 +1,5 @@
 include ../Makefile.classPath
-agentName=SARSAGuided
+agentName=SARSAGreedyGuided
 all:
 	mkdir -p ../../../../bin/HelicopterAgentTileCoded$(agentName)
 	javac -source 8 -d ../../../../bin/HelicopterAgentTileCoded$(agentName) -cp $(classPath) HelicopterAgentTileCoded$(agentName).java

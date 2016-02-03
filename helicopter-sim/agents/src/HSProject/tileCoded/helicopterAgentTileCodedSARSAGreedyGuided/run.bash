@@ -1,2 +1,2 @@
 cd ..
-bash runTileCoded.bash SARSAGuided
+bash runTileCoded.bash SARSAGreedyGuided
