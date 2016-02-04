@@ -83,6 +83,8 @@ public class HelicopterAgentQ implements AgentInterface {
 	public String agent_message(String message) {
 		if (message.equals("freeze-learning")) {
 			exploringFrozen = true;
+			System.out.println("Evaluation! States=" + qTable.size() + " Memory="
+					+ (Runtime.getRuntime().totalMemory() / (1024 * 1024 * 1024)));
 		} else if (message.equals("unfreeze-learning")) {
 			exploringFrozen = false;
 		}
