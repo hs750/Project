@@ -21,12 +21,13 @@ import org.rlcommunity.rlglue.codec.RLGlue;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Date;
 
 public class consoleTrainer {
 
-	public static void main(String[] args) throws InterruptedException {
-
+	public static void main(String[] args) throws InterruptedException{
 		int whichTrainingMDP = 1; // select the MDP to load
 
 		consoleTrainerHelper.loadHelicopter(whichTrainingMDP);
@@ -175,18 +176,23 @@ public class consoleTrainer {
 	}
 
 	static void saveScore(boolean initial, int afterEpisodes, evaluationPoint theScore) {
+		String hostname = "unknown";
+		try {
+			hostname = InetAddress.getLocalHost().getHostName();
+		} catch (UnknownHostException e1) {
+		}
 		if (initial) {
-			File lastExperiment = new File("experiementResults.csv");
+			File lastExperiment = new File(hostname + "_experimentResults.csv");
 			if (lastExperiment.exists()) {
 				long expTime = lastExperiment.lastModified();
 				Date expDate = new Date(expTime);
 				String date = expDate.toString().replace(' ', '_').replace(':', '.');
-				File renamedLastExperiment = new File("experimentResults_" + date + ".csv");
+				File renamedLastExperiment = new File(hostname + "_experimentResults_" + date + ".csv");
 				lastExperiment.renameTo(renamedLastExperiment);
 			}
 		}
 		try {
-			FileWriter writer = new FileWriter("experiementResults.csv", true);
+			FileWriter writer = new FileWriter(hostname + "_experimentResults.csv", true);
 			if (initial) {
 				writer.append("Episodes");
 				writer.append(',');
