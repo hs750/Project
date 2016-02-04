@@ -50,8 +50,11 @@ public class HelicopterAgentQ implements AgentInterface {
 			qz_err = 11; // [recall: any rotation can be represented by a single
 							// rotation around some axis]
 
-	public HelicopterAgentQ() {
+	public HelicopterAgentQ(double alpha, double gamma, double epsilon) {
 		qTable = new HelicopterQTable();
+		this.alpha = alpha;
+		this.gamma = gamma;
+		this.epsilon = epsilon;
 	}
 
 	public void agent_cleanup() {
@@ -152,7 +155,10 @@ public class HelicopterAgentQ implements AgentInterface {
 	}
 
 	public static void main(String[] args) {
-		AgentLoader L = new AgentLoader(new HelicopterAgentQ());
+		double a = Double.parseDouble(args[0]);
+		double g = Double.parseDouble(args[1]);
+		double e = Double.parseDouble(args[2]);
+		AgentLoader L = new AgentLoader(new HelicopterAgentQ(a, g, e));
 		L.run();
 	}
 
