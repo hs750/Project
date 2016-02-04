@@ -1,5 +1,6 @@
 package HSProject;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -95,23 +96,14 @@ public class HelicopterQTable {
 
 		@Override
 		public int hashCode() {
-			double hash = 1;
-			for (int i = 0; i < observation.doubleArray.length; i++) {
-				hash *= observation.doubleArray[i];
-			}
-			return (int) hash; // Helicopter only has observations in the
-								// doubleArray
+			return Arrays.hashCode(observation.doubleArray);
 		}
 
 		@Override
 		public boolean equals(Object obj) {
 			if (obj instanceof HelicopterState) {
 				HelicopterState hs = (HelicopterState) obj;
-				boolean equal = true;
-				for (int i = 0; i < observation.doubleArray.length; i++) {
-					equal = equal && (observation.doubleArray[i] == hs.observation.doubleArray[i]);
-				}
-				return equal;
+				return Arrays.equals(this.observation.doubleArray, hs.observation.doubleArray);
 			} else {
 				return false;
 			}
@@ -128,11 +120,7 @@ public class HelicopterQTable {
 
 		@Override
 		public int hashCode() {
-			double hash = 1;
-			for (int i = 0; i < action.doubleArray.length; i++) {
-				hash *= action.doubleArray[i];
-			}
-			return (int) hash;
+			return Arrays.hashCode(action.doubleArray);
 			// Helicopter only has actions in the doubleArray
 		}
 
@@ -140,11 +128,7 @@ public class HelicopterQTable {
 		public boolean equals(Object obj) {
 			if (obj instanceof HelicopterAction) {
 				HelicopterAction ha = (HelicopterAction) obj;
-				boolean equal = true;
-				for (int i = 0; i < action.doubleArray.length; i++) {
-					equal = equal && (action.doubleArray[i] == ha.action.doubleArray[i]);
-				}
-				return equal;
+				return Arrays.equals(this.action.doubleArray, ha.action.doubleArray);
 			} else {
 				return false;
 			}
