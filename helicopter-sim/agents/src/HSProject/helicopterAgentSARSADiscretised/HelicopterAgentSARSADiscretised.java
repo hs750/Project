@@ -89,10 +89,7 @@ public class HelicopterAgentSARSADiscretised extends HelicopterAgentSARSA {
 			a.doubleArray[3] = Math.round(((randGenerator.nextDouble() * 2) - 1) * 10) / 10.0;
 			break;
 		case 1:
-			a.doubleArray[0] = a.doubleArray[0] * randGenerator.nextDouble();
-			a.doubleArray[1] = a.doubleArray[1] * randGenerator.nextDouble();
-			a.doubleArray[2] = a.doubleArray[2] * randGenerator.nextDouble();
-			a.doubleArray[3] = a.doubleArray[3] * randGenerator.nextDouble();
+			// Do nothing (always 0)
 			break;
 		case 2:
 			a.doubleArray[0] = randGenerator.nextDouble() > 0.5 ? 0.5 : -0.5;
