@@ -41,7 +41,7 @@ public abstract class TileCodedAgentQλ extends TileCodedAgent {
 
 		qTable = new EligibilityQTable();
 		setQTable(qTable);
-		
+
 		System.out.println("Alpha=" + alpha);
 		System.out.println("Gamma=" + gamma);
 		System.out.println("Lambda=" + lambda);
@@ -103,24 +103,27 @@ public abstract class TileCodedAgentQλ extends TileCodedAgent {
 				double eligibility = qTable.getEligibility(lastS, lastA) + 1;
 				qTable.updateEligibility(lastS, lastA, eligibility);
 
-				double delta = (reward + (gamma * newQ[i]) - curQ) / (double) (numStateTilings * numActionTilings);
+				for (int k = 0; k < numStateTilings; k++) {
+					double delta = (reward + (gamma * newQ[k]) - curQ)
+							/ (double) (numStateTilings * numActionTilings * numStateTilings);
 
-				savq.forEach((s, a) -> {
-					double e = qTable.getEligibility(s, a);
-					double q = qTable.getQValue(s, a);
+					savq.forEach((s, a) -> {
+						double e = qTable.getEligibility(s, a);
+						double q = qTable.getQValue(s, a);
 
-					Action putAction = null;
-					if (s.equals(lastS) && a.equals(lastA)) {
-						putAction = lastAction;
-					}
-					qTable.put(s, a, q + alpha * delta * e, putAction);
-					if (!super.lastActionExploration()) {
-						qTable.updateEligibility(s, a, gamma * lambda * e);
-					} else {
-						qTable.updateEligibility(s, a, 0);
-					}
+						Action putAction = null;
+						if (s.equals(lastS) && a.equals(lastA)) {
+							putAction = lastAction;
+						}
+						qTable.put(s, a, q + alpha * delta * e, putAction);
+						if (!super.lastActionExploration()) {
+							qTable.updateEligibility(s, a, gamma * lambda * e);
+						} else {
+							qTable.updateEligibility(s, a, 0);
+						}
 
-				});
+					});
+				}
 			}
 
 		}

@@ -72,16 +72,12 @@ public abstract class TileCodedAgentQ extends TileCodedAgent {
 			for (int j = 0; j < numActionTilings; j++) {
 				// Q(s,a)
 				double curQ = qTable.getQValue(tiledLastStates[i], tiledLastActions[j]);
-				double val = curQ + ((alpha * (reward + (gamma * newQ[i]) - curQ))
-						/ (double) (numStateTilings * numActionTilings));
+				for (int k = 0; k < numStateTilings; k++) {
+					double val = curQ + ((alpha * (reward + (gamma * newQ[k]) - curQ))
+							/ (double) (numStateTilings * numActionTilings * numStateTilings));
 
-				qTable.put(tiledLastStates[i], tiledLastActions[j], val, lastAction); // commit
-																						// the
-																						// update
-																						// to
-																						// the
-																						// Q
-																						// table
+					qTable.put(tiledLastStates[i], tiledLastActions[j], val, lastAction);
+				}
 			}
 
 		}
