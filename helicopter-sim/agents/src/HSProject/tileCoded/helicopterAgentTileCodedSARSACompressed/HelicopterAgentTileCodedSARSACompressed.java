@@ -13,10 +13,10 @@ import HSProject.tileCoded.TileCodedAgentSARSA;
  * @author harrison
  *
  */
-public class HelicopterAgentTileCodedSARSAGaussian extends TileCodedAgentSARSA {
+public class HelicopterAgentTileCodedSARSACompressed extends TileCodedAgentSARSA {
 	private double width;
 
-	public HelicopterAgentTileCodedSARSAGaussian() {
+	public HelicopterAgentTileCodedSARSACompressed() {
 
 		int numTiles = getConfig().getInt("stateTiles");
 		int numVariables = 12;
@@ -57,7 +57,7 @@ public class HelicopterAgentTileCodedSARSAGaussian extends TileCodedAgentSARSA {
 	}
 
 	public static void main(String[] args) {
-		AgentLoader L = new AgentLoader(new HelicopterAgentTileCodedSARSAGaussian());
+		AgentLoader L = new AgentLoader(new HelicopterAgentTileCodedSARSACompressed());
 		L.run();
 	}
 }
