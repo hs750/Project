@@ -56,16 +56,16 @@ public class HelicopterAgentTileCodedSARSARewardShaped2 extends TileCodedAgentSA
 	private double getReward(Observation o){
 		double reward = 0;
 		// reward only made up of distances from desired point, nothing else
-		reward += Math.pow(o.getDouble(3), 2);
-		reward += Math.pow(o.getDouble(4), 2);
-		reward += Math.pow(o.getDouble(5), 2);
+		reward -= Math.pow(o.getDouble(3), 2);
+		reward -= Math.pow(o.getDouble(4), 2);
+		reward -= Math.pow(o.getDouble(5), 2);
 		return reward;
 	}
 	
 	private double getFinalReward(){
 		// the maximum negative reward for the remainder of the episode
 		double reward = Math.pow(20, 2)*3;
-		return reward * (6000-steps);
+		return -1 * reward * (6000-steps);
 	}
 	
 	@Override
