@@ -1,2 +1,2 @@
 cd ..
-bash runTileCoded.bash SARSARewardShaped
+bash runTileCoded.bash SARSARewardShapedPolicy
