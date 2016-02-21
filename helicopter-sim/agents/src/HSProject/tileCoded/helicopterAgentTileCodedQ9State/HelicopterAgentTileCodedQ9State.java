@@ -36,7 +36,7 @@ public class HelicopterAgentTileCodedQ9State extends TileCodedAgentQ {
 		
 		numTiles = getConfig().getInt("actionTiles");
 		numVariables = 4;
-		numTilings = getConfig().getInt("actionTiligs");
+		numTilings = getConfig().getInt("actionTilings");
 		double[] actionsMin = {-1, -1, -1, -1};
 		double[] actionsMax = {1, 1, 1, 1};
 
