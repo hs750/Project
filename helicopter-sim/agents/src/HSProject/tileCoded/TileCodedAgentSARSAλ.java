@@ -73,7 +73,11 @@ public abstract class TileCodedAgentSARSAλ extends TileCodedAgent{
 			Tile[] tiledCurStates) {
 		//Initialise savq here as the size of this is the only time tiling numbers are known
 		if(savq == null){
-			savq = new StateActionVisitQueue(Math.max(10 * numStateTilings * numActionTilings, 2000));
+			int historyLength = Math.max(10 * numStateTilings * numActionTilings, 2000);
+			if(lambda == 1){
+				historyLength = Integer.MAX_VALUE;
+			}
+			savq = new StateActionVisitQueue(historyLength);
 		}
 
 		// get the next Q values
