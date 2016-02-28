@@ -59,20 +59,20 @@ public class HelicopterAgentQDiscretised extends HelicopterAgentQ {
 		default:
 			// -5..5
 			o.doubleArray[0] = o.doubleArray[0] > 0 ? 5 : -5;
-			o.doubleArray[1] = o.doubleArray[0] > 0 ? 5 : -5;
-			o.doubleArray[2] = o.doubleArray[0] > 0 ? 5 : -5;
+			o.doubleArray[1] = o.doubleArray[1] > 0 ? 5 : -5;
+			o.doubleArray[2] = o.doubleArray[2] > 0 ? 5 : -5;
 			// -20..20
-			o.doubleArray[3] = o.doubleArray[0] > 0 ? 20 : -20;
-			o.doubleArray[4] = o.doubleArray[0] > 0 ? 20 : -20;
-			o.doubleArray[5] = o.doubleArray[0] > 0 ? 20 : -20;
+			o.doubleArray[3] = o.doubleArray[3] > 0 ? 20 : -20;
+			o.doubleArray[4] = o.doubleArray[4] > 0 ? 20 : -20;
+			o.doubleArray[5] = o.doubleArray[5] > 0 ? 20 : -20;
 			// -12.566 .. 12.566
-			o.doubleArray[6] = o.doubleArray[0] > 0 ? 12 : -12;
-			o.doubleArray[7] = o.doubleArray[0] > 0 ? 12 : -12;
-			o.doubleArray[8] = o.doubleArray[0] > 0 ? 12 : -12;
+			o.doubleArray[6] = o.doubleArray[6] > 0 ? 12 : -12;
+			o.doubleArray[7] = o.doubleArray[7] > 0 ? 12 : -12;
+			o.doubleArray[8] = o.doubleArray[8] > 0 ? 12 : -12;
 			// -1 .. 1
-			o.doubleArray[9] = o.doubleArray[0] > 0 ? 1 : -1;
-			o.doubleArray[10] = o.doubleArray[0] > 0 ? 1 : -1;
-			o.doubleArray[11] = o.doubleArray[0] > 0 ? 1 : -1;
+			o.doubleArray[9] = o.doubleArray[9] > 0 ? 1 : -1;
+			o.doubleArray[10] = o.doubleArray[10] > 0 ? 1 : -1;
+			o.doubleArray[11] = o.doubleArray[11] > 0 ? 1 : -1;
 			break;
 		}
 	}
