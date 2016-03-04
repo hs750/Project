@@ -111,5 +111,9 @@ public abstract class TileCodedAgentSARSA extends TileCodedAgent {
 
 		}
 	}
+	
+	protected double getGamma(){
+		return gamma;
+	}
 
 }
