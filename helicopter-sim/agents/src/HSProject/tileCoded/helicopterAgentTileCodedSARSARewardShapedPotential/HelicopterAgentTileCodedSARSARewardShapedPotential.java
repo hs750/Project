@@ -90,6 +90,23 @@ public class HelicopterAgentTileCodedSARSARewardShapedPotential extends TileCode
 			r -= s.getDouble(4) * s.getDouble(1);
 			r -= s.getDouble(5) * s.getDouble(2);
 			break;
+		case 1:
+			r -= s.getDouble(3) * s.getDouble(0);
+			r -= s.getDouble(4) * s.getDouble(1);
+			r -= s.getDouble(5) * s.getDouble(2);
+			r += s.getDouble(6) * s.getDouble(9);
+			r += s.getDouble(7) * s.getDouble(10);
+			r += s.getDouble(8) * s.getDouble(11);
+			break;
+		case 2:
+			r -= s.getDouble(3) * s.getDouble(0) * 2;
+			r -= s.getDouble(4) * s.getDouble(1) * 2;
+			r -= s.getDouble(5) * s.getDouble(2) * 2;
+			break;
+		case 3:
+			r -= s.getDouble(3) * s.getDouble(0) * 3;
+			r -= s.getDouble(4) * s.getDouble(1) * 3;
+			r -= s.getDouble(5) * s.getDouble(2) * 3;
 		}
 		
 		
