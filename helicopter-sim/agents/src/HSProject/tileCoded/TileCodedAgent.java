@@ -320,7 +320,7 @@ public abstract class TileCodedAgent implements AgentInterface {
 			getStateTileCoding().getTiles(newStates, o.doubleArray);
 
 			Tile[] actions = new Tile[numActionTilings];
-			getStateTileCoding().getTiles(actions, lastAction.doubleArray);
+			getActionTileCoding().getTiles(actions, lastAction.doubleArray);
 
 			learn(reward, lastAction, curStates, actions, newStates);
 		}
