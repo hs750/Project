@@ -116,4 +116,11 @@ public abstract class TileCodedAgentSARSA extends TileCodedAgent {
 		return gamma;
 	}
 
+	protected int getStateTilings(){
+		return numStateTilings;
+	}
+	
+	protected int getActionTilings(){
+		return numActionTilings;
+	}
 }

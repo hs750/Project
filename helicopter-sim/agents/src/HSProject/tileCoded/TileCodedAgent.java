@@ -210,10 +210,10 @@ public abstract class TileCodedAgent implements AgentInterface {
 		if (!isExploringFrozen()) {
 			// Get all the tiles for the current state
 			Tile[] curStates = new Tile[numStateTilings];
-			stateTileCoding.getTiles(curStates, getLastState().doubleArray);
+			getStateTileCoding().getTiles(curStates, getLastState().doubleArray);
 
 			Tile[] actions = new Tile[numActionTilings];
-			actionTileCoding.getTiles(actions, getAction().doubleArray);
+			getActionTileCoding().getTiles(actions, getAction().doubleArray);
 
 			learnEnd(reward, curStates, actions);
 
@@ -313,14 +313,14 @@ public abstract class TileCodedAgent implements AgentInterface {
 		if (!isExploringFrozen()) {
 			// Get all the tiles for the current state
 			Tile[] curStates = new Tile[numStateTilings];
-			stateTileCoding.getTiles(curStates, getLastState().doubleArray);
+			getStateTileCoding().getTiles(curStates, getLastState().doubleArray);
 
 			// Get all the tiles of the new states
 			Tile[] newStates = new Tile[numStateTilings];
-			stateTileCoding.getTiles(newStates, o.doubleArray);
+			getStateTileCoding().getTiles(newStates, o.doubleArray);
 
 			Tile[] actions = new Tile[numActionTilings];
-			actionTileCoding.getTiles(actions, lastAction.doubleArray);
+			getStateTileCoding().getTiles(actions, lastAction.doubleArray);
 
 			learn(reward, lastAction, curStates, actions, newStates);
 		}
@@ -426,7 +426,7 @@ public abstract class TileCodedAgent implements AgentInterface {
 		}
 
 		Tile[] tiles = new Tile[numStateTilings];
-		stateTileCoding.getTiles(tiles, theState.doubleArray);
+		getStateTileCoding().getTiles(tiles, theState.doubleArray);
 
 		// HashIntDoubleMap actionValues = HashIntDoubleMaps.newUpdatableMap();
 		// Map<Integer, Action> actions =
@@ -506,7 +506,7 @@ public abstract class TileCodedAgent implements AgentInterface {
 
 		ActionValue maxAction = null;
 		for (int i = 0; i < numStateTilings; i++) {
-			ActionValue av = qTable.getMaxAction(tiles[i]);
+			ActionValue av = getQTable().getMaxAction(tiles[i]);
 			if (maxAction == null) {
 				maxAction = av;
 			} else if (av.getValue() > maxAction.getValue()) {
