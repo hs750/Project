@@ -7,6 +7,7 @@ import org.rlcommunity.rlglue.codec.types.Observation;
 import org.rlcommunity.rlglue.codec.util.AgentLoader;
 
 import HSProject.tileCoded.TileCodedAgentSARSA;
+import HSProject.tileCoded.tilings.Tile;
 
 /**
  * An experiment implementing SARSA. The reward received from the
@@ -107,6 +108,15 @@ public class HelicopterAgentTileCodedSARSARewardShapedPotential extends TileCode
 			r -= s.getDouble(3) * s.getDouble(0) * 3;
 			r -= s.getDouble(4) * s.getDouble(1) * 3;
 			r -= s.getDouble(5) * s.getDouble(2) * 3;
+			break;
+		case 4:
+			Tile[] stateTiles = new Tile[getStateTilings()];
+			getStateTileCoding().getTiles(stateTiles, s.doubleArray);
+			double val = 0;
+			for(Tile t : stateTiles){
+				val += getQTable().getMaxQValue(t);
+			}
+			r = Math.abs(val) > 50 ? Math.signum(val) * 50 : val;
 		}
 		
 		

@@ -1,4 +1,4 @@
-package HSProject.trainer;
+package HSProject.hTrainer;
 
 /* console Trainer for RL Competition
 * Copyright (C) 2007, Brian Tanner brian@tannerpages.com (http://brian.tannerpages.com/)
@@ -27,7 +27,7 @@ import java.util.Date;
 
 public class consoleTrainer {
 
-	public static void main(String[] args) throws InterruptedException {
+	public static void main(String[] args) throws InterruptedException{
 		int whichTrainingMDP = 1; // select the MDP to load
 
 		consoleTrainerHelper.loadHelicopter(whichTrainingMDP);
@@ -56,59 +56,53 @@ public class consoleTrainer {
 		long endTimeEp = 0;
 		double timeTakenEp = 0;
 
-		String[] hierarchialModes = new String[] { "AILERON", "ELEVATION", "RUDDER", "COLLECTIVE" };
-
-		//for (String mode : hierarchialModes) {
-			//RLGlue.RL_agent_message("action-" + mode);
-
-			for (int j = 1; j < evaluationCount + 1; j++) {
-				System.out.println("Starting Episode Iteration " + j);
-				if (firstEpTime) {
-					startTimeEp = System.currentTimeMillis();
-				}
-				for (int i = 0; i < episodeCount; i++) {
-					if (firstTime) {
-						startTime = System.currentTimeMillis();
-					}
-					RLGlue.RL_episode(maxEpisodeLength);
-
-					if (i == episodeCount / 10 && firstTime) {
-						endTime = System.currentTimeMillis();
-						timeTaken = endTime - startTime;
-						timeTaken /= 1000.0; // seconds
-						System.out.println("Eposode Time: " + timeTaken + " seconds");
-
-						timeTaken *= (double) (evaluationCount * episodeCount);
-						System.out.println("Experiment Time: " + (timeTaken / 60.0) + " minutes");
-
-						firstTime = false;
-					}
-					totalSteps += RLGlue.RL_num_steps();
-					// System.out.println("Episode: "+i+" steps:
-					// "+RLGlue.RL_num_steps());
-				}
-				if (firstEpTime) {
-					endTimeEp = System.currentTimeMillis();
-					timeTakenEp = endTimeEp - startTimeEp;
-					timeTakenEp /= 1000.0; // seconds
-					System.out.println("Evaluation Cycle Time: " + timeTakenEp + " seconds");
-
-					timeTakenEp *= (double) (evaluationCount);
-					System.out.println("Experiment Time: " + (timeTakenEp / 60.0) + " minutes");
-
-					firstEpTime = false;
-				}
-
-				evaluationPoint evp = evaluateAgent(maxEpisodeLength, 100);
-				printScore(j * episodeCount, evp);
-				saveScore(false, j * episodeCount, evp);
+		for (int j = 1; j < evaluationCount + 1; j++) {
+			System.out.println("Starting Episode Iteration " + j);
+			if (firstEpTime) {
+				startTimeEp = System.currentTimeMillis();
 			}
-		//}
+			for (int i = 0; i < episodeCount; i++) {
+				if (firstTime) {
+					startTime = System.currentTimeMillis();
+				}
+				RLGlue.RL_episode(maxEpisodeLength);
+
+				if (i == episodeCount / 10 && firstTime) {
+					endTime = System.currentTimeMillis();
+					timeTaken = endTime - startTime;
+					timeTaken /= 1000.0; // seconds
+					System.out.println("Eposode Time: " + timeTaken + " seconds");
+
+					timeTaken *= (double) (evaluationCount * episodeCount);
+					System.out.println("Experiment Time: " + (timeTaken / 60.0) + " minutes");
+
+					firstTime = false;
+				}
+				totalSteps += RLGlue.RL_num_steps();
+				// System.out.println("Episode: "+i+" steps:
+				// "+RLGlue.RL_num_steps());
+			}
+			if (firstEpTime) {
+				endTimeEp = System.currentTimeMillis();
+				timeTakenEp = endTimeEp - startTimeEp;
+				timeTakenEp /= 1000.0; // seconds
+				System.out.println("Evaluation Cycle Time: " + timeTakenEp + " seconds");
+
+				timeTakenEp *= (double) (evaluationCount);
+				System.out.println("Experiment Time: " + (timeTakenEp / 60.0) + " minutes");
+
+				firstEpTime = false;
+			}
+
+			evaluationPoint evp = evaluateAgent(maxEpisodeLength, 100);
+			printScore(j * episodeCount, evp);
+			saveScore(false, j * episodeCount, evp);
+		}
+
 		System.out.println("totalSteps is: " + totalSteps);
 
 		// clean up the environment and end the program
 		RLGlue.RL_cleanup();
-
 	}
 
 	static class evaluationPoint {

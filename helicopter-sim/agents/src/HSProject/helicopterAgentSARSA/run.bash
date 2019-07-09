@@ -9,4 +9,4 @@ maxMemory=2048M			 #Max amount of memory to give the agent (Java default is ofte
 extraPath=./../../../bin/HelicopterAgentSARSA		 #Item for the class path so your agent can be found
 #startJavaAgent $extraPath $className $maxMemory
 
-java -Xmx$maxMemory -cp $rlVizLibPath:$extraPath $className 0.1 1 0.1
+java -Xmx$maxMemory -cp $rlVizLibPath:$extraPath $className 0.05 1 0.1
